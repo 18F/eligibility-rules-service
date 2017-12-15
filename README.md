@@ -28,3 +28,7 @@ If you are part of a state human/social services agency, we're interested in tal
 If you work with an organization outside of government and you have a use case for such a service, we're interested in talking with you.
 
 [File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or contact Ed Mullen at edward.mullen@gsa.gov
+
+## Weekly shipping reports
+
+We're posting [weekly recaps](https://github.com/18F/eligibility-rules-service-exemplar-research/wiki/Shipping-reports) of our work.
