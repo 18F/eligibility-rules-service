@@ -6,15 +6,13 @@
 
 **The problem:**
 
-15-40% of US residents who are eligible to receive federal benefits like healthcare and food assistance are not receiving those benefits. Our research with USDS last year provided tangible evidence that one of the biggest barriers contributing to this enrollment gap is the fact that people have to painstakingly apply for each benefit one at a time. This research found that helping people enroll for multiple benefits through a single, streamlined application would significantly increase needy families’ access to the services they need. 
-
-While federally funded and managed, these benefits programs are administered at the state level, and many of these states are struggling to integrate multiple human services programs into their eligibility & enrollment systems due to the variation and complexity of the policy rules that determine eligibility for each program, as well as outdated, monolithic procurement and development practices, limited reusable components, and scarce resources. 
+Many states struggle to modernize their human services eligibility and enrollment systems due to the variation and complexity of the policy rules that determine eligibility for federally funded programs, as well as outdated, monolithic procurement and development practices, limited reusable components, and scarce resources. These efforts lead to duplicative work and expense across states without delivering better service. 
 
 **Our hypothesis:** 
 
 Both federal and state agencies could achieve greater program efficiencies if the administering federal agency offered a configurable, API-based service that allowed state partners to make eligibility determinations, rather than building and maintaining their own separate rules engines.
 
-We hypothesize that creating a new rules service for one of the next-largest programs (SNAP or TANF) to compliment [a similar service that already exists for Medicaid](https://www.medicaideligibilityapi.org/#/application), would help shift the space towards increased modularity, reuse of shared services, and adoption of modern, open source technologies, by providing an easier, faster, and less expensive way to integrate eligibility & enrollment across programs. In addition to having immediate benefit for a number of federal human services agencies and millions of US residents, we also hypothesize that this rules service could function as an example to any federal agency looking to deliver policy through working, reusable code, rather than PDFs that require duplicative development for each implementation.
+We hypothesize that creating a new rules service could help shift the space towards increased modularity, reuse of shared services, and adoption of modern, open source technologies, by providing an easier, faster, and less expensive way to integrate eligibility & enrollment across programs. It could also compliment [a similar service] that already exists for Medicaid(https://www.medicaideligibilityapi.org/#/application). In addition to having immediate benefit for a number of state human services agencies and millions of people, we also hypothesize that this rules service could function as an example to any federal agency looking to deliver policy through working, reusable code, rather than PDFs that require duplicative development for each implementation.
 
 ## Questions we need to answer
 
