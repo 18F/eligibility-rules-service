@@ -16,12 +16,12 @@ We hypothesize that creating a new rules service could help shift the space towa
 
 ## Questions we need to answer
 
-- **Federal partners** - Who are our key federal partners/champions?
-- **Program** - Which human services program is the best candidate?
-- **Users** - Who are potential first users?
-- **Reuse vs. build** - Has a _reclaimable_ system already been built for a state that could repurposed as a general service?
-- **Standards** - What are the most important areas to align around, standards to adhere to, and patterns to develop to make adoption the easy choice, without being too prescriptive?
-- **Team** - What team would we need for the following build/borrow phase?
+- **[Federal partners](https://github.com/18F/eligibility-rules-service/issues/13)** - Who are our key federal partners/champions?
+- **[Program](https://github.com/18F/eligibility-rules-service/issues/14)** - Which human services program is the best candidate?
+- **[Users](https://github.com/18F/eligibility-rules-service/issues/15)** - Who are potential first users?
+- **[Reuse vs. build](https://github.com/18F/eligibility-rules-service/issues/16)** - Has a _reclaimable_ system already been built for a state that could repurposed as a general service?
+- **[Standards](https://github.com/18F/eligibility-rules-service/issues/17)** - What are the most important areas to align around, standards to adhere to, and patterns to develop to make adoption the easy choice, without being too prescriptive?
+- **[Team](https://github.com/18F/eligibility-rules-service/issues/18)** - What team would we need for the following build/borrow phase?
 
 ## How can you help?
 
