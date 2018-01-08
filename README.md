@@ -39,4 +39,4 @@ If you work with an organization outside of government and you have a use case f
 
 ## Weekly progress updates
 
-We're posting [weekly recaps](https://github.com/18F/eligibility-rules-service-exemplar-research/wiki/Shipping-reports) of our work for folks interested in following along with our progress.
+We're posting [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps) of our work for folks interested in following along with our progress.
