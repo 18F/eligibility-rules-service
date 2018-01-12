@@ -4,6 +4,8 @@
 
 18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to make eligibility determinations for a human services program. This _Phase 2_ work follows a prior _Phase 1_ investigation sprint that identified creating such a service as worthy of further exploration. This repository documents Phase 2.
 
+> Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1627427/eligibility-rules-service-explanation.pdf)**
+
 **The problem:**
 
 Many states struggle to modernize their human services eligibility and enrollment systems due to the variation and complexity of the policy rules that determine eligibility for federally funded programs, as well as outdated, monolithic procurement and development practices, limited reusable components, and scarce resources. These efforts lead to duplicative work and expense across states without delivering better service. 
