@@ -1,6 +1,6 @@
 # Eligibility rules service
 
-18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to hep states make eligibility determinations for a human services program. 
+18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to help states make eligibility determinations for a human services program. 
 
 > Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
 
@@ -16,15 +16,15 @@ We hypothesize that creating a new rules service could help shift the space towa
 
 #### Where we are now
 
-The following table describes our loose plan exploring and building this concept. We are currently in our second phase focused on research. These phases align with the funding structure we are using to pursue this work.
+The following table describes our loose plan for exploring and building this concept. We are currently in our second phase,  focused on research. These phases align with the funding structure we are using to pursue this work.
 
 | Phase | Goals |
 | ------------- | ------------- |
-| 1. Focus  | Identify project for further exploration • Work out TTS's role in eligibility |
+| 1. Focus  | Identify project for further exploration; work out TTS's role in eligibility |
 | **2. Research**  | **Develop a product strategy for an eligibility rules service** |
 | 3. Build  | Build and pilot a web-based rules service for a single program |
 | 4. Operate  | Operationalize the rules service |
-| 5. Extend  | Extend lessons learned beyond this first rules service • Move the eligibility ecosystems towards more loosely coupled, distributed and shared systems |
+| 5. Extend  | Extend lessons learned beyond this first rules service; move the eligibility ecosystems towards more loosely coupled, distributed and shared systems |
 
 There are a number of questions that we need to answer during this phase before we are in a position to request funding from TTS for the next phase, which would focus on building out functional prototype.
 
@@ -44,7 +44,7 @@ _From Phase 1 Conclusions (longform):_ "TTS is in a unique position to be a lead
 _From Phase 1 Conclusions (pitch):_ "We hypothesize that the highest-value area for TTS to explore further is investigating the value and feasibility of building an API-based eligibility rules web service for a non-MAGI Medicaid human services program, to help federal human service agencies facilitate the adoption of multi-benefit eligibility determination."
 
 #### :white_circle: Partners will want to collaborate with us to make this happen
-_Not yet validated - Phase 2_ - Our initial conversations with partners has been positive and fruitful, but we have not yet formalized an arrangement.
+_Not yet validated - Phase 2_ - Our initial conversations with partners have been positive and fruitful, but we have not yet formalized an arrangement.
 
 #### :white_circle: States will want to collaborate with us to make this happen
 _Not yet validated - Phase 2_
@@ -56,7 +56,7 @@ _Not yet validated - Phase 2_
 _Not yet validated - Phase 2_
 
 #### :white_circle: A rules service can be built that allows multiple states with varying eligibility rules to use it
-_Not yet validated - Phase 3_ - MAGI in the Cloud has proven out aspects of this. MAGI Medicaid eligibility is relatively consistent state-to-state. More investigation is necessary.
+_Not yet validated - Phase 3_ - [MAGI in the Cloud](https://www.medicaideligibilityapi.org/#/application) has proven out aspects of this. MAGI Medicaid eligibility is relatively consistent state-to-state. More investigation is necessary.
 
 #### :white_circle: Interested states have technical pathways to adopting a web service-based approach to rules
 _Not yet validated - Phase 3_
