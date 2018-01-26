@@ -1,22 +1,32 @@
-# Eligibility rules service - Phase 2 (research/discovery)
-
-## What is this project?
+# Eligibility rules service
 
 18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to make eligibility determinations for a human services program. This _Phase 2_ work follows a prior _Phase 1_ investigation sprint that identified creating such a service as worthy of further exploration. This repository documents Phase 2.
 
 > Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
 
-**The problem:**
+#### The problem
 
-Many states struggle to modernize their human services eligibility and enrollment systems due to the variation and complexity of the policy rules that determine eligibility for federally funded programs, as well as outdated, monolithic procurement and development practices, limited reusable components, and scarce resources. These efforts lead to duplicative work and expense across states without delivering better service. 
+Many states struggle to modernize their human services eligibility and enrollment systems due to the variation and complexity of the policy rules that determine eligibility for federally funded programs, as well as outdated, monolithic procurement and development practices, limited reusable components, and scarce resources. These efforts lead to duplicative work and expense across states without delivering better service.
 
-**Our hypothesis:** 
+#### Our hypothesis
 
 Both federal and state agencies could achieve greater program efficiencies if the administering federal agency offered a configurable, API-based service that allowed state partners to make eligibility determinations, rather than building and maintaining their own separate rules engines.
 
 We hypothesize that creating a new rules service could help shift the space towards increased modularity, reuse of shared services, and adoption of modern, open source technologies, by providing an easier, faster, and less expensive way to integrate eligibility & enrollment across programs. It could also compliment [a similar service](https://www.medicaideligibilityapi.org/#/application) that already exists for Medicaid. In addition to having immediate benefit for a number of state human services agencies and millions of people, we also hypothesize that this rules service could function as an example to any federal agency looking to deliver policy through working, reusable code, rather than PDFs that require duplicative development for each implementation.
 
-## Questions we need to answer
+#### Where we are now
+
+The following table describes our loose plan exploring and building this concept. We are currently in our second phase focused on research. These phases align with the funding structure we are using to pursue this work.
+
+| Phase | Goals |
+| ------------- | ------------- |
+| 1. Focus  | Identify project for further exploration • Work out TTS's role in eligibility |
+| **2. Research**  | **Develop a product strategy for an eligibility rules service** |
+| 3. Build  | Build and pilot a web-based rules service for a single program |
+| 4. Operate  | Operationalize the rules service |
+| 5. Extend  | Extend lessons learned beyond this first rules service • Move the eligibility ecosystems towards more loosely coupled, distributed and shared systems |
+
+There are a number of questions that we need to answer during this phase before we are in a position to request funding from TTS for the next phase, which would focus on building out functional prototype.
 
 - **[Federal partners](https://github.com/18F/eligibility-rules-service/issues/13)** - Who are our key federal partners/champions?
 - **[Program](https://github.com/18F/eligibility-rules-service/issues/14)** - Which human services program is the best candidate?
@@ -24,6 +34,36 @@ We hypothesize that creating a new rules service could help shift the space towa
 - **[Reuse vs. build](https://github.com/18F/eligibility-rules-service/issues/16)** - Has a _reclaimable_ system already been built for a state that could repurposed as a general service?
 - **[Standards](https://github.com/18F/eligibility-rules-service/issues/17)** - What are the most important areas to align around, standards to adhere to, and patterns to develop to make adoption the easy choice, without being too prescriptive?
 - **[Team](https://github.com/18F/eligibility-rules-service/issues/18)** - What team would we need for the following build/borrow phase?
+
+## To be validated
+
+#### :white_check_mark: _Validated:_ TTS has a role to play in the eligibility space
+_From Phase 1 Conclusions (longform):_ "TTS is in a unique position to be a leader, influencing the ecosystem and its actors from a variety of angles due to our ability to work with agencies across the federal government, our experience supporting states through procurement consulting, our ongoing engagement with the vendor community, and our ability to build products and platforms for use across government."
+
+#### :white_check_mark: _Validated:_ A finite piece of work appropriate to TTS can be identified
+_From Phase 1 Conclusions (pitch):_ "We hypothesize that the highest-value area for TTS to explore further is investigating the value and feasibility of building an API-based eligibility rules web service for a non-MAGI Medicaid human services program, to help federal human service agencies facilitate the adoption of multi-benefit eligibility determination."
+
+#### :white_circle: Partners will want to collaborate with us to make this happen
+_Not yet validated - Phase 2_ - Our initial conversations with partners has been positive and fruitful, but we have not yet formalized an arrangement.
+
+#### :white_circle: States will want to collaborate with us to make this happen
+_Not yet validated - Phase 2_
+
+#### :white_circle: Building or reusing a rules service is technologically advisable
+_Not yet validated - Phase 2_
+
+#### :white_circle: TTS's current strategy and direction is aligned with pursuing an effort like this
+_Not yet validated - Phase 2_
+
+#### :white_circle: A rules service can be built that allows multiple states with varying eligibility rules to use it
+_Not yet validated - Phase 3_ - MAGI in the Cloud has proven out aspects of this. MAGI Medicaid eligibility is relatively consistent state-to-state. More investigation is necessary.
+
+#### :white_circle: Interested states have technical pathways to adopting a web service-based approach to rules
+_Not yet validated - Phase 3_
+
+#### :white_circle: An eligibility rules service offers a faster and cheaper way for states implement rules in their systems
+_Not yet validated - Phase 4_
+
 
 ## How can you help?
 
