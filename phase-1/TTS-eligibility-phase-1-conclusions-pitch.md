@@ -1,4 +1,6 @@
-# Eligibility & enrollment discovery sprint recommendations
+_Note: these recommendations were made to a panel of decisionmakers for TTS's 10x incubator program in June 2017, at the end of the first phase of this project's exploration. These recommendations resulted in the funding for the second phase of the project, which includes the discovery work we are conducting now._
+
+# Eligibility & enrollment investigation sprint recommendations 
 
 There are an abundance of opportunities for TTS to contribute in the benefits eligibility & enrollment space, so we recommend moving forward with further work. In the interest of focusing that work, we hypothesize **that the highest-value area for TTS to explore further is investigating the value and feasibility of building an API-based eligibility rules web service for a non-Medicaid human services program** (most likely for SNAP or TANF), to help federal human service agencies facilitate the adoption of multi-benefit eligibility determination. 
 
