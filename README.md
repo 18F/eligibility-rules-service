@@ -1,6 +1,6 @@
 # Eligibility rules service
 
-18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to make eligibility determinations for a human services program. This _Phase 2_ work follows a prior _Phase 1_ investigation sprint that identified creating such a service as worthy of further exploration. This repository documents Phase 2.
+18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to hep states make eligibility determinations for a human services program. 
 
 > Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
 
@@ -49,7 +49,7 @@ _Not yet validated - Phase 2_ - Our initial conversations with partners has been
 #### :white_circle: States will want to collaborate with us to make this happen
 _Not yet validated - Phase 2_
 
-#### :white_circle: Building or reusing a rules service is technologically advisable
+#### :white_circle: Building or repurposing a rules service is technologically advisable
 _Not yet validated - Phase 2_
 
 #### :white_circle: TTS's current strategy and direction is aligned with pursuing an effort like this
