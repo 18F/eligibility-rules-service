@@ -1,4 +1,4 @@
-# Eligibility & enrollment discovery sprint recommendations
+# Eligibility & enrollment discovery sprint recommendations (Pitch)
 
 > _Note: This document was originally presented in July 2017 to an internal review board requesting funding for the next stage of the project. The project received funding and work began on Phase 2 in December 2017._
 
