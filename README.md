@@ -35,6 +35,10 @@ There are a number of questions that we need to answer during this phase before 
 - **[Standards](https://github.com/18F/eligibility-rules-service/issues/17)** - What are the most important areas to align around, standards to adhere to, and patterns to develop to make adoption the easy choice, without being too prescriptive?
 - **[Team](https://github.com/18F/eligibility-rules-service/issues/18)** - What team would we need for the following build/borrow phase?
 
+#### Where we've been
+
+Further information on the work we've done during this and the previous phase can be found [in the project wiki](https://github.com/18F/eligibility-rules-service/wiki).
+
 ## To be validated
 
 #### :white_check_mark: _Validated (Phase 1):_ TTS has a role to play in the eligibility space
