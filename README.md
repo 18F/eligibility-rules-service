@@ -47,8 +47,8 @@ TTS is in a unique position to be a leader, influencing the ecosystem and its ac
 #### :white_check_mark: _Validated:_ A finite piece of work appropriate to TTS can be identified
 We hypothesize that the highest-value area for TTS to explore further is investigating the value and feasibility of building an API-based eligibility rules web service for a non-MAGI Medicaid human services program, to help federal human service agencies facilitate the adoption of multi-benefit eligibility determination. _See [Phase 1 Conclusions (Pitch)](https://github.com/18F/eligibility-rules-service/wiki/Phase-1-Recommendations-:-Pitch)_
 
-#### :white_circle: Partners will want to collaborate with us to make this happen
-_Not yet validated - Phase 2_ - Our initial conversations with partners have been positive and fruitful, but we have not yet formalized an arrangement.
+#### :white_check_mark: _Validated:_ Partners will want to collaborate with us to make this happen
+Through a series of conversations with potential partners at CMS and FNS, we’ve validated that there are indeed interested partners at the federal level. Through all of these conversations, the general concept resonated and potential use cases were identifiable.
 
 #### :white_circle: States will want to collaborate with us to make this happen
 _Not yet validated - Phase 2_
