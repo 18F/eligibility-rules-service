@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresl/data/
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_DB: dev
+      POSTGRES_PASSWORD: ""
+  web:
+     build: .
+#     entrypoint: ["sh", "-c", "sleep infinity"]
+     command: python manage.py migrate --noinput
+     command: python manage.py runserver 0.0.0.0:8000
+     volumes:
+       - .:/code
+     ports:
+       - "8000:8000"
+     depends_on:
+       - db
+     environment:
+       DATABASE_URL: postgresql://dev:@db/dev
+
+volumes:
+  postgres_data:
