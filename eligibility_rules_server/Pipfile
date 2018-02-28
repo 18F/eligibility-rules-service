@@ -11,6 +11,7 @@ djangorestframework = "*"
 django = "*"
 dj-database-url = "*"
 "psycopg2" = "*"
+django-rest-swagger = "*"
 
 
 [dev-packages]
@@ -24,3 +25,6 @@ isort = "*"
 yapf = "*"
 "flake8" = "*"
 docker-compose = "*"
+pytest-cov = "*"
+codeclimate-test-reporter = "*"
+coverage = "==4.3.4"
