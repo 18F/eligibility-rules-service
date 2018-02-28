@@ -1,5 +1,10 @@
 # Eligibility rules service
 
+[![CircleCI](https://circleci.com/gh/18F/eligibility-rules-service.svg?style=svg)](https://circleci.com/gh/18F/eligibility-rules-service)
+[![Code Climate](https://codeclimate.com/github/18F/eligibility-rules-service/badges/gpa.svg)](https://codeclimate.com/github/18F/eligibility-rules-service)
+[![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
+[![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
+
 18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to help states make eligibility determinations for a human services program.
 
 > Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
