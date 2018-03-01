@@ -1,0 +1,6 @@
+---
+applications:
+- name: eligibility-rules
+  command: python manage.py runserver 0.0.0.0:8080
+  services:
+    - eligibility-db

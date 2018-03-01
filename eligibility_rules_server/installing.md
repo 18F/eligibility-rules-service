@@ -33,20 +33,26 @@ Then run:
 docker-compose up
 ```
 
-You should now be able to POST requests to 
-http://localhost:8000 or http://127.0.0.1:8000.
+The server should now be running; try using
+http://localhost:8000/docs to try POSTing a 
+request.
+
 
 ## Without Docker
 
 1. Install PostgreSQL
-1. Create a PostgreSQL superuser and a blank database
+1. Create a PostgreSQL superuser and a blank database: 
+   `createuser --superuser admin; createdb -U admin eligibility`
 1. Install [Pipenv](https://github.com/pypa/pipenv)
 1. `pipenv install`
 1. Set a `DATABASE_URL` environment variable, and verify that
-   you can connect to the database: `psql $DATABASE_URL`
+   you can connect to the database: 
+   `export DATABASE_URL=postgresql://admin:@/eligibility; 
+   psql $DATABASE_URL`
 1. `pipenv run manage.py migrate`
 1. `pipenv run manage.py runserver 0.0.0.0:8000`
 
-You should now be able to POST requests to 
-http://localhost:8000 or http://127.0.0.1:8000.
+The server should now be running; try using
+http://localhost:8000/docs to try POSTing a 
+request.
 
