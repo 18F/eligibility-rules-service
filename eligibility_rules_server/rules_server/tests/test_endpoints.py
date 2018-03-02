@@ -1,8 +1,7 @@
+import hypothesis.strategies as st
+from hypothesis import given
 from rest_framework import status
 from rest_framework.test import APITestCase
-
-from hypothesis import given
-import hypothesis.strategies as st
 
 
 class TestRulingsEndpoint(APITestCase):

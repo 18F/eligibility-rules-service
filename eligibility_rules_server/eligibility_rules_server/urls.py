@@ -13,17 +13,38 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
-from rest_framework_swagger.views import get_swagger_view
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 from rules_server.views import RulingsView
 
-schema_view = get_swagger_view(title='Eligibility API')
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Eligibility API",
+        default_version='v1',
+        description="Helps agencies process program eligibility applications",
+        # terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="catherine.devlin@gsa.gov"),
+        license=openapi.License(name="Public Domain"),
+    ),
+   # validators=['flex', 'ssv'],
+   public=True,
+)
 
 urlpatterns = [
-    path('docs/', schema_view),
+   url(r'^swagger(?P<format>.json|.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
+   url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
+   url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
+   ...
+]
+
+
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('rulings/<str:program>/<str:entity>/', RulingsView.as_view()),
+    url(r'^swagger(?P<format>.json|.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
+    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
 ]
