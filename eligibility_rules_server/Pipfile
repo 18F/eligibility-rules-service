@@ -13,6 +13,7 @@ dj-database-url = "*"
 "psycopg2" = "*"
 drf-yasg = "*"
 markdown = "*"
+factory-boy = "*"
 
 
 [dev-packages]

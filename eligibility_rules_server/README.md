@@ -7,3 +7,7 @@ service postulated at
 ## [Installation Instructions](installing.md)
 
 [Installation instructions here](installing.md)
+
+## [Deployment Instructions](cloudgov.md)
+
+[Deployment instructions here](cloudgov.md)

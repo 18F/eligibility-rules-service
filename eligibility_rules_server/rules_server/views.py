@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import exceptions
 
 from .models import Ruleset
 
@@ -44,7 +45,6 @@ class RulingsView(APIView):
             {
               "reasons": [
                 {
-                  "id": 2,
                   "description": "Too cool for school",
                   "rule_id": 101
                 },
@@ -61,12 +61,22 @@ class RulingsView(APIView):
     """
 
     def post(self, request, program, entity, format=None):
-        applicants = request.data['applicants']
+
+        try:
+            ruleset = Ruleset.objects.get(program=program, entity=entity)
+        except Ruleset.DoesNotExist:
+            detail = "Ruleset for program '{}', entity '{}' has not been defined".format(program, entity)
+            raise exceptions.NotFound(detail=detail)
+
+        try:
+            applicants = request.data['applicants']
+        except KeyError:
+            raise exceptions.ValidationError('"applicants" field is mandatory')
+
+        findings = ruleset.apply_to(applicants)
+
         return Response({
             'program': program,
             'entity': entity,
-            'payload': request.data,
-            'findings': [
-                'ok',
-            ] * len(applicants)
+            'findings': findings,
         })
