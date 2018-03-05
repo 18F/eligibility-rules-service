@@ -9,6 +9,24 @@ class Ruleset(models.Model):
     entity = models.TextField(null=False, blank=False)
     record_spec = models.TextField(null=False, blank=False)
 
+    def _applicants_sql(self, applicants):
+
+        definitions = "".join(str(d) for d in self.definition_set.all())
+
+        return """
+          with applicant_data as (
+            with applicants as (
+              select * from json_to_recordset('{applicants}')
+              as x({self.record_spec})
+              )
+            select * {definitions}
+            from   applicants
+          )
+        """.format(
+            self=self,
+            applicants=json.dumps(applicants),
+            definitions=definitions)
+
     def rule_results(self, applicants):
         """Results from applying each rule in ruleset to each applicant.
 
@@ -24,17 +42,11 @@ class Ruleset(models.Model):
         """
 
         results = defaultdict(list)
+
+        applicants_sql = self._applicants_sql(applicants)
         for rule in self.rule_set.order_by('order').all():
-            sql = """
-                with applicants as (
-                  select * from json_to_recordset('{applicants}')
-                  as x({self.record_spec})
-              )
-              select id,
-                     {rule.code} AS result
-              from   applicants
-            """.format(
-                self=self, rule=rule, applicants=json.dumps(applicants))
+
+            sql = applicants_sql + rule.sql()
             with connection.cursor() as cursor:
                 cursor.execute(sql)
                 for row in cursor.fetchall():
@@ -83,25 +95,15 @@ class Ruleset(models.Model):
                     return report
         return report  # No disqualifying conditions found
 
-    # def apply_to(self, applicants):
-    #     reports = self.apply_sql(applicants)
-    #     for applicant in applicants:
-    #         try:
-    #             id = applicant['id']
-    #             result = {
-    #                 'id': id,
-    #                 'accepted': False,
-    #                 'reasons': [{
-    #                     'rule_id': 1,
-    #                     'description': 'Just because'
-    #                 }]
-    #             }
-    #             yield result
-    #         except KeyError:
-    #             reason = 'Applicant lacks "id" field: {}'.format(applicant)
-    #             raise exceptions.ValidationError(reason)
 
-    # TODO: keep old rulesets when rules change?
+class Definition(models.Model):
+    term = models.TextField(null=False, blank=False)
+    code = models.TextField(null=False, blank=False)
+    explanation = models.TextField(null=False, blank=False)
+    ruleset = models.ForeignKey(Ruleset, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return ', ({}) AS {}'.format(self.code, self.term)
 
 
 class Rule(models.Model):
@@ -135,3 +137,11 @@ class Rule(models.Model):
             return True
 
         return not result
+
+    def sql(self):
+
+        return """
+          select id,
+                 {self.code} AS result
+          from   applicant_data
+        """.format(self=self)

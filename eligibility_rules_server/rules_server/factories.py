@@ -19,3 +19,14 @@ class RuleFactory(factory.Factory):
     qualifies = None
     explanation = factory.Faker('sentence')
     ruleset = factory.SubFactory(RulesetFactory)
+
+
+class Definition(factory.Factory):
+    class Meta:
+        model = models.Definition
+
+    term = factory.Faker('word')
+    code = 'x < 4'
+    explanation = factory.Faker('sentence')
+    ruleset = factory.SubFactory(RulesetFactory)
+

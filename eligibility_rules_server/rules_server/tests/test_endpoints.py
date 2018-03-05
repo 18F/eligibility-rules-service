@@ -4,7 +4,7 @@ from hypothesis import given, settings
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from rules_server.factories import RuleFactory, RulesetFactory
+from rules_server.factories import RuleFactory, RulesetFactory, Definition
 
 client = APIClient()
 
@@ -17,11 +17,28 @@ def rule_models():
         record_spec="""id bigint, annual_income numeric,
                        veteran bool, number_in_family smallint""")
     rs0.save()
+
+    d01 = Definition(ruleset=rs0, term='poverty', code='annual_income < 22000')
+    d01.save()
+
     r00 = RuleFactory(
-        ruleset_id=rs0.id, ruleset=rs0, code='annual_income < 30000')
-    r01 = RuleFactory(ruleset_id=rs0.id, ruleset=rs0, code='veteran')
+        ruleset_id=rs0.id,
+        ruleset=rs0,
+        code='annual_income < 30000',
+        explanation='Income must be below $30,000 annually')
     r00.save()
+    r01 = RuleFactory(
+        ruleset_id=rs0.id,
+        ruleset=rs0,
+        code='veteran',
+        explanation='Applicant must be a veteran')
     r01.save()
+    r02 = RuleFactory(
+        ruleset_id=rs0.id,
+        ruleset=rs0,
+        code='poverty',
+        explanation='Applicant must fall below poverty line')
+    r02.save()
 
 
 @pytest.mark.django_db
@@ -47,9 +64,28 @@ def test_endpoint_exists():
 
 @pytest.mark.django_db
 def test_nonexistent_ruleset_raises():
-    """Asking for a ruleset raises 404"""
+    """Asking for a ruleset that does not exist raises 404"""
 
-    pass
+    payload = {
+        'applicants': [
+            {
+                'id': 1,
+                'annual_income': 30000,
+                'veteran': True,
+            },
+        ]
+    }
+    url = '/rulings/benefit-program/no-such-state/'
+    response = client.post(url, payload, format='json')
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    url = '/rulings/no-such-program-/ohio/'
+    response = client.post(url, payload, format='json')
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    url = '/rulings/benefit-program/no-such-state/'
+    response = client.post(url, payload, format='json')
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.django_db
@@ -82,6 +118,34 @@ def test_one_response_per_applicant():
     assert data['program'] == 'benefit-program'
     assert data['entity'] == 'ohio'
     assert len(data['findings']) == 3
+
+
+@pytest.mark.django_db
+def test_definition_used():
+    """Rule referencing a definition is used and appears in results"""
+
+    url = '/rulings/benefit-program/ohio/'
+    payload = {
+        'applicants': [
+            {
+                'id': 1,
+                'annual_income': 30000,
+                'veteran': True,
+            },
+            {
+                'id': 2,
+                'annual_income': 20000,
+                'veteran': False,
+            },
+        ]
+    }
+    response = client.post(url, payload, format='json')
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    descriptions = [r['description'] for r in data['findings'][0]['reasons']]
+    assert 'Applicant must fall below poverty line' in descriptions
+    descriptions = [r['description'] for r in data['findings'][1]['reasons']]
+    assert 'Applicant must fall below poverty line' not in descriptions
 
 
 @settings(deadline=1000)
