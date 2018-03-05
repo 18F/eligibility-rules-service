@@ -15,6 +15,7 @@ class RuleFactory(factory.Factory):
 
     order = factory.Faker('pyint')
     name = factory.Faker('words')
-    code = factory.Faker('pystr', max_chars=5)
+    code = 'x > 10'
+    qualifies = None
     explanation = factory.Faker('sentence')
     ruleset = factory.SubFactory(RulesetFactory)

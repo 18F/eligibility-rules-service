@@ -65,7 +65,8 @@ class RulingsView(APIView):
         try:
             ruleset = Ruleset.objects.get(program=program, entity=entity)
         except Ruleset.DoesNotExist:
-            detail = "Ruleset for program '{}', entity '{}' has not been defined".format(program, entity)
+            detail = "Ruleset for program '{}', entity '{}'" \
+                     "has not been defined".format(program, entity)
             raise exceptions.NotFound(detail=detail)
 
         try:
@@ -73,7 +74,9 @@ class RulingsView(APIView):
         except KeyError:
             raise exceptions.ValidationError('"applicants" field is mandatory')
 
-        findings = ruleset.apply_to(applicants)
+        rule_results = ruleset.rule_results(applicants)
+        findings = list(
+            ruleset.report_from_rule_results(applicants, rule_results))
 
         return Response({
             'program': program,
