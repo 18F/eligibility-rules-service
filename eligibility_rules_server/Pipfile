@@ -14,6 +14,7 @@ dj-database-url = "*"
 drf-yasg = "*"
 markdown = "*"
 factory-boy = "*"
+django-extensions = "*"
 
 
 [dev-packages]

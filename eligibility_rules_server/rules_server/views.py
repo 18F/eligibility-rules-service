@@ -74,6 +74,7 @@ class RulingsView(APIView):
         except KeyError:
             raise exceptions.ValidationError('"applicants" field is mandatory')
 
+        import pytest; pytest.set_trace()
         rule_results = ruleset.rule_results(applicants)
         findings = list(
             ruleset.report_from_rule_results(applicants, rule_results))
