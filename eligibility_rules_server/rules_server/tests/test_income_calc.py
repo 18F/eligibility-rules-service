@@ -1,8 +1,8 @@
-from copy import deepcopy
+"""
+Tests related to income calculations
+"""
 
-import hypothesis.strategies as st
 import pytest
-from hypothesis import given, settings
 from rest_framework import status
 from rest_framework.test import APIClient
 
@@ -95,74 +95,18 @@ payload0 = {
 
 
 @pytest.mark.django_db
-def test_endpoint_exists():
-    """Endpoint exists, and echoes back args from URL"""
+def test_income_summed():
 
     url = '/rulings/benefit-program/ohio/'
     response = client.post(url, payload0, format='json')
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert data['program'] == 'benefit-program'
-    assert data['entity'] == 'ohio'
 
+    assert not data['findings'][0]['accepted']
+    assert 'Annual income' in data['findings'][0]['reasons'][0]['description']
 
-@pytest.mark.django_db
-def test_nonexistent_ruleset_raises():
-    """Asking for a ruleset that does not exist raises 404"""
+    assert data['findings'][1]['accepted']
 
-    url = '/rulings/benefit-program/no-such-state/'
-    response = client.post(url, payload0, format='json')
-    assert response.status_code == status.HTTP_404_NOT_FOUND
-
-    url = '/rulings/no-such-program-/ohio/'
-    response = client.post(url, payload0, format='json')
-    assert response.status_code == status.HTTP_404_NOT_FOUND
-
-    url = '/rulings/benefit-program/no-such-state/'
-    response = client.post(url, payload0, format='json')
-    assert response.status_code == status.HTTP_404_NOT_FOUND
-
-
-@pytest.mark.django_db
-def test_one_response_per_applicant():
-    """Endpoint gives a response for each submitted applicant"""
-
-    url = '/rulings/benefit-program/ohio/'
-    response = client.post(url, payload0, format='json')
-    assert response.status_code == status.HTTP_200_OK
-    data = response.json()
-    assert data['program'] == 'benefit-program'
-    assert data['entity'] == 'ohio'
-    assert len(data['findings']) == 3
-
-
-@pytest.mark.django_db
-def test_definition_used():
-    """Rule referencing a definition is used and appears in results"""
-
-    url = '/rulings/benefit-program/ohio/'
-    response = client.post(url, payload0, format='json')
-    assert response.status_code == status.HTTP_200_OK
-    data = response.json()
-    description = [r['description'] for r in data['findings'][0]['reasons']][0]
-    assert 'Annual income' in description
-    assert not data['findings'][1]['reasons']
-
-
-@settings(deadline=1000)
-@given(
-    st.integers(min_value=-9223372036854775808,
-                max_value=9223372036854775807),  # pg bigint limits
-)
-@pytest.mark.django_db
-def test_hypothesis_payload(applicant_data):
-    """Use Hypothesis to try randomized edge-case payloads"""
-
-    url = '/rulings/benefit-program/ohio/'
-    payload = deepcopy(payload0)
-    payload['applicants'][0]['income'][0]['dollars'] = applicant_data
-
-    response = client.post(url, payload, format='json')
-    assert response.status_code == status.HTTP_200_OK
-    data = response.json()
-    assert len(data['findings']) == len(payload['applicants'])
+    assert not data['findings'][2]['accepted']
+    assert 'must be a veteran' in data['findings'][2]['reasons'][0][
+        'description']

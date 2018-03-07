@@ -1,6 +1,6 @@
+from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import exceptions
 
 from .models import Ruleset
 
@@ -74,7 +74,6 @@ class RulingsView(APIView):
         except KeyError:
             raise exceptions.ValidationError('"applicants" field is mandatory')
 
-        import pytest; pytest.set_trace()
         rule_results = ruleset.rule_results(applicants)
         findings = list(
             ruleset.report_from_rule_results(applicants, rule_results))
