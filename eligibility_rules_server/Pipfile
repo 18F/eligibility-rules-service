@@ -15,6 +15,7 @@ drf-yasg = "*"
 markdown = "*"
 factory-boy = "*"
 django-extensions = "*"
+sqlparse = "*"
 
 
 [dev-packages]

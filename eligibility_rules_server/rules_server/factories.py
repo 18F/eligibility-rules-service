@@ -1,5 +1,7 @@
 import factory
+
 from . import models
+
 
 class RulesetFactory(factory.Factory):
     class Meta:
@@ -14,7 +16,7 @@ class RuleFactory(factory.Factory):
         model = models.Rule
 
     order = factory.Faker('pyint')
-    name = factory.Faker('words')
+    name = factory.Faker('text', max_nb_chars=20)
     code = 'x > 10'
     qualifies = None
     explanation = factory.Faker('sentence')
@@ -29,4 +31,3 @@ class Definition(factory.Factory):
     code = 'x < 4'
     explanation = factory.Faker('sentence')
     ruleset = factory.SubFactory(RulesetFactory)
-

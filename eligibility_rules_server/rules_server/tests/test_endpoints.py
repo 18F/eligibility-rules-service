@@ -166,3 +166,17 @@ def test_hypothesis_payload(applicant_data):
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert len(data['findings']) == len(payload['applicants'])
+
+
+@pytest.mark.django_db
+def test_rule_endpoint():
+    """Verify that /program/entity/rules endpoint exists"""
+
+    url = '/rulings/benefit-program/ohio/rules/'
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert data['program'] == 'benefit-program'
+    assert data['entity'] == 'ohio'
+    assert 'rule_set' in data
+    assert 'sql' in data

@@ -1,11 +1,26 @@
+import sqlparse
 from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Ruleset
+from .serializers import RulesetSerializer
 
 
-class RulingsView(APIView):
+class RulesetFinderMixin:
+    def get_ruleset(self, program, entity):
+
+        try:
+            ruleset = Ruleset.objects.get(program=program, entity=entity)
+        except Ruleset.DoesNotExist:
+            detail = "Ruleset for program '{}', entity '{}'" \
+                     "has not been defined".format(program, entity)
+            raise exceptions.NotFound(detail=detail)
+
+        return ruleset
+
+
+class RulingsView(RulesetFinderMixin, APIView):
     """
     Returns a series of findings, one per applicant
 
@@ -62,12 +77,7 @@ class RulingsView(APIView):
 
     def post(self, request, program, entity, format=None):
 
-        try:
-            ruleset = Ruleset.objects.get(program=program, entity=entity)
-        except Ruleset.DoesNotExist:
-            detail = "Ruleset for program '{}', entity '{}'" \
-                     "has not been defined".format(program, entity)
-            raise exceptions.NotFound(detail=detail)
+        ruleset = self.get_ruleset(program=program, entity=entity)
 
         try:
             applicants = request.data['applicants']
@@ -83,3 +93,15 @@ class RulingsView(APIView):
             'entity': entity,
             'findings': findings,
         })
+
+
+class RulesetView(RulesetFinderMixin, APIView):
+    def get(self, request, program, entity, format=None):
+
+        ruleset = self.get_ruleset(program=program, entity=entity)
+        data = RulesetSerializer(ruleset).data
+        data['sql'] = [
+            sqlparse.format(r.sql(), reindent=True, keyword_case='upper')
+            for r in ruleset.rule_set.all()
+        ]
+        return Response(data)
