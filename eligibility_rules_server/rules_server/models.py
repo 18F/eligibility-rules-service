@@ -37,9 +37,9 @@ class Ruleset(models.Model):
         results = defaultdict(list)
 
         for rule in self.rule_set.order_by('order').all():
-            sql = rule.sql(data=applicants)
+            sql = rule.sql()
             with connection.cursor() as cursor:
-                cursor.execute(sql)
+                cursor.execute(sql, (json.dumps(applicants), ))
                 for row in cursor.fetchall():
                     (id, result, explanation) = row
                     results[id].append({
@@ -151,23 +151,21 @@ class Rule(models.Model):
     @property
     def array_term(self):
         if self.array_field:
-            return ', jsonb_array_elements({field}) AS {field}_elements'.format(
-                field=self.array_field)
+            return ', jsonb_array_elements({field}) AS {field}_elements' \
+                .format(field=self.array_field)
         else:
             return ''
 
-    def core_source_sql(self, data):
+    def core_source_sql(self):
         template = Template("""
             with src as (
               select * $definitions $array_term
-              from json_to_recordset('$data')
+              from json_to_recordset(%s)
               as x($record_spec)
               )
         """)
-        data = json.dumps(data)  # escape up $, ', SQL injection
         result = template.substitute(
             definitions=self.ruleset.definitions_sql,
-            data=data,
             array_term=self.array_term,
             record_spec=self.ruleset.record_spec)
         return result
@@ -181,9 +179,9 @@ class Rule(models.Model):
         result.extend(d.term for d in self.ruleset.definition_set.all())
         return ", ".join(result)
 
-    def source_sql(self, data):
+    def source_sql(self):
 
-        core = self.core_source_sql(data)
+        core = self.core_source_sql()
         if not self.array_field:
             return core
         core = core.replace('$', '$$')
@@ -205,8 +203,8 @@ class Rule(models.Model):
             aggregate_filters=self.aggregate_filters or '')
         return result
 
-    def sql(self, data):
-        result = self.source_sql(data) + """
+    def sql(self):
+        result = self.source_sql() + """
         select id, """ + self.code + """ AS result,
                    """ + self.explanation + """ AS explanation
         from src"""

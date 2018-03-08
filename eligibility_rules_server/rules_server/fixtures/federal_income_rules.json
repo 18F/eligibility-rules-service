@@ -26,7 +26,7 @@
     "name": "income limit",
     "code": "annual_income <= 1.85 * poverty_level",
     "qualifies": null,
-    "explanation": "'Annual income ' || annual_income::money ||' exceeds 185% of federal poverty level (' || poverty_level::money || ' for ' || number_in_family || ' residents in ' || state || ')' ",
+    "explanation": "'Annual income ' || annual_income::money ||' exceeds 185%% of federal poverty level (' || poverty_level::money || ' for ' || number_in_family || ' residents in ' || state || ')' ",
     "ruleset": 1,
     "array_field": "income",
     "aggregate_definitions": ", sum((income_elements->>'dollars')::numeric * ANNUALIZE(income_elements->>'frequency') ) AS annual_income",
