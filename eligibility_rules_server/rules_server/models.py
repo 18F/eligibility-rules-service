@@ -12,7 +12,7 @@ class Ruleset(models.Model):
 
     @property
     def definitions_sql(self):
-        return "".join(', ' + str(d) for d in self.definition_set.all())
+        return "".join(str(d) for d in self.definition_set.all())
 
     @property
     def json_fields(self):
@@ -78,7 +78,8 @@ class Ruleset(models.Model):
                 report['reasons'] = [
                     {
                         'rule_id': rule.id,
-                        'description': explanation
+                        'rule_name': rule.name,
+                        'description': explanation,
                     },
                 ]
                 return report
@@ -176,6 +177,7 @@ class Rule(models.Model):
 
         result = self.ruleset.json_fields
         result.remove(self.array_field)
+        result.extend(d.term for d in self.ruleset.definition_set.all())
         return ", ".join(result)
 
     def source_sql(self, data):
@@ -188,7 +190,7 @@ class Rule(models.Model):
         template = Template("""
           with src as (
             $core
-          select $group_by 
+          select $group_by
                  $aggregate_definitions
           from src
           $aggregate_filters
@@ -204,8 +206,8 @@ class Rule(models.Model):
 
     def sql(self, data):
         result = self.source_sql(data) + """
-        select id, """ + self.code + """ AS result,  
-                   """ + self.explanation + """ AS explanation 
+        select id, """ + self.code + """ AS result,
+                   """ + self.explanation + """ AS explanation
         from src"""
 
         return result

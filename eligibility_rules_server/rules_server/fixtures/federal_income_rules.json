@@ -1,0 +1,36 @@
+[
+{
+  "model": "rules_server.ruleset",
+  "pk": 1,
+  "fields": {
+    "program": "wic",
+    "entity": "federal",
+    "record_spec": "id bigint, income jsonb, number_in_family int, state text"
+  }
+},
+{
+  "model": "rules_server.definition",
+  "pk": 1,
+  "fields": {
+    "term": "poverty_level",
+    "code": "FEDERAL_POVERTY_LEVEL(number_in_family, state)",
+    "explanation": "Poverty level",
+    "ruleset": 1
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "name": "income limit",
+    "code": "annual_income <= 1.85 * poverty_level",
+    "qualifies": null,
+    "explanation": "'Annual income ' || annual_income::money ||' exceeds 185% of federal poverty level (' || poverty_level::money || ' for ' || number_in_family || ' residents in ' || state || ')' ",
+    "ruleset": 1,
+    "array_field": "income",
+    "aggregate_definitions": ", sum((income_elements->>'dollars')::numeric * ANNUALIZE(income_elements->>'frequency') ) AS annual_income",
+    "aggregate_filters": null
+  }
+}
+]

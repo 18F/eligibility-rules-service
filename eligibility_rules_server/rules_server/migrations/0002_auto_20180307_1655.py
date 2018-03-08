@@ -2,7 +2,9 @@
 
 from django.db import migrations
 
-from rules_server.sql.sql_function_defs import ANNUALIZE_FUNCTION_DEF
+from rules_server.sql.sql_function_defs import (
+    ANNUALIZE_FUNCTION_DEF,
+    FEDERAL_POVERTY_LEVEL_FUNCTION_DEF)
 
 
 class Migration(migrations.Migration):
@@ -11,6 +13,10 @@ class Migration(migrations.Migration):
         ('rules_server', '0001_initial'),
     ]
 
+    fn_defs = (ANNUALIZE_FUNCTION_DEF,
+    FEDERAL_POVERTY_LEVEL_FUNCTION_DEF)
+
     operations = [
-        migrations.RunSQL(ANNUALIZE_FUNCTION_DEF)
+        migrations.RunSQL(fn_def)
+        for fn_def in fn_defs
     ]
