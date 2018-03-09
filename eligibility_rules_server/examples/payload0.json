@@ -2,6 +2,7 @@
   "applicants": [
     {
       "id": 1,
+      "adjunct_income_eligibility": ["snap", "medicaid"],
       "income": [
         {
           "dollars": 1480.5,

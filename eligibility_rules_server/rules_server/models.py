@@ -105,6 +105,7 @@ class Definition(models.Model):
         return ', ({}) AS {}'.format(self.code, self.term)
 
 
+
 class Rule(models.Model):
     order = models.IntegerField(null=False, blank=False)
     name = models.TextField(null=False, blank=False)
@@ -113,9 +114,9 @@ class Rule(models.Model):
         null=True)  # None = required, but does not qualify or disqualify
     explanation = models.TextField(null=False, blank=False)
     ruleset = models.ForeignKey(Ruleset, on_delete=models.CASCADE)
-    array_field = models.TextField(null=True)
-    aggregate_definitions = models.TextField(null=True)
-    aggregate_filters = models.TextField(null=True)
+    # array_field = models.TextField(null=True)
+    # aggregate_definitions = models.TextField(null=True)
+    # aggregate_filters = models.TextField(null=True)
 
     # TODO: Parameterization, for similar rules with simple differences
 
@@ -148,6 +149,34 @@ class Rule(models.Model):
 
         return not result
 
+    def sql(self):
+
+        sources = self.datasource_set.first().name + \
+                  "".join(" JOIN %s USING (id)" % s.name for s in self.datasource_set.all()[1:])
+        result = "".join(s.sql() for s in self.datasource_set.all()) + """
+        SELECT id, """ + self.code + """ AS result,
+                   """ + self.explanation + """ AS explanation
+        FROM """ + sources
+
+        return result
+
+class DataSource(models.Model):
+    name = models.TextField(null=False, blank=False)
+    array_field = models.TextField(null=True)
+    aggregate_definitions = models.TextField(null=True)
+    aggregate_filters = models.TextField(null=True)
+    rule = models.ForeignKey(Rule, on_delete=models.CASCADE)
+
+    @property
+    def group_by(self):
+        """SQL list of field names to group by when aggregating"""
+
+        result = self.rule.ruleset.json_fields
+        result.remove(self.array_field)
+        result.extend(d.term for d in self.rule.ruleset.definition_set.all())
+        return ", ".join(result)
+
+
     @property
     def array_term(self):
         if self.array_field:
@@ -165,21 +194,13 @@ class Rule(models.Model):
               )
         """)
         result = template.substitute(
-            definitions=self.ruleset.definitions_sql,
+            definitions=self.rule.ruleset.definitions_sql,
             array_term=self.array_term,
-            record_spec=self.ruleset.record_spec)
+            record_spec=self.rule.ruleset.record_spec)
         return result
 
-    @property
-    def group_by(self):
-        """SQL list of field names to group by when aggregating"""
 
-        result = self.ruleset.json_fields
-        result.remove(self.array_field)
-        result.extend(d.term for d in self.ruleset.definition_set.all())
-        return ", ".join(result)
-
-    def source_sql(self):
+    def sql(self):
 
         core = self.core_source_sql()
         if not self.array_field:
@@ -187,7 +208,7 @@ class Rule(models.Model):
         core = core.replace('$', '$$')
 
         template = Template("""
-          with src as (
+          with $name as (
             $core
           select $group_by
                  $aggregate_definitions
@@ -197,16 +218,10 @@ class Rule(models.Model):
           )
         """)
         result = template.substitute(
+            name=self.name,
             core=core,
             group_by=self.group_by,
             aggregate_definitions=self.aggregate_definitions or '',
             aggregate_filters=self.aggregate_filters or '')
         return result
 
-    def sql(self):
-        result = self.source_sql() + """
-        select id, """ + self.code + """ AS result,
-                   """ + self.explanation + """ AS explanation
-        from src"""
-
-        return result
