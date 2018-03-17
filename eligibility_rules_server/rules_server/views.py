@@ -1,5 +1,7 @@
 import sqlparse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import exceptions
+from rest_framework.renderers import BaseRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -79,19 +81,14 @@ class RulingsView(RulesetFinderMixin, APIView):
 
         ruleset = self.get_ruleset(program=program, entity=entity)
 
-        try:
-            applicants = request.data['applicants']
-        except KeyError:
-            raise exceptions.ValidationError('"applicants" field is mandatory')
+        application = request.data
 
-        rule_results = ruleset.rule_results(applicants)
-        findings = list(
-            ruleset.report_from_rule_results(applicants, rule_results))
+        rule_results = ruleset.assess(application)
 
         return Response({
             'program': program,
             'entity': entity,
-            'findings': findings,
+            'findings': rule_results,
         })
 
 
@@ -105,3 +102,29 @@ class RulesetView(RulesetFinderMixin, APIView):
             for r in ruleset.rule_set.all()
         ]
         return Response(data)
+
+
+class PlainTextRenderer(BaseRenderer):
+    media_type = 'text/plain'
+    format = 'txt'
+
+    def render(self, data, media_type=None, renderer_context=None):
+        return data.encode(self.charset)
+
+
+class RulesetSqlView(RulesetFinderMixin, APIView):
+
+    renderer_classes = (PlainTextRenderer, )
+
+    def get(self, request, program, entity, format=None):
+
+        ruleset = self.get_ruleset(program=program, entity=entity)
+        result = ruleset.sql_form_report(payload=None)
+        return Response(result)
+
+    @csrf_exempt
+    def post(self, request, program, entity, format=None):
+
+        ruleset = self.get_ruleset(program=program, entity=entity)
+        result = ruleset.sql_form_report(payload=request.data)
+        return Response(sqlparse.format(result))

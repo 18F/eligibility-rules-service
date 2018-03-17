@@ -16,6 +16,7 @@ markdown = "*"
 factory-boy = "*"
 django-extensions = "*"
 sqlparse = "*"
+ptable = "*"
 
 
 [dev-packages]
