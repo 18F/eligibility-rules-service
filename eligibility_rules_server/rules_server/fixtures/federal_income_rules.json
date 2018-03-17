@@ -1,36 +1,30 @@
 [
-{
-  "model": "rules_server.ruleset",
-  "pk": 1,
-  "fields": {
-    "program": "wic",
-    "entity": "federal",
-    "record_spec": "id bigint, income jsonb, number_in_family int, state text"
+  {
+    "model": "rules_server.ruleset",
+    "pk": 1,
+    "fields": {
+      "program": "wic",
+      "entity": "federal",
+      "summarizer": "\n                              select inc.applicants_id,\n                       (inc.findings).qualifies or (adj.findings).qualifies,\n                       ARRAY_AGG((inc.findings).limitation),\n                       ARRAY_AGG((inc.findings).explanation) || ARRAY_AGG((adj.findings).explanation)\n                from   adjunct_income_source adj\n                join   income_source inc on (inc.applicants_id = adj.applicants_id)\n                group by 1, 2\n              ",
+      "sample_input": "\n              "
+    }
+  },
+  {
+    "model": "rules_server.rule",
+    "pk": 1,
+    "fields": {
+      "name": "income",
+      "code": " \n        , source AS\n               (  select a2.id AS applicants_id,\n                        SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,\n                        FEDERAL_POVERTY_LEVEL(\n                            a.number_in_economic_unit,\n                            a.referrer_state) AS poverty_level,\n                        a.number_in_economic_unit,\n                        a.referrer_state\n                 FROM income i\n                 JOIN applications a ON (i.applications_id = a.id)\n                 JOIN applicants a2 ON (a2.applications_id = a.id)\n                 GROUP BY 1, 3, 4, 5\n                 )\n        select applicants_id,\n               CASE WHEN annual_income <= 1.85 * poverty_level THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')',\n                                                                        10)::finding\n                                                               ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')',\n                                                                        10)::finding END\n                AS findings\n        from source          \n    ",
+      "ruleset": 1
+    }
+  },
+  {
+    "model": "rules_server.rule",
+    "pk": 2,
+    "fields": {
+      "name": "adjunct_income",
+      "code": " \n        , source as (\n            select a.id AS applicants_id,\n                   count(aie.program) AS n_programs,\n                   ARRAY_AGG(aie.program) AS program_names\n            from   applicants a\n            left outer join adjunct_income_eligibility aie ON (aie.applicants_id = a.id)\n            group by 1\n        )\n    select applicants_id,\n                CASE n_programs WHEN 0 THEN ROW(false, NULL, 'No adjunct program qualifications', 0)::finding\n                                       ELSE ROW(true, NULL, 'Qualifies for ' || program_names::text, 20)::finding\n                                END AS findings\n    from source          \n    ",
+      "ruleset": 1
+    }
   }
-},
-{
-  "model": "rules_server.definition",
-  "pk": 1,
-  "fields": {
-    "term": "poverty_level",
-    "code": "FEDERAL_POVERTY_LEVEL(number_in_family, state)",
-    "explanation": "Poverty level",
-    "ruleset": 1
-  }
-},
-{
-  "model": "rules_server.rule",
-  "pk": 1,
-  "fields": {
-    "order": 1,
-    "name": "income limit",
-    "code": "annual_income <= 1.85 * poverty_level",
-    "qualifies": null,
-    "explanation": "'Annual income ' || annual_income::money ||' exceeds 185%% of federal poverty level (' || poverty_level::money || ' for ' || number_in_family || ' residents in ' || state || ')' ",
-    "ruleset": 1,
-    "array_field": "income",
-    "aggregate_definitions": ", sum((income_elements->>'dollars')::numeric * ANNUALIZE(income_elements->>'frequency') ) AS annual_income",
-    "aggregate_filters": null
-  }
-}
 ]
