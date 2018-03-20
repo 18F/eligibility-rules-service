@@ -38,6 +38,8 @@
     "applicants": [
       {
         "id": 1,
+        "identity_proven": true,
+        "physically_present": true,
         "adjunct_income_eligibility": [
           {
             "program": "snap",
@@ -50,10 +52,14 @@
         ]
       },
       {
-        "id": 2
+        "id": 2,
+        "identity_proven": true,
+        "physically_present": false
       },
       {
         "id": 3,
+        "identity_proven": "Excepted",
+        "physically_present": true,
         "adjunct_income_eligibility": [
           {
             "program": "snap",
@@ -62,7 +68,9 @@
         ]
       },
       {
-        "id": 4
+        "id": 4,
+        "identity_proven": "Excepted",
+        "physically_present": true
       }
     ]
   },
@@ -80,7 +88,9 @@
     ],
     "applicants": [
       {
-        "id": 6
+        "id": 6,
+        "identity_proven": "Excepted",
+        "physically_present": true
       }
     ]
   }

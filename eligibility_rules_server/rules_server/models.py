@@ -1,6 +1,7 @@
 import json
 
 import sqlparse
+from django.contrib.postgres.fields.jsonb import JSONField
 from django.db import connection, models
 from prettytable import from_db_cursor
 
@@ -31,7 +32,11 @@ class Ruleset(models.Model):
                 result.append(executable)
                 executable = '\n'.join(
                     executable.splitlines()[1:])  # drop first line
-                cursor.execute(executable)
+                try:
+                    cursor.execute(executable)
+                except Exception as e:
+                    result = str(e) + '\n\n\n' + sqlparse.format(executable)
+                    return result
                 result.append(from_db_cursor(cursor).get_string())
 
         (sql, source_data) = self.sql_form(payload)
@@ -66,3 +71,9 @@ class Rule(models.Model):
         %s
         )
         """ % (self.name, source_sql, self.code)
+
+
+class SyntaxSchema(models.Model):
+    ruleset = models.ForeignKey(Ruleset, on_delete=models.CASCADE)
+    type = models.TextField(null=False, blank=False, default='jsonschema')
+    code = JSONField(null=False, blank=False)

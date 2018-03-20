@@ -43,6 +43,8 @@ def datatype_is_ok(datatype, value):
     if datatype == int:
         is_float = datatype_is_ok(float, value)
         return is_float and float(value).is_integer()
+    elif datatype == bool:
+        return value in (True, False)
     try:
         datatype(value)
         return True
@@ -61,9 +63,13 @@ def datatype(values):
     >>> data = [4, 12, 9]
     >>> datatype(data)
     <class 'int'>
+
+    >>> data = [True, False, False]
+    >>> datatype(data)
+    <class 'bool'>
     """
 
-    types = [int, float, str]
+    types = [bool, int, float, str]
     for value in values:
         while not datatype_is_ok(types[0], value):
             types.pop(0)
@@ -73,6 +79,7 @@ def datatype(values):
 
 
 PY_TO_PG_DATATYPES = {
+    bool: 'bool',
     int: 'integer',
     float: 'numeric',
     str: 'text',

@@ -17,6 +17,7 @@ factory-boy = "*"
 django-extensions = "*"
 sqlparse = "*"
 ptable = "*"
+jsonschema = "*"
 
 
 [dev-packages]
@@ -36,3 +37,5 @@ hypothesis = "*"
 django-extensions = "*"
 vulture = "*"
 ipdb = "*"
+ipython-sql = "*"
+jupyterlab = "*"
