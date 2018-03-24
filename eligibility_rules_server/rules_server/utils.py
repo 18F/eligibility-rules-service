@@ -44,7 +44,7 @@ def datatype_is_ok(datatype, value):
         is_float = datatype_is_ok(float, value)
         return is_float and float(value).is_integer()
     elif datatype == bool:
-        return value in (True, False)
+        return isinstance(value, bool)
     try:
         datatype(value)
         return True
@@ -122,7 +122,7 @@ def sql(name, data):
 
 
 def values_from_json(raw):
-    relationalized = relationalize(raw, 'applications')
+    relationalized = relationalize(raw, 'applicant')
     for (table_name, data) in relationalized.items():
         yield (sql(table_name, data), json.dumps(data))
 

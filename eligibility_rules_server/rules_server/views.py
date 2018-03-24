@@ -91,14 +91,14 @@ class RulingsView(RulesetFinderMixin, APIView):
             except jsonschema.ValidationError as valerr:
                 raise exceptions.ParseError(str(valerr))
 
-        application = request.data
-
-        rule_results = ruleset.assess(application)
+        results = {}
+        for (application_id, application) in request.data.items():
+            results[int(application_id)] = ruleset.calc(application)
 
         return Response({
             'program': program,
             'entity': entity,
-            'findings': rule_results,
+            'findings': results,
         })
 
 
