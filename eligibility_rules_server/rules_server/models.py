@@ -28,7 +28,8 @@ class Ruleset(models.Model):
                 yield " %s as ( select * from %s ) " % (key, val)
 
     def values_from_json(self, raw):
-        (source_sql, source_data) = zip(*(values_from_json(raw)))
+
+        (source_sql, source_data) = zip(*(values_from_json(raw, self.syntaxschema_set.first())))
         source_sql += tuple(self.null_source_sql(raw))
         source_clause = 'WITH ' + ',\n'.join(source_sql)
         return (source_clause, source_data)
@@ -110,6 +111,10 @@ class Node(models.Model):
 
         node_result = {'limitation': [], 'explanation': [], 'subfindings': {}}
 
+        for child_node in self.node_set.all():
+            child_node_result = child_node.calc(source_clause, source_data)
+            # todo : well, now what?
+
         for rule in self.rule_set.all():
             rule_result = rule.calc(source_clause, source_data)
             node_result['explanation'].append(rule_result['explanation'])
@@ -171,3 +176,6 @@ class SyntaxSchema(models.Model):
     ruleset = models.ForeignKey(Ruleset, on_delete=models.CASCADE)
     type = models.TextField(null=False, blank=False, default='jsonschema')
     code = JSONField(null=False, blank=False)
+
+    # todo: this should be one-to-one, or sorted so that the
+    # type-determiner comes

@@ -6,6 +6,7 @@ from django.utils.dateparse import parse_date
 
 def relationalize(target,
                   name='data_source',
+                  schema=None,
                   results=None,
                   ids=None,
                   parent_id=None,
@@ -29,6 +30,7 @@ def relationalize(target,
                     relationalize(
                         target=val,
                         name=key,
+                        schema=
                         results=results,
                         ids=ids,
                         parent_id=row['id'],
@@ -131,16 +133,16 @@ def sql(name, data):
                                                               recordtype(data))
 
 
-def values_from_json(raw):
-    relationalized = relationalize(raw, 'applicant')
+def values_from_json(raw, schema):
+    relationalized = relationalize(raw, 'applicant', schema=schema)
     for (table_name, data) in relationalized.items():
         yield (sql(table_name, data), json.dumps(data))
 
 
-def all_values_from_json(raw):
-    (source_sql, source_data) = zip(*(values_from_json(raw)))
-    source_clause = 'WITH ' + ',\n'.join(source_sql)
-    return (source_clause, source_data)
+# def all_values_from_json(raw, schema):
+#     (source_sql, source_data) = zip(*(values_from_json(raw, schema)))
+#     source_clause = 'WITH ' + ',\n'.join(source_sql)
+#     return (source_clause, source_data)
 
 
 if __name__ == "__main__":
