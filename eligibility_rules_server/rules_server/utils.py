@@ -1,6 +1,8 @@
 import json
+from datetime import date
 from collections import defaultdict
 
+from django.utils.dateparse import parse_date
 
 def relationalize(target,
                   name='data_source',
@@ -45,6 +47,12 @@ def datatype_is_ok(datatype, value):
         return is_float and float(value).is_integer()
     elif datatype == bool:
         return isinstance(value, bool)
+    elif datatype == date:
+        try:
+            result = parse_date(value)
+            return bool(result)
+        except TypeError:
+            return False
     try:
         datatype(value)
         return True
@@ -83,6 +91,7 @@ PY_TO_PG_DATATYPES = {
     int: 'integer',
     float: 'numeric',
     str: 'text',
+    date: 'date',
 }
 
 
@@ -108,6 +117,7 @@ def recordtype(data):
     'a numeric, b text, c integer'
     """
 
+    import pytest; pytest.set_trace()
     result = []
     for (key, values) in all_values_in_list_of_dicts(data).items():
         dtype = PY_TO_PG_DATATYPES.get(datatype(values))

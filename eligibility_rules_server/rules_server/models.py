@@ -20,9 +20,6 @@ class Ruleset(models.Model):
         for (applicant_id, applicant) in applicants.items():
             applicant_info = deepcopy(payload)
             applicant_info.update(applicant)
-            # for (key, value) in self.applicant_zero_info.items():
-            #     if (key not in applicant_info):
-            #         applicant_info[key] = value
             yield (applicant_id, applicant_info)
 
     def null_source_sql(self, raw):
@@ -35,6 +32,7 @@ class Ruleset(models.Model):
         source_sql += tuple(self.null_source_sql(raw))
         source_clause = 'WITH ' + ',\n'.join(source_sql)
         return (source_clause, source_data)
+
 
     def calc(self, application):
 
@@ -51,46 +49,46 @@ class Ruleset(models.Model):
             overall_result[int(applicant_id)] = result
         return overall_result
 
-    def sql_form(self, payload=None):
-        if payload is None:
-            payload = json.loads(self.sample_input) or []
-        (source_clause, source_data) = all_values_from_json(payload)
-        sql = ("with " + "\n, ".join(
-            r.sql(source_clause) for r in self.rule_set.order_by('id')) +
-               self.summarizer + ' order by 1')
-        return (sql, source_data * self.rule_set.count())
+    # def sql_form(self, payload=None):
+    #     if payload is None:
+    #         payload = json.loads(self.sample_input) or []
+    #     (source_clause, source_data) = all_values_from_json(payload)
+    #     sql = ("with " + "\n, ".join(
+    #         r.sql(source_clause) for r in self.rule_set.order_by('id')) +
+    #            self.summarizer + ' order by 1')
+    #     return (sql, source_data * self.rule_set.count())
 
-    def sql_form_report(self, payload=None):
+    # def sql_form_report(self, payload=None):
 
-        result = []
-        with connection.cursor() as cursor:
-            for (sql, source_data) in values_from_json(payload):
-                executable = sql % ("'%s'" % source_data)
-                result.append(executable)
-                executable = '\n'.join(
-                    executable.splitlines()[1:])  # drop first line
-                try:
-                    cursor.execute(executable)
-                except Exception as e:
-                    result = str(e) + '\n\n\n' + sqlparse.format(executable)
-                    return result
-                result.append(from_db_cursor(cursor).get_string())
+    #     result = []
+    #     with connection.cursor() as cursor:
+    #         for (sql, source_data) in values_from_json(payload):
+    #             executable = sql % ("'%s'" % source_data)
+    #             result.append(executable)
+    #             executable = '\n'.join(
+    #                 executable.splitlines()[1:])  # drop first line
+    #             try:
+    #                 cursor.execute(executable)
+    #             except Exception as e:
+    #                 result = str(e) + '\n\n\n' + sqlparse.format(executable)
+    #                 return result
+    #             result.append(from_db_cursor(cursor).get_string())
 
-        (sql, source_data) = self.sql_form(payload)
-        sql = sql.replace("(%s)", "('%s')")
-        result.append(sqlparse.format(sql % source_data))
-        return '\n\n\n'.join(result)
+    #     (sql, source_data) = self.sql_form(payload)
+    #     sql = sql.replace("(%s)", "('%s')")
+    #     result.append(sqlparse.format(sql % source_data))
+    #     return '\n\n\n'.join(result)
 
-    _COLUMNS = ('applicant_id', 'eligible', 'limitations', 'findings')
+    # _COLUMNS = ('applicant_id', 'eligible', 'limitations', 'findings')
 
-    def assess(self, payload):
+    # def assess(self, payload):
 
-        (sql, source_data) = self.sql_form(payload)
+    #     (sql, source_data) = self.sql_form(payload)
 
-        with connection.cursor() as cursor:
-            cursor.execute(sql, tuple(source_data))
-            result = [dict(zip(self._COLUMNS, row)) for row in cursor]
-        return result
+    #     with connection.cursor() as cursor:
+    #         cursor.execute(sql, tuple(source_data))
+    #         result = [dict(zip(self._COLUMNS, row)) for row in cursor]
+    #     return result
 
 
 class Node(models.Model):
@@ -149,24 +147,24 @@ class Rule(models.Model):
             findings = cursor.fetchone()
         return dict(zip(('eligible', 'limitation', 'explanation'), findings))
 
-    def sql(self, source_sql):
-        """
-        Must return an (applicants_id, findings::finding)
-        """
+    # def sql(self, source_sql):
+    #     """
+    #     Must return an (applicants_id, findings::finding)
+    #     """
 
-        return """%s_source AS (
-        %s
-        %s
-        )
-        """ % (self.name, source_sql, self.code)
+    #     return """%s_source AS (
+    #     %s
+    #     %s
+    #     )
+    #     """ % (self.name, source_sql, self.code)
 
-    def result(self, payload):
-        (source_clause, source_data) = all_values_from_json(payload)
-        source_clause + self.code, source_data
-        response = {}
-        with connection.cursor() as cursor:
-            cursor.execute(source_clause + self.code, tuple(source_data))
-        return cursor.fetchone()
+    # def result(self, payload):
+    #     (source_clause, source_data) = all_values_from_json(payload)
+    #     source_clause + self.code, source_data
+    #     response = {}
+    #     with connection.cursor() as cursor:
+    #         cursor.execute(source_clause + self.code, tuple(source_data))
+    #     return cursor.fetchone()
 
 
 class SyntaxSchema(models.Model):

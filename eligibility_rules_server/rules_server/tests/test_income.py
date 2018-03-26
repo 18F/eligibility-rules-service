@@ -3,6 +3,8 @@ Tests related to income calculations
 """
 
 from copy import deepcopy
+from os.path import join
+import json
 
 import pytest
 from rest_framework import status
@@ -12,6 +14,8 @@ from rules_server.models import Node, Rule, Ruleset
 
 client = APIClient()
 
+with open(join('rules_server', 'sample_payloads', 'wic-federal0.json')) as infile:
+    payload0 = json.load(infile)
 
 @pytest.fixture(autouse=True)
 def rule_models():
@@ -103,95 +107,145 @@ def rule_models():
         """)
     r10.save()
 
+    n3 = Node(
+        ruleset=rs0,
+        name='categories',
+        parent=None,
+        requires_all=False,
+    )
+    n3.save()
 
-payload0 = {
-    1:  # household 1
-    {
-        'applicants': {
-            1: {
-                'proof_of_identity':
-                'True',
-                'physically_present':
-                'True',
-                'adjunct_income_eligibility': [{
-                    'program': 'snap',
-                    'verified': True
-                }, {
-                                                   'program': 'medicaid',
-                                                   'verified': True
-                                               }],
-                'id':
-                1
-            },
-            2: {
-                'physically_present': 'True',
-                'proof_of_identity': 'True',
-            },
-            3: {
-                'physically_present':
-                'True',
-                'proof_of_identity':
-                'True',
-                'adjunct_income_eligibility': [{
-                    'program': 'snap',
-                    'verified': 'Excepted'
-                }],
-            },
-            4: {
-                'physically_present': 'True',
-                'proof_of_identity': 'True',
-            },
-        },
-        'income': [{
-            'dollars': 1480.5,
-            'frequency': 'bi-weekly',
-            'source': 'wages-and-salary',
-            'verified': True
-        }, {
-                       'dollars': 150.75,
-                       'frequency': 'weekly',
-                       'source': 'self-employment',
-                       'verified': False
-                   }, {
-                       'dollars': 200,
-                       'frequency': 'semi-monthly',
-                       'source': 'social-security',
-                       'verified': 'Excepted'
-                   }, {
-                       'dollars': 2000,
-                       'frequency': 'annually',
-                       'source': 'royalties',
-                       'verified': True
-                   }, {
-                       'dollars': 200,
-                       'frequency': 'monthly',
-                       'source': 'alimony-and-child-support',
-                       'verified': False
-                   }],
-        'number_in_economic_unit':
-        5,
-        'referrer_state':
-        'OH'
-    },
-    2: {
-        'applicants': {
-            6: {
-                'physically_present':
-                'True',
-                'proof_of_identity':
-                'True',
-                'income': [{
-                    'dollars': 11480.5,
-                    'frequency': 'bi-weekly',
-                    'source': 'wages-and-salary',
-                    'verified': True
-                }],
-            },
-        },
-        'number_in_economic_unit': 1,
-        'referrer_state': 'AK'
-    }
-}
+    r312 = Rule(
+        name='pregnant',
+        node=n3,
+        code="""
+        select
+            CASE currently_pregnant
+            WHEN 'True' THEN
+                ROW(true, ROW(null, true, 'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',
+                'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'
+                )::limitation, 'Woman currently pregnant')::finding
+            ELSE
+                ROW(true, NULL, 'Not pregnant woman')::finding
+            END AS result
+        from applicant
+        """)
+    r312.save()
+
+    r313 = Rule(
+        name='postpartum',
+        node=n3,
+        code="""
+        select
+            CASE WHEN
+              date_birth_or_pregnancy_end >= (current_date - interval '1 year')
+              AND
+              (NOT breastfeeding)
+              AND
+              last_day((date_birth_or_pregnancy_end + interval '6 months')::date) >= current_date
+            THEN
+              ROW(true, ROW(last_day((date_birth_or_pregnancy_end + interval '6 months')::date), true,
+                            'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',
+                            'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'
+                            )::limitation, 'Woman currently pregnant')::finding
+            ELSE
+                ROW(true, NULL, 'Not pregnant woman')::finding
+            END AS result
+        from applicant
+        """)
+    r313.save()
+
+
+
+
+# payload0 = {
+#     1:  # household 1
+#     {
+#         'applicants': {
+#             1: {
+#                 'proof_of_identity':
+#                 'True',
+#                 'physically_present':
+#                 'True',
+#                 'adjunct_income_eligibility': [{
+#                     'program': 'snap',
+#                     'verified': True
+#                 }, {
+#                                                    'program': 'medicaid',
+#                                                    'verified': True
+#                                                }],
+#                 'id':
+#                 1
+#             },
+#             2: {
+#                 'physically_present': 'True',
+#                 'proof_of_identity': 'True',
+#             },
+#             3: {
+#                 'physically_present':
+#                 'True',
+#                 'proof_of_identity':
+#                 'True',
+#                 'adjunct_income_eligibility': [{
+#                     'program': 'snap',
+#                     'verified': 'Excepted'
+#                 }],
+#             },
+#             4: {
+#                 'physically_present': 'True',
+#                 'proof_of_identity': 'True',
+#             },
+#         },
+#         'income': [{
+#             'dollars': 1480.5,
+#             'frequency': 'bi-weekly',
+#             'source': 'wages-and-salary',
+#             'verified': True
+#         }, {
+#                        'dollars': 150.75,
+#                        'frequency': 'weekly',
+#                        'source': 'self-employment',
+#                        'verified': False
+#                    }, {
+#                        'dollars': 200,
+#                        'frequency': 'semi-monthly',
+#                        'source': 'social-security',
+#                        'verified': 'Excepted'
+#                    }, {
+#                        'dollars': 2000,
+#                        'frequency': 'annually',
+#                        'source': 'royalties',
+#                        'verified': True
+#                    }, {
+#                        'dollars': 200,
+#                        'frequency': 'monthly',
+#                        'source': 'alimony-and-child-support',
+#                        'verified': False
+#                    }],
+#         'number_in_economic_unit':
+#         5,
+#         'referrer_state':
+#         'OH'
+#     },
+#     2: {
+#         'applicants': {
+#             6: {
+#                 'physically_present':
+#                 'True',
+#                 'proof_of_identity':
+#                 'True',
+#                 'income': [{
+#                     'dollars': 11480.5,
+#                     'frequency': 'bi-weekly',
+#                     'source': 'wages-and-salary',
+#                     'verified': True
+#                 }],
+#             },
+#         },
+#         'number_in_economic_unit': 1,
+#         'referrer_state': 'AK'
+#     }
+# }
 
 
 @pytest.mark.django_db
