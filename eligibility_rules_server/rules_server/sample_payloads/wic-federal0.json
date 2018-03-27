@@ -32,7 +32,7 @@
         "adjunct_income_eligibility": [
           {
             "program": "snap",
-            "verified": "Excepted"
+            "verified": "Exception"
           }
         ]
       },
@@ -59,7 +59,7 @@
         "dollars": 200,
         "frequency": "semi-monthly",
         "source": "social-security",
-        "verified": "Excepted"
+        "verified": "Exception"
       },
       {
         "dollars": 2000,

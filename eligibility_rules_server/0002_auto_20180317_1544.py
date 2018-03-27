@@ -2,9 +2,9 @@
 
 from django.db import migrations
 
-from rules_server.sql.sql_function_defs import (ANNUALIZE_FUNCTION_DEF,
+from rules_server.sql.sql_function_defs import (ANNUALIZE_FUNCTION_DEF, LAST_DAY_FUNCTION_DEF,
                                                 FEDERAL_POVERTY_LEVEL_FUNCTION_DEF)
-from rules_server.sql.type_definitions import FINDING_TYPE_SQL
+from rules_server.sql.type_definitions import LIMITATION_TYPE_SQL, FINDING_TYPE_SQL
 
 
 class Migration(migrations.Migration):
@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
     ]
 
     sql = (ANNUALIZE_FUNCTION_DEF, FEDERAL_POVERTY_LEVEL_FUNCTION_DEF,
-           FINDING_TYPE_SQL)
+           LIMITATION_TYPE_SQL, FINDING_TYPE_SQL, LAST_DAY_FUNCTION_DEF)
 
     operations = [migrations.RunSQL(sql)]

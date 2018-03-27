@@ -43,8 +43,21 @@ class Ruleset(models.Model):
             for node in self.node_set.all():
                 node_result = node.calc(source_clause, source_data)
                 result['requirements'][node.name] = node_result
-                eligibility &= node_result['eligible']
+                if node.name != 'categories':
+                    eligibility &= node_result['eligible']
             result['eligible'] = eligibility
+            overall_result[int(applicant['id'])] = result
+
+            categories = result['requirements'].pop('categories')
+            category_names = [
+                key for (key, val) in categories['subfindings'].items()
+                if val['eligible']
+            ]
+            result['categories'] = {
+                'applicable': category_names,
+                'findings': categories['subfindings']
+            }
+
             overall_result[int(applicant['id'])] = result
         return overall_result
 
