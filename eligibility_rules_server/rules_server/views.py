@@ -1,5 +1,3 @@
-import json
-
 import jsonschema
 import sqlparse
 from django.views.decorators.csrf import csrf_exempt
@@ -86,14 +84,14 @@ class RulingsView(RulesetFinderMixin, APIView):
 
         for syntax_schema in ruleset.syntaxschema_set.all():
             try:
-                jsonschema.validate(request.data, json.loads(
-                    syntax_schema.code))
+                jsonschema.validate(request.data, syntax_schema.code)
             except jsonschema.ValidationError as valerr:
                 raise exceptions.ParseError(str(valerr))
 
         results = {}
-        for (application_id, application) in request.data.items():
-            results[int(application_id)] = ruleset.calc(application)
+        for application in request.data:
+            results[int(
+                application['application_id'])] = ruleset.calc(application)
 
         return Response({
             'program': program,
@@ -129,12 +127,33 @@ class RulesetSqlView(RulesetFinderMixin, APIView):
     def get(self, request, program, entity, format=None):
 
         ruleset = self.get_ruleset(program=program, entity=entity)
-        result = ruleset.sql_form_report(payload=None)
-        return Response(result)
+        for application in ruleset.sample_input:
+            result = '\n\n\n'.join(
+                sqlparse.format(sql)
+                for sql in ruleset.sql(application=application))
+            return Response(result)
 
     @csrf_exempt
     def post(self, request, program, entity, format=None):
 
         ruleset = self.get_ruleset(program=program, entity=entity)
-        result = ruleset.sql_form_report(payload=request.data)
-        return Response(sqlparse.format(result))
+        result = ruleset.sql(application=request.data)
+        result = sqlparse.format("\n".join(result))
+        return Response(result)
+
+
+class RulesetSchemaView(RulesetFinderMixin, APIView):
+    def get(self, request, program, entity, format=None):
+
+        ruleset = self.get_ruleset(program=program, entity=entity)
+        if ruleset.syntaxschema_set.count() == 1:
+            return Response(ruleset.syntaxschema_set.first().code)
+        else:
+            return Response([s.code for s in ruleset.syntaxschema_set.all()])
+
+
+class RulesetSampleView(RulesetFinderMixin, APIView):
+    def get(self, request, program, entity, format=None):
+
+        ruleset = self.get_ruleset(program=program, entity=entity)
+        return Response(ruleset.sample_input)

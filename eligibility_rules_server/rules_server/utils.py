@@ -1,12 +1,12 @@
 import json
-from datetime import date
 from collections import defaultdict
+from datetime import date
 
 from django.utils.dateparse import parse_date
 
+
 def relationalize(target,
                   name='data_source',
-                  schema=None,
                   results=None,
                   ids=None,
                   parent_id=None,
@@ -30,7 +30,6 @@ def relationalize(target,
                     relationalize(
                         target=val,
                         name=key,
-                        schema=
                         results=results,
                         ids=ids,
                         parent_id=row['id'],
@@ -110,39 +109,46 @@ def all_values_in_list_of_dicts(data):
     return values
 
 
-def recordtype(data):
+def column_types(data):
     """
-    For a list of dicts `data`, find PostgreSQL `record` descriptor
+    For a list of dicts `data`, find PostgreSQL types
 
     >>> data = [{'a': 1.5}, {'b': 'cows', 'c': 2}, {'a': 3, 'b': 4}]
-    >>> recordtype(data)
-    'a numeric, b text, c integer'
+    >>> column_types(data)
+    {'a': 'numeric', 'b': 'text', 'c': 'integer'}
     """
 
-    import pytest; pytest.set_trace()
-    result = []
+    result = {}
     for (key, values) in all_values_in_list_of_dicts(data).items():
         dtype = PY_TO_PG_DATATYPES.get(datatype(values))
-        result.append('%s %s' % (key, dtype))
-    return ', '.join(result)
+        result[key] = dtype
+    return result
 
 
-def sql(name, data):
+def record_type(table_name, data, schema):
+    """
+    Generates PostgreSQL record type SQL
+    """
+
+    data_types = column_types(data)
+    if schema:
+        data_types.update(schema.data_types(table_name))
+    return ', '.join(
+        '%s %s' % (key, dtype) for (key, dtype) in data_types.items())
+
+
+def sql(name, data, schema=None):
+
+    types = record_type(table_name=name, data=data, schema=schema)
+
     return """%s AS
-        (SELECT * FROM JSON_TO_RECORDSET(%%s) AS x(%s))""" % (name,
-                                                              recordtype(data))
+        (SELECT * FROM JSON_TO_RECORDSET(%%s) AS x(%s))""" % (name, types)
 
 
-def values_from_json(raw, schema):
-    relationalized = relationalize(raw, 'applicant', schema=schema)
+def values_from_json(raw, schema=None):
+    relationalized = relationalize(raw, 'applicant')
     for (table_name, data) in relationalized.items():
-        yield (sql(table_name, data), json.dumps(data))
-
-
-# def all_values_from_json(raw, schema):
-#     (source_sql, source_data) = zip(*(values_from_json(raw, schema)))
-#     source_clause = 'WITH ' + ',\n'.join(source_sql)
-#     return (source_clause, source_data)
+        yield (sql(table_name, data, schema=schema), json.dumps(data))
 
 
 if __name__ == "__main__":

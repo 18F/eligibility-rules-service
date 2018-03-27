@@ -1,7 +1,5 @@
-import json
 from copy import deepcopy
 
-import sqlparse
 from django.contrib.postgres.fields.jsonb import JSONField
 from django.db import connection, models
 from prettytable import from_db_cursor
@@ -12,33 +10,33 @@ from .utils import values_from_json
 class Ruleset(models.Model):
     program = models.TextField(null=False, blank=False)
     entity = models.TextField(null=False, blank=False)
-    sample_input = models.TextField(null=True, blank=True)
+    sample_input = JSONField(null=True, blank=True)
     null_sources = JSONField(null=True, blank=True)
 
     def flattened(self, payload):
         applicants = payload.pop('applicants')
-        for (applicant_id, applicant) in applicants.items():
+        for applicant in applicants:
             applicant_info = deepcopy(payload)
             applicant_info.update(applicant)
-            yield (applicant_id, applicant_info)
+            yield applicant_info
 
     def null_source_sql(self, raw):
         for (key, val) in self.null_sources.items():
             if key not in raw:
                 yield " %s as ( select * from %s ) " % (key, val)
 
-    def values_from_json(self, raw):
+    def values_from_json(self, raw, schema=None):
 
-        (source_sql, source_data) = zip(*(values_from_json(raw, self.syntaxschema_set.first())))
+        (source_sql, source_data
+         ) = zip(*(values_from_json(raw, self.syntaxschema_set.first())))
         source_sql += tuple(self.null_source_sql(raw))
         source_clause = 'WITH ' + ',\n'.join(source_sql)
         return (source_clause, source_data)
 
-
     def calc(self, application):
 
         overall_result = {}
-        for (applicant_id, applicant) in self.flattened(application):
+        for applicant in self.flattened(application):
             eligibility = True
             result = {'requirements': {}}
             (source_clause, source_data) = self.values_from_json(applicant)
@@ -47,49 +45,15 @@ class Ruleset(models.Model):
                 result['requirements'][node.name] = node_result
                 eligibility &= node_result['eligible']
             result['eligible'] = eligibility
-            overall_result[int(applicant_id)] = result
+            overall_result[int(applicant['id'])] = result
         return overall_result
 
-    # def sql_form(self, payload=None):
-    #     if payload is None:
-    #         payload = json.loads(self.sample_input) or []
-    #     (source_clause, source_data) = all_values_from_json(payload)
-    #     sql = ("with " + "\n, ".join(
-    #         r.sql(source_clause) for r in self.rule_set.order_by('id')) +
-    #            self.summarizer + ' order by 1')
-    #     return (sql, source_data * self.rule_set.count())
+    def sql(self, application):
 
-    # def sql_form_report(self, payload=None):
-
-    #     result = []
-    #     with connection.cursor() as cursor:
-    #         for (sql, source_data) in values_from_json(payload):
-    #             executable = sql % ("'%s'" % source_data)
-    #             result.append(executable)
-    #             executable = '\n'.join(
-    #                 executable.splitlines()[1:])  # drop first line
-    #             try:
-    #                 cursor.execute(executable)
-    #             except Exception as e:
-    #                 result = str(e) + '\n\n\n' + sqlparse.format(executable)
-    #                 return result
-    #             result.append(from_db_cursor(cursor).get_string())
-
-    #     (sql, source_data) = self.sql_form(payload)
-    #     sql = sql.replace("(%s)", "('%s')")
-    #     result.append(sqlparse.format(sql % source_data))
-    #     return '\n\n\n'.join(result)
-
-    # _COLUMNS = ('applicant_id', 'eligible', 'limitations', 'findings')
-
-    # def assess(self, payload):
-
-    #     (sql, source_data) = self.sql_form(payload)
-
-    #     with connection.cursor() as cursor:
-    #         cursor.execute(sql, tuple(source_data))
-    #         result = [dict(zip(self._COLUMNS, row)) for row in cursor]
-    #     return result
+        for applicant in self.flattened(application):
+            (source_clause, source_data) = self.values_from_json(applicant)
+            for node in self.node_set.all():
+                yield from node.sql(source_clause, source_data)
 
 
 class Node(models.Model):
@@ -101,6 +65,10 @@ class Node(models.Model):
     @property
     def get_ruleset(self):
         return self.ruleset or self.parent.get_ruleset
+
+    def sql(self, source_clause, source_data):
+        for rule in self.rule_set.all():
+            yield rule.sql(source_clause, source_data)
 
     def calc(self, source_clause, source_data):
 
@@ -143,33 +111,23 @@ class Rule(models.Model):
     def ruleset(self):
         return self.node.get_ruleset
 
+    _SQL = """with source as (%s %s)
+              select (source.result).eligible, (source.result).limitation,
+                     (source.result).explanation
+              from source"""
+
     def calc(self, source_clause, source_data):
 
         with connection.cursor() as cursor:
-            sql = """with source as (%s %s) select (source.result).eligible, (source.result).limitation, (source.result).explanation
-            from source""" % (source_clause, self.code)
+            sql = self._SQL % (source_clause, self.code)
             cursor.execute(sql, tuple(source_data))
             findings = cursor.fetchone()
         return dict(zip(('eligible', 'limitation', 'explanation'), findings))
 
-    # def sql(self, source_sql):
-    #     """
-    #     Must return an (applicants_id, findings::finding)
-    #     """
-
-    #     return """%s_source AS (
-    #     %s
-    #     %s
-    #     )
-    #     """ % (self.name, source_sql, self.code)
-
-    # def result(self, payload):
-    #     (source_clause, source_data) = all_values_from_json(payload)
-    #     source_clause + self.code, source_data
-    #     response = {}
-    #     with connection.cursor() as cursor:
-    #         cursor.execute(source_clause + self.code, tuple(source_data))
-    #     return cursor.fetchone()
+    def sql(self, source_clause, source_data):
+        result = self._SQL % (source_clause, self.code)
+        result = result.replace("%s", "'%s'")
+        return result % source_data
 
 
 class SyntaxSchema(models.Model):
@@ -177,5 +135,52 @@ class SyntaxSchema(models.Model):
     type = models.TextField(null=False, blank=False, default='jsonschema')
     code = JSONField(null=False, blank=False)
 
+    def walk(self, node=None):
+        """Yields all the dictionaries in a nested structure."""
+
+        node = node or self.code
+
+        if isinstance(node, list):
+            for itm in node:
+                yield from self.walk(itm)
+        else:
+            yield node
+            for (key, val) in node.items():
+                if isinstance(val, dict):
+                    yield from self.walk(val)
+
+    _JSONSCHEMA_TO_PG_TYPES = {
+        'integer': 'integer',
+        'number': 'numeric',
+        'string': 'text',
+        'date': 'date',
+        'boolean': 'boolean',
+    }
+
+    def _col_data_type(self, col_data):
+        if col_data.get('format') == 'date-time':
+            return 'date'
+        elif col_data.get('$ref') == '#/definitions/ynexception':
+            return 'text'
+        else:
+            data_type = col_data.get('type', 'text')
+            if isinstance(data_type, list):
+                data_type = [dt for dt in data_type if dt != 'null']
+                if len(data_type) > 1:
+                    data_type = 'text'
+                else:
+                    data_type = data_type[0]
+            return self._JSONSCHEMA_TO_PG_TYPES.get(data_type)
+
+    def data_types(self, table_name):
+        result = {}
+        for node in self.walk():
+            if node.get('title') == table_name:
+                for (col_name, col_data) in node.get('properties', {}).items():
+                    col_type_from_schema = self._col_data_type(col_data)
+                    if col_type_from_schema:
+                        result[col_name] = self._col_data_type(col_data)
+        return result
+
     # todo: this should be one-to-one, or sorted so that the
-    # type-determiner comes
+    # type-determiner comesfirst?

@@ -1,0 +1,100 @@
+[
+  {
+    "application_id": 1,
+    "applicants": [
+      {
+        "id": 1,
+        "proof_of_identity": true,
+        "physically_present": true,
+        "currently_pregnant": true,
+        "breastfeeding": false,
+        "date_birth_or_pregnancy_end": null,
+        "adjunct_income_eligibility": [
+          {
+            "program": "snap",
+            "verified": true
+          },
+          {
+            "program": "medicaid",
+            "verified": true
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "physically_present": true,
+        "proof_of_identity": true
+      },
+      {
+        "id": 3,
+        "physically_present": true,
+        "proof_of_identity": true,
+        "adjunct_income_eligibility": [
+          {
+            "program": "snap",
+            "verified": "Excepted"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "physically_present": true,
+        "proof_of_identity": true
+      }
+    ],
+    "income": [
+      {
+        "dollars": 1480.5,
+        "frequency": "bi-weekly",
+        "source": "wages-and-salary",
+        "verified": true
+      },
+      {
+        "dollars": 150.75,
+        "frequency": "weekly",
+        "source": "self-employment",
+        "verified": false
+      },
+      {
+        "dollars": 200,
+        "frequency": "semi-monthly",
+        "source": "social-security",
+        "verified": "Excepted"
+      },
+      {
+        "dollars": 2000,
+        "frequency": "annually",
+        "source": "royalties",
+        "verified": true
+      },
+      {
+        "dollars": 200,
+        "frequency": "monthly",
+        "source": "alimony-and-child-support",
+        "verified": false
+      }
+    ],
+    "number_in_economic_unit": 5,
+    "referrer_state": "OH"
+  },
+  {
+    "application_id": 2,
+    "applicants": [
+      {
+        "id": 6,
+        "physically_present": true,
+        "proof_of_identity": true,
+        "income": [
+          {
+            "dollars": 11480.5,
+            "frequency": "bi-weekly",
+            "source": "wages-and-salary",
+            "verified": true
+          }
+        ]
+      }
+    ],
+    "number_in_economic_unit": 1,
+    "referrer_state": "AK"
+  }
+]

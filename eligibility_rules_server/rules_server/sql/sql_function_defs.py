@@ -56,7 +56,7 @@ FEDERAL_POVERTY_LEVEL_FUNCTION_DEF = """
 
 # Thanks for last_day to Anvesh Patel, https://www.dbrnd.com/2017/01/postgresql-how-to-find-last-day-of-the-month/
 LAST_DAY_FUNCTION_DEF = """
-CREATE OR REPLACE FUNCTION last_day(DATE)
+CREATE OR REPLACE FUNCTION last_day_of_month(DATE)
 RETURNS DATE AS
 $$
 	SELECT (date_trunc('MONTH', $1) + INTERVAL '1 MONTH - 1 day')::DATE;
