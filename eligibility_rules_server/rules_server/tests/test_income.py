@@ -13,8 +13,7 @@ from rest_framework.test import APIClient
 
 client = APIClient()
 
-with open(join('rules_server', 'sample_payloads',
-               'wic-federal0.json')) as infile:
+with open(join('examples', 'wic-federal0.json')) as infile:
     payload0 = json.load(infile)
 
 

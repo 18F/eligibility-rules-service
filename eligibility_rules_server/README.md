@@ -10,7 +10,7 @@ A sample server is running at https://eligibility-rules.app.cloud.gov/rulings/wi
 
 From the ["examples" directory](examples/README.md):
 
-    curl -X POST -H "Content-Type: application/json" -d @payload0.json https://eligibility-rules.app.cloud.gov/rulings/wic/federal/
+    curl -X POST -H "Content-Type: application/json" -d @wic-federal0.json https://eligibility-rules.app.cloud.gov/rulings/wic/federal/
 
 If pipes are available (UNIX-like systems, including the
 [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)),
