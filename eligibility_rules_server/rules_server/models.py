@@ -27,8 +27,8 @@ class Ruleset(models.Model):
 
     def values_from_json(self, raw, schema=None):
 
-        (source_sql, source_data
-         ) = zip(*(values_from_json(raw, self.syntaxschema_set.first())))
+        (source_sql, source_data) = zip(*(values_from_json(
+            raw, self.syntaxschema_set.first())))
         source_sql += tuple(self.null_source_sql(raw))
         source_clause = 'WITH ' + ',\n'.join(source_sql)
         return (source_clause, source_data)
@@ -50,7 +50,8 @@ class Ruleset(models.Model):
 
             categories = result['requirements'].pop('categories')
             category_names = [
-                key for (key, val) in categories['subfindings'].items()
+                key
+                for (key, val) in categories['subfindings'].items()
                 if val['eligible']
             ]
             result['categories'] = {
@@ -125,9 +126,19 @@ class Rule(models.Model):
         return self.node.get_ruleset
 
     _SQL = """with source as (%s %s)
-              select (source.result).eligible, (source.result).limitation,
-                     (source.result).explanation
+              select (source.result).eligible,
+                     (source.result).explanation,
+                     ((source.result).limitation).end_date,
+                     ((source.result).limitation).normal,
+                     ((source.result).limitation).description,
+                     ((source.result).limitation).explanation AS limitation_explanation
               from source"""
+    """
+                     ((source.result).limitation).end_date,
+                     ((source.result).limitation).normal,
+                     ((source.result).limitation).description,
+                     ((source.result).limitation).explanation AS limitation_explanation,
+    """
 
     def calc(self, source_clause, source_data):
 
@@ -135,7 +146,12 @@ class Rule(models.Model):
             sql = self._SQL % (source_clause, self.code)
             cursor.execute(sql, tuple(source_data))
             findings = cursor.fetchone()
-        return dict(zip(('eligible', 'limitation', 'explanation'), findings))
+        limitation = dict(zip(
+            ('end_date', 'normal', 'description', 'explanation'), findings[
+                2:]))
+        return {'eligible': findings[0],
+                'explanation': findings[1],
+                'limitation': limitation}
 
     def sql(self, source_clause, source_data):
         result = self._SQL % (source_clause, self.code)

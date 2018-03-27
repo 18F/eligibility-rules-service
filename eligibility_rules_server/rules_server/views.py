@@ -137,9 +137,11 @@ class RulesetSqlView(RulesetFinderMixin, APIView):
     def post(self, request, program, entity, format=None):
 
         ruleset = self.get_ruleset(program=program, entity=entity)
-        result = ruleset.sql(application=request.data)
-        result = sqlparse.format("\n".join(result))
-        return Response(result)
+        for application in request.data:
+            result = '\n\n\n'.join(
+                sqlparse.format(sql)
+                for sql in ruleset.sql(application=application))
+            return Response(result)
 
 
 class RulesetSchemaView(RulesetFinderMixin, APIView):
