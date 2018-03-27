@@ -185,14 +185,13 @@ class SyntaxSchema(models.Model):
                     data_type = data_type[0]
             return self._JSONSCHEMA_TO_PG_TYPES.get(data_type)
 
-    def data_types(self, table_name):
+    def data_types(self):
         result = {}
         for node in self.walk():
-            if node.get('title') == table_name:
-                for (col_name, col_data) in node.get('properties', {}).items():
-                    col_type_from_schema = self._col_data_type(col_data)
-                    if col_type_from_schema:
-                        result[col_name] = self._col_data_type(col_data)
+            for (col_name, col_data) in node.get('properties', {}).items():
+                col_type_from_schema = self._col_data_type(col_data)
+                if col_type_from_schema:
+                    result[col_name] = self._col_data_type(col_data)
         return result
 
     # todo: this should be one-to-one, or sorted so that the

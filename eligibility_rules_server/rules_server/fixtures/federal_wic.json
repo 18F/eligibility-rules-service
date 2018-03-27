@@ -1,7 +1,7 @@
 [
 {
   "model": "rules_server.ruleset",
-  "pk": 3,
+  "pk": 6,
   "fields": {
     "program": "wic",
     "entity": "federal",
@@ -82,6 +82,7 @@
         ],
         "application_id": 1,
         "referrer_state": "OH",
+        "all_applicants_present": true,
         "number_in_economic_unit": 5
       },
       {
@@ -102,6 +103,7 @@
         ],
         "application_id": 2,
         "referrer_state": "AK",
+        "all_applicants_present": true,
         "number_in_economic_unit": 1
       }
     ],
@@ -113,89 +115,99 @@
 },
 {
   "model": "rules_server.node",
-  "pk": 7,
+  "pk": 16,
   "fields": {
     "name": "income",
     "parent": null,
-    "ruleset": 3,
+    "ruleset": 6,
     "requires_all": false
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 8,
+  "pk": 17,
   "fields": {
     "name": "identity",
     "parent": null,
-    "ruleset": 3,
+    "ruleset": 6,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 9,
+  "pk": 18,
   "fields": {
     "name": "categories",
     "parent": null,
-    "ruleset": 3,
+    "ruleset": 6,
     "requires_all": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 11,
+  "pk": 28,
   "fields": {
     "name": "standard income",
     "code": "\n    , total_income as (\n        select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,\n               FEDERAL_POVERTY_LEVEL(\n                            a.number_in_economic_unit,\n                            a.referrer_state) AS poverty_level,\n                        a.number_in_economic_unit,\n                        a.referrer_state\n                FROM income i\n                CROSS JOIN applicant a  -- only one applicant row anyway\n                GROUP BY 2, 3, 4)\n    select\n            CASE WHEN annual_income <= 1.85 * poverty_level THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                                                                        )::finding\n                                                            ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                                                                        )::finding END AS result\n    from total_income\n    ",
-    "node": 7,
+    "node": 16,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 12,
+  "pk": 29,
   "fields": {
     "name": "adjunct income eligibility",
     "code": "\n    select\n        CASE count(program) WHEN 0 THEN\n            ROW(false, NULL, 'No adjunct program qualifications')::finding\n        ELSE\n            ROW(true, NULL, 'Qualifies for ' || ARRAY_TO_STRING(ARRAY_AGG(program), ', '))::finding\n        END AS result\n    from adjunct_income_eligibility\n    ",
-    "node": 7,
+    "node": 16,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 13,
+  "pk": 30,
   "fields": {
     "name": "proof of identity",
     "code": "\n    select\n        CASE proof_of_identity\n        WHEN 'true' THEN\n            ROW(true, NULL, 'Proof of identity supplied')::finding\n        WHEN 'Exception' THEN\n            ROW(true, NULL, 'Applicant must confirm his/her identity in writing')::finding\n        ELSE\n            ROW(false, NULL, 'No proof of identity supplied')::finding\n        END AS result\n    from applicant\n    ",
-    "node": 8,
+    "node": 17,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 14,
+  "pk": 31,
+  "fields": {
+    "name": "all applicants physically present",
+    "code": "\n    select\n        CASE all_applicants_present\n        WHEN 'true' THEN\n            ROW(true, NULL, 'All applicants physically present')::finding\n        WHEN 'Exception' THEN\n            ROW(true, NULL, 'Applicant not physically present, but exception provided')::finding\n        ELSE\n            ROW(false, NULL, 'Applicant not physically present')::finding\n        END AS result\n    from applicant\n    ",
+    "node": 17,
+    "sufficient": false
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 32,
   "fields": {
     "name": "pregnant",
     "code": "\n    select\n        CASE currently_pregnant\n        WHEN 'true' THEN\n            ROW(true, ROW(null, true, 'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n            'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n            )::limitation, 'Woman currently pregnant')::finding\n        ELSE\n            ROW(false, NULL, 'Not pregnant woman')::finding\n        END AS result\n    from applicant\n    ",
-    "node": 9,
+    "node": 18,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 15,
+  "pk": 33,
   "fields": {
     "name": "postpartum",
     "code": "\n    select\n        CASE WHEN\n          date_birth_or_pregnancy_end >= (current_date - interval '1 year')\n          AND\n          (NOT breastfeeding)\n          AND\n          last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date) >= current_date\n        THEN\n          ROW(true, ROW(last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date), true,\n                        'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n                        'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n                        )::limitation, \n                        'Woman is postpartum')::finding\n        ELSE\n            ROW(false, NULL, \n                'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n               )::finding\n        END AS result\n    from applicant\n    ",
-    "node": 9,
+    "node": 18,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.syntaxschema",
-  "pk": 3,
+  "pk": 4,
   "fields": {
-    "ruleset": 3,
+    "ruleset": 6,
     "type": "jsonschema",
     "code": {
       "type": "array",
@@ -289,6 +301,10 @@
           },
           "referrer_state": {
             "type": "string"
+          },
+          "all_applicants_present": {
+            "$ref": "#/definitions/ynexception",
+            "description": "All household's applicants are physically present"
           },
           "number_in_economic_unit": {
             "type": "integer",

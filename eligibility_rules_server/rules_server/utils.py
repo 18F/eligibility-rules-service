@@ -125,21 +125,21 @@ def column_types(data):
     return result
 
 
-def record_type(table_name, data, schema):
+def record_type(data, schema):
     """
     Generates PostgreSQL record type SQL
     """
 
     data_types = column_types(data)
     if schema:
-        data_types.update(schema.data_types(table_name))
+        data_types.update(schema.data_types())
     return ', '.join(
         '%s %s' % (key, dtype) for (key, dtype) in data_types.items())
 
 
 def sql(name, data, schema=None):
 
-    types = record_type(table_name=name, data=data, schema=schema)
+    types = record_type(data=data, schema=schema)
 
     return """%s AS
         (SELECT * FROM JSON_TO_RECORDSET(%%s) AS x(%s))""" % (name, types)

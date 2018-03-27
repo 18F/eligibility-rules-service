@@ -75,6 +75,7 @@
       }
     ],
     "number_in_economic_unit": 5,
+    "all_applicants_present": true,
     "referrer_state": "OH"
   },
   {
@@ -95,6 +96,7 @@
       }
     ],
     "number_in_economic_unit": 1,
+    "all_applicants_present": true,
     "referrer_state": "AK"
   }
 ]
