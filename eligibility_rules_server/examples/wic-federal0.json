@@ -29,6 +29,7 @@
         "id": 3,
         "physically_present": true,
         "proof_of_identity": true,
+        "birthdate": "2017-12-30",
         "adjunct_income_eligibility": [
           {
             "program": "snap",
@@ -39,7 +40,8 @@
       {
         "id": 4,
         "physically_present": true,
-        "proof_of_identity": true
+        "proof_of_identity": true,
+        "birthdate": "2015-06-30"
       }
     ],
     "income": [
