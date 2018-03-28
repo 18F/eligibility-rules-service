@@ -124,24 +124,34 @@ class RulesetSqlView(RulesetFinderMixin, APIView):
 
     renderer_classes = (PlainTextRenderer, )
 
+    @csrf_exempt
     def get(self, request, program, entity, format=None):
-
         ruleset = self.get_ruleset(program=program, entity=entity)
-        for application in ruleset.sample_input:
-            result = '\n\n\n'.join(
-                sqlparse.format(sql)
-                for sql in ruleset.sql(application=application))
-            return Response(result)
+        return self.sql(
+            request=request,
+            payload=ruleset.sample_data,
+            program=program,
+            entity=entity,
+            format=format)
 
     @csrf_exempt
     def post(self, request, program, entity, format=None):
+        return self.sql(
+            request=request,
+            payload=request.data,
+            program=program,
+            entity=entity,
+            format=format)
 
+    def sql(self, payload, request, program, entity, format=None):
+        result = []
         ruleset = self.get_ruleset(program=program, entity=entity)
-        for application in request.data:
-            result = '\n\n\n'.join(
-                sqlparse.format(sql)
-                for sql in ruleset.sql(application=application))
-            return Response(result)
+        for application in payload:
+            for sql in ruleset.source_sql_statements(application):
+                result.append(sql)
+            for sql in ruleset.sql(application):
+                result.append(sql)
+        return Response('\n\n\n'.join(result))
 
 
 class RulesetSchemaView(RulesetFinderMixin, APIView):

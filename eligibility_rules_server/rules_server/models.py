@@ -25,10 +25,22 @@ class Ruleset(models.Model):
             if key not in raw:
                 yield " %s as ( select * from %s ) " % (key, val)
 
-    def values_from_json(self, raw, schema=None):
+    def source_sql_statements(self, raw):
+        schema = self.syntaxschema_set.first()
+        with connection.cursor() as cursor:
+            for (source_sql, source_data) in values_from_json(raw, schema):
+                table_name = source_sql.split()[0]
+                source_sql = "with " + source_sql + " select * from " + table_name
+                source_sql = source_sql.replace("%s", "'%s'") % source_data
+                yield (source_sql)
+                cursor.execute(source_sql)
+                yield str(from_db_cursor(cursor))
 
-        (source_sql, source_data) = zip(*(values_from_json(
-            raw, self.syntaxschema_set.first())))
+    def values_from_json(self, raw):
+
+        schema = self.syntaxschema_set.first()
+        (source_sql,
+         source_data) = zip(*(values_from_json(raw, schema=schema)))
         source_sql += tuple(self.null_source_sql(raw))
         source_clause = 'WITH ' + ',\n'.join(source_sql)
         return (source_clause, source_data)
@@ -50,8 +62,7 @@ class Ruleset(models.Model):
 
             categories = result['requirements'].pop('categories')
             category_names = [
-                key
-                for (key, val) in categories['subfindings'].items()
+                key for (key, val) in categories['subfindings'].items()
                 if val['eligible']
             ]
             result['categories'] = {
@@ -133,12 +144,6 @@ class Rule(models.Model):
                      ((source.result).limitation).description,
                      ((source.result).limitation).explanation AS limitation_explanation
               from source"""
-    """
-                     ((source.result).limitation).end_date,
-                     ((source.result).limitation).normal,
-                     ((source.result).limitation).description,
-                     ((source.result).limitation).explanation AS limitation_explanation,
-    """
 
     def calc(self, source_clause, source_data):
 
@@ -146,12 +151,14 @@ class Rule(models.Model):
             sql = self._SQL % (source_clause, self.code)
             cursor.execute(sql, tuple(source_data))
             findings = cursor.fetchone()
-        limitation = dict(zip(
-            ('end_date', 'normal', 'description', 'explanation'), findings[
-                2:]))
-        return {'eligible': findings[0],
-                'explanation': findings[1],
-                'limitation': limitation}
+        limitation = dict(
+            zip(('end_date', 'normal', 'description', 'explanation'),
+                findings[2:]))
+        return {
+            'eligible': findings[0],
+            'explanation': findings[1],
+            'limitation': limitation
+        }
 
     def sql(self, source_clause, source_data):
         result = self._SQL % (source_clause, self.code)
