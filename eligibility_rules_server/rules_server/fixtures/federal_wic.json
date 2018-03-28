@@ -1,7 +1,7 @@
 [
 {
   "model": "rules_server.ruleset",
-  "pk": 20,
+  "pk": 30,
   "fields": {
     "program": "wic",
     "entity": "federal",
@@ -45,7 +45,9 @@
             "breastfeeding": false,
             "proof_of_identity": true,
             "currently_pregnant": true,
+            "homeless_residence": false,
             "physically_present": true,
+            "proof_of_residence": true,
             "adjunct_income_eligibility": [
               {
                 "program": "snap",
@@ -61,13 +63,20 @@
           {
             "id": 2,
             "proof_of_identity": true,
-            "physically_present": true
+            "homeless_residence": true,
+            "physically_present": true,
+            "proof_of_residence": true,
+            "homeless_residence_will_not_benefit": true,
+            "homeless_residence_does_not_constrain_wic": true,
+            "homeless_residence_foods_will_not_comingle": false
           },
           {
             "id": 3,
             "birthdate": "2017-12-30",
             "proof_of_identity": true,
+            "homeless_residence": false,
             "physically_present": true,
+            "proof_of_residence": true,
             "adjunct_income_eligibility": [
               {
                 "program": "snap",
@@ -79,7 +88,9 @@
             "id": 4,
             "birthdate": "2015-06-30",
             "proof_of_identity": true,
-            "physically_present": true
+            "homeless_residence": false,
+            "physically_present": true,
+            "proof_of_residence": true
           }
         ],
         "application_id": 1,
@@ -100,7 +111,9 @@
               }
             ],
             "proof_of_identity": true,
-            "physically_present": true
+            "homeless_residence": false,
+            "physically_present": true,
+            "proof_of_residence": true
           }
         ],
         "application_id": 2,
@@ -117,129 +130,179 @@
 },
 {
   "model": "rules_server.node",
-  "pk": 58,
-  "fields": {
-    "name": "income",
-    "parent": null,
-    "ruleset": 20,
-    "requires_all": false
-  }
-},
-{
-  "model": "rules_server.node",
-  "pk": 59,
+  "pk": 96,
   "fields": {
     "name": "identity",
     "parent": null,
-    "ruleset": 20,
+    "ruleset": 30,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 60,
+  "pk": 97,
+  "fields": {
+    "name": "residential",
+    "parent": null,
+    "ruleset": 30,
+    "requires_all": true
+  }
+},
+{
+  "model": "rules_server.node",
+  "pk": 98,
   "fields": {
     "name": "categories",
     "parent": null,
-    "ruleset": 20,
+    "ruleset": 30,
+    "requires_all": false
+  }
+},
+{
+  "model": "rules_server.node",
+  "pk": 99,
+  "fields": {
+    "name": "income",
+    "parent": null,
+    "ruleset": 30,
     "requires_all": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 137,
-  "fields": {
-    "name": "standard income",
-    "code": "\n    , total_income as (\n        select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,\n               FEDERAL_POVERTY_LEVEL(\n                            a.number_in_economic_unit,\n                            a.referrer_state) AS poverty_level,\n                        a.number_in_economic_unit,\n                        a.referrer_state\n                FROM income i\n                CROSS JOIN applicant a  -- only one applicant row anyway\n                GROUP BY 2, 3, 4)\n    select\n            CASE WHEN annual_income <= 1.85 * poverty_level THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                                                                        )::finding\n                                                            ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                                                                        )::finding END AS result\n    from total_income\n    ",
-    "node": 58,
-    "sufficient": false
-  }
-},
-{
-  "model": "rules_server.rule",
-  "pk": 138,
-  "fields": {
-    "name": "adjunct income eligibility",
-    "code": "\n    select\n        CASE count(program) WHEN 0 THEN\n            ROW(false, NULL, 'No adjunct program qualifications')::finding\n        ELSE\n            ROW(true, NULL, 'Qualifies for ' || ARRAY_TO_STRING(ARRAY_AGG(program), ', '))::finding\n        END AS result\n    from adjunct_income_eligibility\n    ",
-    "node": 58,
-    "sufficient": false
-  }
-},
-{
-  "model": "rules_server.rule",
-  "pk": 139,
+  "pk": 239,
   "fields": {
     "name": "proof of identity",
     "code": "\n    select\n        CASE proof_of_identity\n        WHEN 'true' THEN\n            ROW(true, NULL, 'Proof of identity supplied')::finding\n        WHEN 'Exception' THEN\n            ROW(true, NULL, 'Applicant must confirm his/her identity in writing')::finding\n        ELSE\n            ROW(false, NULL, 'No proof of identity supplied')::finding\n        END AS result\n    from applicant\n    ",
-    "node": 59,
+    "node": 96,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 140,
+  "pk": 240,
   "fields": {
     "name": "all applicants physically present",
     "code": "\n    select\n        CASE all_applicants_present\n        WHEN 'true' THEN\n            ROW(true, NULL, 'All applicants physically present')::finding\n        WHEN 'Exception' THEN\n            ROW(true, NULL, 'Applicant not physically present, but exception provided')::finding\n        ELSE\n            ROW(false, NULL, 'Applicant not physically present')::finding\n        END AS result\n    from applicant\n    ",
-    "node": 59,
+    "node": 96,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 141,
+  "pk": 241,
+  "fields": {
+    "name": "proof of residency",
+    "code": "\n    select\n        CASE proof_of_residence\n        WHEN 'true' THEN\n            ROW(true, null,\n            'Applicant provided proof of residency within state')::finding\n        WHEN 'Exception' THEN\n            ROW(true, null,\n            'Applicant must confirm his/her residency in writing')::finding            \n        ELSE\n            ROW(false, null,\n            'Applicant has not proven residence within state')::finding             \n        END AS result\n    from applicant\n    ",
+    "node": 97,
+    "sufficient": false
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 242,
+  "fields": {
+    "name": "homeless residence will not benefit",
+    "code": "\n    select\n        CASE homeless_residence\n        WHEN 'false' THEN \n            ROW(true, null,\n            'Applicant does not live in a homeless institution')::finding            \n        WHEN 'true' THEN\n            CASE homeless_residence_will_not_benefit\n            WHEN 'false' THEN\n                ROW(false, null,\n                'Homeless institution cannot accrue financial benefit')::finding \n            ELSE\n                ROW(true, null,\n                'Homeless institution will not accrue financial benefit')::finding                 \n            END \n        END AS result\n    from applicant\n    ",
+    "node": 97,
+    "sufficient": false
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 243,
+  "fields": {
+    "name": "homeless residence foods will not comingle",
+    "code": "\n    select\n        CASE homeless_residence\n        WHEN 'false' THEN \n            ROW(true, null,\n            'Applicant does not live in a homeless institution')::finding            \n        WHEN 'true' THEN\n            CASE homeless_residence_foods_will_not_comingle\n            WHEN 'false' THEN\n                ROW(false, null,\n                'Foods provided by WIC cannot be commingled with other food in homeless institution')::finding \n            ELSE\n                ROW(true, null,\n                'Foods provided by WIC will not be commingled with other food in homeless institution')::finding                 \n            END \n        END AS result\n    from applicant\n    ",
+    "node": 97,
+    "sufficient": false
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 244,
+  "fields": {
+    "name": "homeless residence does not constrain wic",
+    "code": "\n    select\n        CASE homeless_residence\n        WHEN 'false' THEN \n            ROW(true, null,\n            'Applicant does not live in a homeless institution')::finding            \n        WHEN 'true' THEN\n            CASE homeless_residence_does_not_constrain_wic\n            WHEN 'false' THEN\n                ROW(false, null,\n                'Homeless institution cannot place constraints on WIC involvement')::finding \n            ELSE\n                ROW(true, null,\n                'Homeless institution does place constraints on WIC involvement')::finding                 \n            END \n        END AS result\n    from applicant\n    ",
+    "node": 97,
+    "sufficient": false
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 245,
   "fields": {
     "name": "pregnant",
-    "code": "\n    select\n        CASE currently_pregnant\n        WHEN 'true' THEN\n            ROW(true, ROW(null, true, 'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n            'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n            )::limitation, 'Woman currently pregnant')::finding\n        ELSE\n            ROW(false, NULL, 'Not pregnant woman')::finding\n        END AS result\n    from applicant\n    ",
-    "node": 60,
+    "code": "\n    select\n        CASE currently_pregnant\n        WHEN 'true' THEN\n            ROW(true, \n              ROW(null, true, 'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n              'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n              )::limitation,\n            'Woman currently pregnant')::finding\n        ELSE\n            ROW(false, NULL, 'Not pregnant woman')::finding\n        END AS result\n    from applicant\n    ",
+    "node": 98,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 142,
+  "pk": 246,
   "fields": {
     "name": "postpartum",
     "code": "\n    select\n        CASE WHEN\n          date_birth_or_pregnancy_end >= (current_date - interval '1 year')\n          AND\n          (NOT breastfeeding)\n          AND\n          last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date) >= current_date\n        THEN\n          ROW(true, ROW(last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date), true,\n                        'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n                        'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n                        )::limitation, \n                        'Woman is postpartum')::finding\n        ELSE\n            ROW(false, NULL, \n                'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n               )::finding\n        END AS result\n    from applicant\n    ",
-    "node": 60,
+    "node": 98,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 143,
+  "pk": 247,
   "fields": {
     "name": "breastfeeding",
     "code": "\n    select\n        CASE WHEN\n          ((NOT currently_pregnant) OR (currently_pregnant IS NULL))\n          AND\n          breastfeeding\n          AND\n          date_birth_or_pregnancy_end <= current_date\n          AND\n          current_date <= last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date)\n        THEN\n          ROW(true, ROW(last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date), true,\n                        'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n                        'A breastfeeding woman will be certified up to the last day of the sixth month ('\n                        || last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date)\n                        || ') after the baby is born ('\n                        || date_birth_or_pregnancy_end\n                        || ') or until the woman ceases breastfeeding, whichever occurs first.'\n                        )::limitation, \n                        'Woman is breastfeeding')::finding\n        ELSE\n            ROW(false, NULL,\n                        'A breastfeeding woman will be certified up to the last day of the sixth month ('\n                        || last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date)\n                        || ') after the baby is born ('\n                        || date_birth_or_pregnancy_end\n                        || ') or until the woman ceases breastfeeding, whichever occurs first.'\n               )::finding\n        END AS result\n    from applicant\n    ",
-    "node": 60,
+    "node": 98,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 144,
+  "pk": 248,
   "fields": {
     "name": "infant",
     "code": "\n    select\n        CASE \n        WHEN current_date BETWEEN birthdate AND last_day_of_month((birthdate + interval '6 months')::date)\n        THEN\n            ROW(true, \n              ROW(last_day_of_month((birthdate + interval '6 months')::date), \n                  true, \n                  'Certification date is between child\u2019s birth date and the last day of the month in which the infant turns six months.',\n                  'A child will be certified as an infant up to the last day of the month in which the infant turns six months.'\n                 )::limitation, \n            'Certified as an infant until ' || last_day_of_month((birthdate + interval '6 months')::date) \n            || ', the last day of the month six months after the birthdate ('\n            || birthdate || ')'\n            )::finding\n        ELSE\n            ROW(false, NULL, 'Current date is after '\n                || last_day_of_month((birthdate + interval '6 months')::date) \n                || ', the last day of the month six months after the birthdate ('\n                || birthdate || ')'\n               )::finding\n        END AS result\n    from applicant\n    ",
-    "node": 60,
+    "node": 98,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 145,
+  "pk": 249,
   "fields": {
     "name": "child",
     "code": "\n    select\n        CASE \n        WHEN current_date BETWEEN (birthdate + interval '1 year')::date \n                              AND last_day_of_month((birthdate + interval '5 years')::date)\n        THEN\n          ROW(true, \n            ROW(LEAST(last_day_of_month((birthdate + interval '5 years')::date),\n                      (current_date + interval '6 months')::date),\n                true, \n                'A child will be certified as a child for six month periods from the first birthday ending with the last day of the month in which a child reaches his/her fifth birthday.',\n                'Certified until the earlier of six months from certification date (' \n                || (current_date + interval '6 months')::date \n                || ') and the last day of the month in which a child reaches his/her fifth birthday ('\n                || last_day_of_month((birthdate + interval '5 years')::date) || ').'\n               )::limitation, \n          'Certification date is after child\u2019s first birthday and before its fifth birthday.'\n          )::finding\n        ELSE\n            ROW(false, NULL,\n                'Current date is not between first birthday (' \n                || (birthdate + interval '1 year')::date \n                || ') and last day of month with fifth birthday (' \n                || last_day_of_month((birthdate + interval '5 years')::date) \n                || ').'\n               )::finding\n        END AS result\n    from applicant\n    ",
-    "node": 60,
+    "node": 98,
+    "sufficient": false
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 250,
+  "fields": {
+    "name": "standard income",
+    "code": "\n    , total_income as (\n        select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,\n               FEDERAL_POVERTY_LEVEL(\n                            a.number_in_economic_unit,\n                            a.referrer_state) AS poverty_level,\n                        a.number_in_economic_unit,\n                        a.referrer_state\n                FROM income i\n                CROSS JOIN applicant a  -- only one applicant row anyway\n                GROUP BY 2, 3, 4)\n    select\n            CASE WHEN annual_income <= 1.85 * poverty_level THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                                                                        )::finding\n                                                            ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||\n                                                                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                                                                        )::finding END AS result\n    from total_income\n    ",
+    "node": 99,
+    "sufficient": false
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 251,
+  "fields": {
+    "name": "adjunct income eligibility",
+    "code": "\n    select\n        CASE count(program) WHEN 0 THEN\n            ROW(false, NULL, 'No adjunct program qualifications')::finding\n        ELSE\n            ROW(true, NULL, 'Qualifies for ' || ARRAY_TO_STRING(ARRAY_AGG(program), ', '))::finding\n        END AS result\n    from adjunct_income_eligibility\n    ",
+    "node": 99,
     "sufficient": false
   }
 },
 {
   "model": "rules_server.syntaxschema",
-  "pk": 15,
+  "pk": 24,
   "fields": {
-    "ruleset": 20,
+    "ruleset": 30,
     "type": "jsonschema",
     "code": {
       "type": "array",
@@ -279,9 +342,18 @@
                   "default": false,
                   "description": ""
                 },
+                "homeless_residence": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Applicant lives in a homeless institution"
+                },
                 "physically_present": {
                   "$ref": "#/definitions/ynexception",
                   "description": ""
+                },
+                "proof_of_residence": {
+                  "$ref": "#/definitions/ynexception",
+                  "description": "Applicant provided proof of residency within state"
                 },
                 "adjunct_income_eligibility": {
                   "type": "array",
@@ -304,6 +376,21 @@
                   ],
                   "format": "date-time",
                   "description": "If mother is applicant, birthdate or pregnancy end date here.  Format YYYY-MM-DD"
+                },
+                "homeless_residence_will_not_benefit": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Homeless facility will not accrue financial benefit"
+                },
+                "homeless_residence_does_not_constrain_wic": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Homeless facility does not place constraints on WIC involvement"
+                },
+                "homeless_residence_foods_will_not_comingle": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Foods provided by WIC will not be co-mingled with homeless facility food"
                 }
               }
             },

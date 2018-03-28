@@ -118,7 +118,7 @@ class Node(models.Model):
                 eligibility &= rule_result['eligible']
             else:
                 eligibility |= rule_result['eligible']
-            if rule_result['eligible']:
+            if rule_result['eligible'] and rule_result['limitation']:
                 node_result['limitation'].append(rule_result['limitation'])
             node_result['subfindings'][rule.name] = rule_result
 
@@ -157,6 +157,8 @@ class Rule(models.Model):
         limitation = dict(
             zip(('end_date', 'normal', 'description', 'explanation'),
                 findings[2:]))
+        if (not limitation['end_date']) and (not limitation['description']):
+            limitation = None
         return {
             'eligible': findings[0],
             'explanation': findings[1],
