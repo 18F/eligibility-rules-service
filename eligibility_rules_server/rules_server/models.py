@@ -13,6 +13,10 @@ class Ruleset(models.Model):
     sample_input = JSONField(null=True, blank=True)
     null_sources = JSONField(null=True, blank=True)
 
+    @property
+    def schema(self):
+        return self.syntaxschema_set.first()
+
     def flattened(self, payload):
         applicants = payload.pop('applicants')
         for applicant in applicants:
@@ -26,9 +30,9 @@ class Ruleset(models.Model):
                 yield " %s as ( select * from %s ) " % (key, val)
 
     def source_sql_statements(self, raw):
-        schema = self.syntaxschema_set.first()
         with connection.cursor() as cursor:
-            for (source_sql, source_data) in values_from_json(raw, schema):
+            for (source_sql, source_data) in values_from_json(
+                    raw, self.schema):
                 table_name = source_sql.split()[0]
                 source_sql = "with " + source_sql + " select * from " + table_name
                 source_sql = source_sql.replace("%s", "'%s'") % source_data
@@ -38,9 +42,8 @@ class Ruleset(models.Model):
 
     def values_from_json(self, raw):
 
-        schema = self.syntaxschema_set.first()
         (source_sql,
-         source_data) = zip(*(values_from_json(raw, schema=schema)))
+         source_data) = zip(*(values_from_json(raw, schema=self.schema)))
         source_sql += tuple(self.null_source_sql(raw))
         source_clause = 'WITH ' + ',\n'.join(source_sql)
         return (source_clause, source_data)
