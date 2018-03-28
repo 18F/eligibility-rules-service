@@ -1,27 +1,23 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 djangorestframework = "*"
-django = "*"
+Django = "*"
 dj-database-url = "*"
 "psycopg2" = "*"
 drf-yasg = "*"
-markdown = "*"
-factory-boy = "*"
+Markdown = "*"
+factory_boy = "*"
 django-extensions = "*"
 sqlparse = "*"
-ptable = "*"
+PTable = "*"
 jsonschema = "*"
-
+django-cors-headers = "*"
 
 [dev-packages]
-
 poirot = "*"
 cookiecutter = "*"
 pytest = "*"
