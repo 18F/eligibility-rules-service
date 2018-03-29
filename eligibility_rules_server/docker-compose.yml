@@ -22,6 +22,18 @@ services:
        - db
      environment:
        DATABASE_URL: postgresql://dev:@db/dev
+  form:
+    image: node:9-stretch
+    working_dir: /app
+    ports:
+      - "9000:9000"
+    command: bash -c "yarn install && yarn run develop"
+    links:
+      - db
+      - web
+    volumes:
+      - ./form:/app
+    tty: true
 
 volumes:
   postgres_data:

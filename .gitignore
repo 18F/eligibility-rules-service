@@ -99,3 +99,10 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Node/Front-end
+node_modules
+yarn-error.log
+npm-debug.log
+client/public
+client/.cache
