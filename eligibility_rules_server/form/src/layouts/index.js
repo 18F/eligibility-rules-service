@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
 import Container from '../components/Container';
 import Header from '../components/Header';
 

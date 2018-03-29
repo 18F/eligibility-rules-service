@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ColMd = ({ children, className }) => (
-  <div className={`col-md ${className}`}>{children}</div>
+const ColMd = ({ children, className, units }) => (
+  <div className={`col-md-${units} ${className}`}>{children}</div>
 );
 
 ColMd.defaultProps = {
   children: null,
   className: '',
+  units: 6,
 };
 
 ColMd.propTypes = {
@@ -18,6 +19,7 @@ ColMd.propTypes = {
     PropTypes.func,
   ]),
   className: PropTypes.string,
+  units: PropTypes.numner,
 };
 
 export default ColMd;
