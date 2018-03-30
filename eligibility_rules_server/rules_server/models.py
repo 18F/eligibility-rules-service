@@ -1,10 +1,12 @@
 from copy import deepcopy
 
 from django.contrib.postgres.fields.jsonb import JSONField
-from django.db import connection, models
+from django.core import exceptions
+from django.db import DataError, connection, models
 from prettytable import from_db_cursor
+from rest_framework import exceptions
 
-from .utils import values_from_json
+from .utils import DefaultValidatingDraft4Validator, values_from_json
 
 
 class Ruleset(models.Model):
@@ -12,6 +14,23 @@ class Ruleset(models.Model):
     entity = models.TextField(null=False, blank=False)
     sample_input = JSONField(null=True, blank=True)
     null_sources = JSONField(null=True, blank=True)
+
+    def validate(self, applications):
+        """
+        Validate payload against this ruleset's syntax schemas.
+
+        Includes using it to fill in default values from the schema.
+
+        Returns the validated payload.
+        """
+
+        for syntax_schema in self.syntaxschema_set.all():
+            try:
+                DefaultValidatingDraft4Validator(
+                    syntax_schema.code).validate(applications)
+            except jsonschema.ValidationError as valerr:
+                raise exceptions.ParseError(str(valerr))
+        return applications
 
     @property
     def schema(self):
@@ -152,7 +171,12 @@ class Rule(models.Model):
 
         with connection.cursor() as cursor:
             sql = self._SQL % (source_clause, self.code)
-            cursor.execute(sql, tuple(source_data))
+            try:
+                cursor.execute(sql, tuple(source_data))
+            except Exception as exc:
+                msg = ("Error executing rule %s\n" % self.name + str(exc) +
+                       '\n\n in sql:' + sql)
+                raise DataError(msg)
             findings = cursor.fetchone()
         limitation = dict(
             zip(('end_date', 'normal', 'description', 'explanation'),

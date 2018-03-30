@@ -1,4 +1,3 @@
-import jsonschema
 import sqlparse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import exceptions
@@ -81,15 +80,10 @@ class RulingsView(RulesetFinderMixin, APIView):
     def post(self, request, program, entity, format=None):
 
         ruleset = self.get_ruleset(program=program, entity=entity)
-
-        for syntax_schema in ruleset.syntaxschema_set.all():
-            try:
-                jsonschema.validate(request.data, syntax_schema.code)
-            except jsonschema.ValidationError as valerr:
-                raise exceptions.ParseError(str(valerr))
+        applications = ruleset.validate(request.data)
 
         results = {}
-        for application in request.data:
+        for application in applications:
             results[int(
                 application['application_id'])] = ruleset.calc(application)
 
@@ -129,7 +123,7 @@ class RulesetSqlView(RulesetFinderMixin, APIView):
         ruleset = self.get_ruleset(program=program, entity=entity)
         return self.sql(
             request=request,
-            payload=ruleset.sample_data,
+            payload=ruleset.sample_input,
             program=program,
             entity=entity,
             format=format)
@@ -146,6 +140,7 @@ class RulesetSqlView(RulesetFinderMixin, APIView):
     def sql(self, payload, request, program, entity, format=None):
         result = []
         ruleset = self.get_ruleset(program=program, entity=entity)
+        payload = ruleset.validate(payload)
         for application in payload:
             for sql in ruleset.source_sql_statements(application):
                 result.append(sql)
