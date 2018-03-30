@@ -9,7 +9,9 @@ site generation built with [Gatsbyjs](https://www.gatsbyjs.org/)
 - The `form` service will install packages and launch the development server.
 - Once the server is up, navigate to [http://localhost:9000](http://localhost:9000)
 
-## Building the Static Site
+## Building and Deploying the Static Site
 
-- Run `docker-compose run form yarn build`
+- `cd` into `/form` directory
+- Run `docker-compose build && docker-compose run form yarn build`
 - Static assets will be placed into the `public/` folder
+- Deploy to `cloud.gov` with `cf push`
