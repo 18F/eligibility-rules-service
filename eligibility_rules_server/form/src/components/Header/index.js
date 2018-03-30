@@ -2,10 +2,10 @@ import React from 'react';
 import Link from 'gatsby-link';
 
 const Header = () => (
-  <div class="jumbotron mb-2">
-    <h1 class="display-3">Eligibility Rules Service</h1>
-    <p class="lead">Example Form</p>
-    <hr class="py-5" />
+  <div>
+    <h1 className="display-3">Eligibility Rules Service</h1>
+    <p className="lead">Example Form</p>
+    <hr className="py-5" />
   </div>
 );
 

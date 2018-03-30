@@ -5,6 +5,8 @@ const finalRules = {
   'import/no-named-as-default': [0], // allow component to be the same as the default export
   'class-methods-use-this': [0],
   'no-throw-literal': [0],
+  'camelcase': [0],
+  'object-curly-newline': [0],
   'comma-dangle': ['error',
     {
       arrays: 'always-multiline',

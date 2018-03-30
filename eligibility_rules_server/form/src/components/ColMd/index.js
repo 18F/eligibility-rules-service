@@ -19,7 +19,7 @@ ColMd.propTypes = {
     PropTypes.func,
   ]),
   className: PropTypes.string,
-  units: PropTypes.numner,
+  units: PropTypes.number,
 };
 
 export default ColMd;

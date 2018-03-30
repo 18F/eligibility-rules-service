@@ -1,18 +1,9 @@
-import React from 'react';
-import Row from '../components/Row';
-import ColMd from '../components/ColMd';
 import ApplicantForm from '../components/ApplicantForm';
 import RequestResult from '../components/RequestResult';
+import Form from '../containers/Form';
 
-const IndexPage = () => (
-  <Row className="py-4">
-    <ColMd units={5}>
-      <ApplicantForm />
-    </ColMd>
-    <ColMd units={7}>
-      <RequestResult />
-    </ColMd>
-  </Row>
-);
+const ContainerForm = Form(ApplicantForm, RequestResult);
+
+const IndexPage = () => ContainerForm;
 
 export default IndexPage;
