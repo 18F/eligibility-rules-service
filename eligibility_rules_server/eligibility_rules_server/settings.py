@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'rules_server',
     'drf_yasg',
     'django_extensions',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -119,6 +121,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# django cors headers
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_URLS_REGEX = r'^/rulings/.*$'  # only allow CORS for /api/ routes
+CORS_ALLOW_METHODS = ('GET', 'OPTIONS', 'POST',)  # only allow read-only methods
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
