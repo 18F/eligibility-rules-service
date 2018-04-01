@@ -126,6 +126,16 @@ def column_types(data):
     return result
 
 
+def update_only_existing_keys(dict1, dict2):
+    """
+    Like `dict1.update(dict2)`, only for keys already in dict1
+    """
+
+    partial_dict2 = {k: v for (k, v) in dict2.items() if k in dict1}
+    dict1.update(partial_dict2)
+    return dict1
+
+
 def record_type(data, schema):
     """
     Generates PostgreSQL record type SQL
@@ -133,7 +143,7 @@ def record_type(data, schema):
 
     data_types = column_types(data)
     if schema:
-        data_types.update(schema.data_types())
+        data_types = update_only_existing_keys(data_types, schema.data_types())
     return ', '.join(
         '%s %s' % (key, dtype) for (key, dtype) in data_types.items())
 

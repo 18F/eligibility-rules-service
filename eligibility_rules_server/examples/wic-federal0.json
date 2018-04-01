@@ -7,7 +7,6 @@
         "proof_of_identity": true,
         "proof_of_residence": true,
         "physically_present": true,
-        "homeless_residence": false,
         "currently_pregnant": true,
         "breastfeeding": false,
         "date_birth_or_pregnancy_end": null,
@@ -52,7 +51,13 @@
         "proof_of_residence": true,
         "homeless_residence": false,
         "proof_of_identity": true,
-        "birthdate": "2015-06-30"
+        "birthdate": "2015-06-30",
+        "adjunct_income_eligibility": [
+          {
+            "program": "snap",
+            "verified": "False"
+          }
+        ]
       }
     ],
     "income": [

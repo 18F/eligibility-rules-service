@@ -175,7 +175,7 @@ class Rule(models.Model):
                 cursor.execute(sql, tuple(source_data))
             except Exception as exc:
                 msg = ("Error executing rule %s\n" % self.name + str(exc) +
-                       '\n\n in sql:' + sql)
+                       '\n\n in sql:\n\n' + sql)
                 raise DataError(msg)
             findings = cursor.fetchone()
         limitation = dict(
