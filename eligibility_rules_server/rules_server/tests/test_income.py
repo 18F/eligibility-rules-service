@@ -23,7 +23,7 @@ def rule_models():
 
 
 @pytest.mark.django_db
-def test_income_summed():
+def test_response_form():
 
     url = '/rulings/wic/federal/'
     response = client.post(url, payload0, format='json')
@@ -34,26 +34,42 @@ def test_income_summed():
     assert len(findings['1']) == 4
     assert len(findings['2']) == 1
 
-    for (key, val) in findings['1'].items():
-        assert val['eligible']
-    for (key, val) in findings['2'].items():
-        assert not val['eligible']
-
-    assert 'explanation' in findings['1']['1']['requirements']['income']
-    assert 'explanation' in findings['1']['1']['requirements']['income'][
-        'subfindings']['standard income']
+    for application in findings.values():
+        for applicant in application.values():
+            assert 'eligible' in applicant
+            assert 'categories' in applicant
+            assert 'requirements' in applicant
+            assert 'income' in applicant['requirements']
+            assert 'standard income' in applicant['requirements']['income'][
+                'subfindings']
+            assert applicant['eligible'] in (True, False)
 
 
 @pytest.mark.django_db
 def test_identity_required():
 
     url = '/rulings/wic/federal/'
-    payload1 = deepcopy(payload0)
-    payload1[0]['applicants'][1]['proof_of_identity'] = 'True'
-    response = client.post(url, payload1, format='json')
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json()['findings']['1']['1']['eligible']
 
-    payload1[0]['applicants'][0]['proof_of_identity'] = 'False'
+    payload1 = deepcopy(payload0)
+    for application in payload1:
+        for applicant in application['applicants']:
+            applicant['proof_of_identity'] = True
     response = client.post(url, payload1, format='json')
-    assert not response.json()['findings']['1']['1']['eligible']
+    n_true = 0
+    for application in response.json()['findings'].values():
+        for applicant in application.values():
+            if applicant['eligible']:
+                n_true += 1
+            for explanation in applicant['requirements']['identity'][
+                    'explanation']:
+                assert 'identity requirements' not in explanation
+    assert n_true > 0
+
+    payload1 = deepcopy(payload0)
+    for application in payload1:
+        for applicant in application['applicants']:
+            applicant['proof_of_identity'] = False
+    response = client.post(url, payload1, format='json')
+    for application in response.json()['findings'].values():
+        for applicant in application.values():
+            assert not applicant['eligible']

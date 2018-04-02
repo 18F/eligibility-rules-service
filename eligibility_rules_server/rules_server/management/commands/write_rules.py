@@ -1,26 +1,25 @@
-
-import logging
 import json
+import logging
 
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db import connection
+
 from rules_server.models import *
 
 logger = logging.getLogger('console')
-
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         pass
 
-
     def handle(self, *args, **options):
         clear()
         wic_federal()
         wic_az()
-
-
+        call_command('dumpdata', '--indent', '2', '--output',
+                     'rules_server/fixtures/federal_wic.json')
 
 
 def clear():
@@ -28,7 +27,6 @@ def clear():
     Rule.objects.all().delete()
     Ruleset.objects.all().delete()
     SyntaxSchema.objects.all().delete()
-
 
 
 def wic_federal():
@@ -52,11 +50,8 @@ def wic_federal():
         })
     rs0.save()
 
-    ssch = SyntaxSchema(
-        ruleset=rs0, code=raw_jsonschema)
+    ssch = SyntaxSchema(ruleset=rs0, code=raw_jsonschema)
     ssch.save()
-
-
 
     n1 = Node(
         ruleset=rs0,
@@ -292,29 +287,30 @@ def wic_federal():
         code="""
         select
             CASE
+            WHEN birthdate IS NULL THEN
+                ROW(false, null, 'Birthdate was not supplied.')::finding
             WHEN current_date BETWEEN birthdate AND last_day_of_month((birthdate + interval '6 months')::date)
             THEN
                 ROW(true,
-                ROW(last_day_of_month((birthdate + interval '6 months')::date),
-                    true,
-                    'Certification date is between child’s birth date and the last day of the month in which the infant turns six months.',
-                    'A child will be certified as an infant up to the last day of the month in which the infant turns six months.'
-                    )::limitation,
+                    ROW(last_day_of_month((birthdate + interval '6 months')::date),
+                        true,
+                        'Certification date is between child’s birth date and the last day of the month in which the infant turns six months.',
+                        'A child will be certified as an infant up to the last day of the month in which the infant turns six months.'
+                        )::limitation,
                 'Certified as an infant until ' || last_day_of_month((birthdate + interval '6 months')::date)
                 || ', the last day of the month six months after the birthdate ('
                 || birthdate || ')'
                 )::finding
             ELSE
-                ROW(false, NULL, 'Current date is after '
+                ROW(false, NULL, 'Child is certified as infant only between birthdate ('
+                    || birthdate || ' and last day of the month six months after the birthdate ('
                     || last_day_of_month((birthdate + interval '6 months')::date)
-                    || ', the last day of the month six months after the birthdate ('
-                    || birthdate || ')'
+                    || ').'
                 )::finding
             END AS result
         from applicant
         """)
     r322.save()
-
 
     r323 = Rule(
         name='child',
@@ -322,34 +318,40 @@ def wic_federal():
         code="""
         select
             CASE
-            WHEN current_date BETWEEN (birthdate + interval '1 year')::date
-                                AND last_day_of_month((birthdate + interval '5 years')::date)
+            WHEN birthdate IS NULL THEN
+                ROW(false, null, 'Birthdate was not provided.')::finding
+            WHEN current_date BETWEEN birthdate AND last_day_of_month((birthdate + interval '6 months')::date)
             THEN
-            ROW(true,
-                ROW(LEAST(last_day_of_month((birthdate + interval '5 years')::date),
-                        (current_date + interval '6 months')::date),
-                    true,
-                    'A child will be certified as a child for six month periods from the first birthday ending with the last day of the month in which a child reaches his/her fifth birthday.',
-                    'Certified until the earlier of six months from certification date ('
-                    || (current_date + interval '6 months')::date
-                    || ') and the last day of the month in which a child reaches his/her fifth birthday ('
-                    || last_day_of_month((birthdate + interval '5 years')::date) || ').'
-                )::limitation,
-            'Certification date is after child’s first birthday and before its fifth birthday.'
-            )::finding
-            ELSE
-                ROW(false, NULL,
-                    'Current date is not between first birthday ('
-                    || (birthdate + interval '1 year')::date
-                    || ') and last day of month with fifth birthday ('
+                ROW(false, null,
+                    'Birthdate ' || birthdate || ' makes applicant infant rather than child'
+                    || ' as of ' || current_date)::finding
+            WHEN current_date BETWEEN last_day_of_month((birthdate + interval '6 months')::date)
+                                  AND last_day_of_month((birthdate + interval '5 years')::date)
+            THEN
+                ROW(true,
+                    ROW(LEAST(last_day_of_month((birthdate + interval '5 years')::date),
+                             (current_date + interval '6 months')::date),
+                        true,
+                        'A child will be certified as a child for six month periods from the first birthday ending with the last day of the month in which a child reaches his/her fifth birthday.',
+                        'Certified until the earlier of six months from certification date ('
+                        || (current_date + interval '6 months')::date
+                        || ') and the last day of the month in which a child reaches his/her fifth birthday ('
+                        || last_day_of_month((birthdate + interval '5 years')::date) || ').'
+                    )::limitation,
+                    'Certification date is before the last day of the month '
+                    || ' in which a child reaches his/her fifth birthday ('
                     || last_day_of_month((birthdate + interval '5 years')::date)
-                    || ').'
-                )::finding
+                    )::finding
+            ELSE
+                ROW(false, null,
+                    'Certification date is after the last day of the month '
+                    || ' in which a child reaches his/her fifth birthday ('
+                    || last_day_of_month((birthdate + interval '5 years')::date)
+                    )::finding
             END AS result
         from applicant
         """)
     r323.save()
-
 
     n4 = Node(
         ruleset=rs0,
@@ -359,9 +361,17 @@ def wic_federal():
     )
     n4.save()
 
+    n6 = Node(
+        ruleset=rs0,
+        name='standard income',
+        parent=n4,
+        requires_all=True,
+    )
+    n6.save()
+
     r6 = Rule(
         name='standard income',
-        node=n4,
+        node=n6,
         code='''
         , total_income as (
             select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,
@@ -385,6 +395,26 @@ def wic_federal():
     )
     r6.save()
 
+    r6ver = Rule(
+        name='standard income verified',
+        node=n6,
+        code='''
+        , unverified as (
+            select array_agg(source) as sources
+            from   income
+            where  verified ='false'
+        )
+        select
+            CASE WHEN array_length(sources, 1) = 0
+            THEN
+              ROW(true, null, 'All income sources verified or exepted')::finding
+            ELSE
+              ROW(false, null, 'Verification needed for income sources ' || array_to_string(sources, ', '))::finding
+            END AS result
+        from   unverified
+        ''')
+    r6ver.save()
+
     r42 = Rule(
         name='adjunct income eligibility',
         node=n4,
@@ -401,7 +431,6 @@ def wic_federal():
 
 
 def wic_az():
-
 
     with open('examples/wic-federal0.json') as infile:
         sample_input = json.load(infile)
@@ -422,10 +451,8 @@ def wic_az():
         })
     rsaz.save()
 
-    ssch = SyntaxSchema(
-        ruleset=rsaz, code=raw_jsonschema)
+    ssch = SyntaxSchema(ruleset=rsaz, code=raw_jsonschema)
     ssch.save()
-
 
     n1 = Node(
         ruleset=rsaz,
@@ -460,9 +487,10 @@ def wic_az():
     %s
             END AS result
         from applicant
-        """ % (az_30_days % {'needed': 'Proof of identity',
-                            'failure': 'Applicant does not meet identity requirements'})
-    )
+        """ % (az_30_days % {
+            'needed': 'Proof of identity',
+            'failure': 'Applicant does not meet identity requirements'
+        }))
 
     r11.save()
 
@@ -482,9 +510,10 @@ def wic_az():
     %s
             END AS result
         from applicant
-        """ % (az_30_days % {'needed': 'All applicants must appear in person',
-                            'failure': 'Not all applicants physically present'})
-    )
+        """ % (az_30_days % {
+            'needed': 'All applicants must appear in person',
+            'failure': 'Not all applicants physically present'
+        }))
     r12.save()
 
     n2 = Node(
@@ -517,7 +546,7 @@ def wic_az():
                 )::finding
             END AS result
         from applicant
-        """ )
+        """)
     r211.save()
 
     r22121 = Rule(
@@ -711,7 +740,6 @@ def wic_az():
         """)
     r322.save()
 
-
     r323 = Rule(
         name='child',
         node=n3,
@@ -746,7 +774,6 @@ def wic_az():
         """)
     r323.save()
 
-
     n4 = Node(
         ruleset=rsaz,
         name='income',
@@ -755,9 +782,17 @@ def wic_az():
     )
     n4.save()
 
+    n6 = Node(
+        ruleset=rsaz,
+        name='standard income',
+        parent=n4,
+        requires_all=True,
+    )
+    n6.save()
+
     r6 = Rule(
         name='standard income',
-        node=n4,
+        node=n6,
         code='''
         , total_income as (
             select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,
@@ -770,17 +805,44 @@ def wic_az():
                     CROSS JOIN applicant a  -- only one applicant row anyway
                     GROUP BY 2, 3, 4)
         select
-                CASE WHEN annual_income <= 1.85 * poverty_level THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||
-                                                                            poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
-                                                                            )::finding
-                                                                ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||
-                                                                            poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
-                                                                            )::finding END AS result
+            CASE
+            WHEN annual_income <= 1.85 * poverty_level
+            THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||
+                                poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
+                                )::finding
+            ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||
+                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
+                        )::finding
+            END AS result
         from total_income
         ''',
     )
     r6.save()
 
+    r6ver = Rule(
+        name='standard income verified',
+        node=n6,
+        code='''
+        , unverified as (
+            select array_agg(source) as sources
+            from   income
+            where  verified ='false'
+        )
+        select
+            CASE WHEN array_length(sources, 1) = 0
+            THEN
+              ROW(true, null, 'All income sources verified or exepted')::finding
+            ELSE
+        %s
+            END AS result
+        from   unverified
+        ''' % (az_30_days % {
+            'needed':
+            "Income verification for ' || ARRAY_TO_STRING(sources, ', ') || ' ",
+            'failure':
+            'Applicant does not meet income verification requirements'
+        }))
+    r6ver.save()
 
     r42 = Rule(
         name='adjunct income eligibility',

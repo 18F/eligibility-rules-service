@@ -74,7 +74,7 @@ class Ruleset(models.Model):
             eligibility = True
             result = {'requirements': {}}
             (source_clause, source_data) = self.values_from_json(applicant)
-            for node in self.node_set.all():
+            for node in self.node_set.filter(parent__isnull=True):
                 node_result = node.calc(source_clause, source_data)
                 result['requirements'][node.name] = node_result
                 if node.name != 'categories':
@@ -128,7 +128,15 @@ class Node(models.Model):
 
         for child_node in self.node_set.all():
             child_node_result = child_node.calc(source_clause, source_data)
-            # todo : well, now what?
+            if self.requires_all:
+                eligibility &= child_node_result['eligible']
+            else:
+                eligibility |= child_node_result['eligible']
+            node_result['explanation'].append(child_node_result['explanation'])
+            if child_node_result['eligible'] and child_node_result['limitation']:
+                node_result['limitation'].append(
+                    child_node_result['limitation'])
+            node_result['subfindings'][child_node.name] = child_node_result
 
         for rule in self.rule_set.all():
             rule_result = rule.calc(source_clause, source_data)
@@ -141,8 +149,8 @@ class Node(models.Model):
                 node_result['limitation'].append(rule_result['limitation'])
             node_result['subfindings'][rule.name] = rule_result
 
-        if self.rule_set.count() == 1:
-            node_result.pop('subfindings')
+        # if self.rule_set.count() == 1:
+        #     node_result.pop('subfindings')
 
         node_result['eligible'] = eligibility
         return node_result
