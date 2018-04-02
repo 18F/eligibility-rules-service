@@ -5,6 +5,17 @@
 [![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
 [![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
 
+## Summary
+
+The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could to help make eligibility determinations for human services programs. To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). 
+
+**The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
+
+- [**Try prototype using the API**](https://github.com/18F/eligibility-rules-service/tree/master/eligibility_rules_server#using-the-api)
+- [**Try prototype using a web form**](https://eligibility-rules-form.app.cloud.gov/)
+
+## Project description
+
 18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to help states make eligibility determinations for a human services program.
 
 > Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
