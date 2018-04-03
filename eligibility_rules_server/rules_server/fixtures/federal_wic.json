@@ -81,7 +81,7 @@
 },
 {
   "model": "rules_server.ruleset",
-  "pk": 66,
+  "pk": 106,
   "fields": {
     "program": "wic",
     "entity": "federal",
@@ -215,7 +215,7 @@
 },
 {
   "model": "rules_server.ruleset",
-  "pk": 67,
+  "pk": 107,
   "fields": {
     "program": "wic",
     "entity": "az",
@@ -227,362 +227,446 @@
   }
 },
 {
+  "model": "rules_server.ruleset",
+  "pk": 108,
+  "fields": {
+    "program": "sample",
+    "entity": "sample",
+    "sample_input": [
+      {
+        "applicants": [
+          {
+            "id": 1,
+            "age": 30,
+            "diagnoses": [
+              {
+                "name": "lean and mean",
+                "diagnosed": "2018-03-30"
+              },
+              {
+                "name": "shifty eyes",
+                "diagnosed": "2017-12-01"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "age": 10,
+            "employed": false
+          }
+        ],
+        "application_id": 1
+      }
+    ],
+    "null_sources": {
+      "diagnoses": "unnest(array[null]::text[], array[null]::date[])\n               as t(name, diagnosed) "
+    }
+  }
+},
+{
   "model": "rules_server.node",
-  "pk": 281,
+  "pk": 435,
   "fields": {
     "name": "identity",
     "parent": null,
-    "ruleset": 66,
+    "ruleset": 106,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 282,
+  "pk": 436,
   "fields": {
     "name": "residential",
     "parent": null,
-    "ruleset": 66,
+    "ruleset": 106,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 283,
+  "pk": 437,
   "fields": {
     "name": "categories",
     "parent": null,
-    "ruleset": 66,
+    "ruleset": 106,
     "requires_all": false
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 284,
+  "pk": 438,
   "fields": {
     "name": "income",
     "parent": null,
-    "ruleset": 66,
+    "ruleset": 106,
     "requires_all": false
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 285,
+  "pk": 439,
   "fields": {
     "name": "standard income",
-    "parent": 284,
-    "ruleset": 66,
+    "parent": 438,
+    "ruleset": 106,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 286,
+  "pk": 440,
   "fields": {
     "name": "identity",
     "parent": null,
-    "ruleset": 67,
+    "ruleset": 107,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 287,
+  "pk": 441,
   "fields": {
     "name": "residential",
     "parent": null,
-    "ruleset": 67,
+    "ruleset": 107,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 288,
+  "pk": 442,
   "fields": {
     "name": "categories",
     "parent": null,
-    "ruleset": 67,
+    "ruleset": 107,
     "requires_all": false
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 289,
+  "pk": 443,
   "fields": {
     "name": "income",
     "parent": null,
-    "ruleset": 67,
+    "ruleset": 107,
     "requires_all": false
   }
 },
 {
   "model": "rules_server.node",
-  "pk": 290,
+  "pk": 444,
   "fields": {
     "name": "standard income",
-    "parent": 289,
-    "ruleset": 67,
+    "parent": 443,
+    "ruleset": 107,
+    "requires_all": true
+  }
+},
+{
+  "model": "rules_server.node",
+  "pk": 445,
+  "fields": {
+    "name": "sample node",
+    "parent": null,
+    "ruleset": 108,
+    "requires_all": true
+  }
+},
+{
+  "model": "rules_server.node",
+  "pk": 446,
+  "fields": {
+    "name": "categories",
+    "parent": null,
+    "ruleset": 108,
     "requires_all": true
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 863,
+  "pk": 1281,
   "fields": {
     "name": "proof of identity",
     "code": "\n        select\n            CASE proof_of_identity\n            WHEN 'true' THEN\n                ROW(true, NULL, 'Proof of identity supplied')::finding\n            WHEN 'Exception' THEN\n                ROW(true, NULL, 'Applicant must confirm his/her identity in writing')::finding\n            ELSE\n                ROW(false, NULL, 'Applicant does not meet identity requirements')::finding\n            END AS result\n        from applicant\n        ",
-    "node": 281
+    "node": 435
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 864,
+  "pk": 1282,
   "fields": {
     "name": "all applicants physically present",
     "code": "\n        select\n            CASE all_applicants_present\n            WHEN 'true' THEN\n                ROW(true, NULL, 'All applicants physically present')::finding\n            WHEN 'Exception' THEN\n                ROW(true, NULL, 'Applicant not physically present, but exception provided')::finding\n            ELSE\n                ROW(false, NULL, 'Applicant not physically present')::finding\n            END AS result\n        from applicant\n        ",
-    "node": 281
+    "node": 435
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 865,
+  "pk": 1283,
   "fields": {
     "name": "proof of residency",
     "code": "\n        select\n            CASE proof_of_residence\n            WHEN 'true' THEN\n                ROW(true, null,\n                'Applicant provided proof of residency within state')::finding\n            WHEN 'Exception' THEN\n                ROW(true, null,\n                'Applicant must confirm his/her residency in writing')::finding\n            ELSE\n                ROW(false, null,\n                'Applicant has not proven residence within state')::finding\n            END AS result\n        from applicant\n        ",
-    "node": 282
+    "node": 436
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 866,
+  "pk": 1284,
   "fields": {
     "name": "homeless residence will not benefit",
     "code": "\n        select\n            CASE homeless_residence\n            WHEN 'false' THEN\n                ROW(true, null,\n                'Applicant does not live in a homeless institution')::finding\n            WHEN 'true' THEN\n                CASE homeless_residence_will_not_benefit\n                WHEN 'false' THEN\n                    ROW(false, null,\n                    'Homeless institution cannot accrue financial benefit')::finding\n                ELSE\n                    ROW(true, null,\n                    'Homeless institution will not accrue financial benefit')::finding\n                END\n            END AS result\n        from applicant\n        ",
-    "node": 282
+    "node": 436
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 867,
+  "pk": 1285,
   "fields": {
     "name": "homeless residence foods will not comingle",
     "code": "\n        select\n            CASE homeless_residence\n            WHEN 'false' THEN\n                ROW(true, null,\n                'Applicant does not live in a homeless institution')::finding\n            WHEN 'true' THEN\n                CASE homeless_residence_foods_will_not_comingle\n                WHEN 'false' THEN\n                    ROW(false, null,\n                    'Foods provided by WIC cannot be commingled with other food in homeless institution')::finding\n                ELSE\n                    ROW(true, null,\n                    'Foods provided by WIC will not be commingled with other food in homeless institution')::finding\n                END\n            END AS result\n        from applicant\n        ",
-    "node": 282
+    "node": 436
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 868,
+  "pk": 1286,
   "fields": {
     "name": "homeless residence does not constrain wic",
     "code": "\n        select\n            CASE homeless_residence\n            WHEN 'false' THEN\n                ROW(true, null,\n                'Applicant does not live in a homeless institution')::finding\n            WHEN 'true' THEN\n                CASE homeless_residence_does_not_constrain_wic\n                WHEN 'false' THEN\n                    ROW(false, null,\n                    'Homeless institution cannot place constraints on WIC involvement')::finding\n                ELSE\n                    ROW(true, null,\n                    'Homeless institution does place constraints on WIC involvement')::finding\n                END\n            END AS result\n        from applicant\n        ",
-    "node": 282
+    "node": 436
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 869,
+  "pk": 1287,
   "fields": {
     "name": "pregnant",
     "code": "\n        select\n            CASE currently_pregnant\n            WHEN 'true' THEN\n                ROW(true,\n                ROW(null, true, 'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n                'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n                )::limitation,\n                'Woman currently pregnant')::finding\n            ELSE\n                ROW(false, NULL, 'Not pregnant woman')::finding\n            END AS result\n        from applicant\n        ",
-    "node": 283
+    "node": 437
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 870,
+  "pk": 1288,
   "fields": {
     "name": "postpartum",
     "code": "\n        select\n            CASE WHEN\n            date_birth_or_pregnancy_end >= (current_date - interval '1 year')\n            AND\n            (NOT breastfeeding)\n            AND\n            last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date) >= current_date\n            THEN\n            ROW(true, ROW(last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date), true,\n                            'A postpartum woman will be certified up to the last day of the sixth month after the baby is born or the pregnancy ends (postpartum)',\n                            'A postpartum woman will be certified up to the last day of the sixth month after the baby is born or the pregnancy ends (postpartum). - 7 CFR 246.7 (g)(1)(ii)'\n                            )::limitation,\n                            'Woman is postpartum')::finding\n            ELSE\n                ROW(false, NULL,\n                    'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 283
+    "node": 437
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 871,
+  "pk": 1289,
   "fields": {
     "name": "breastfeeding",
     "code": "\n        select\n            CASE WHEN\n            ((NOT currently_pregnant) OR (currently_pregnant IS NULL))\n            AND\n            breastfeeding\n            AND\n            date_birth_or_pregnancy_end <= current_date\n            AND\n            current_date <= last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date)\n            THEN\n            ROW(true, ROW(last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date), true,\n                            'to the last day of the month in which the infant becomes six weeks old or the pregnancy ends',\n                            'A breastfeeding woman will be certified up to the last day of the sixth month ('\n                            || last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date)\n                            || ') after the baby is born ('\n                            || date_birth_or_pregnancy_end\n                            || ') or until the woman ceases breastfeeding, whichever occurs first.'\n                            )::limitation,\n                            'Woman is breastfeeding')::finding\n            ELSE\n                ROW(false, NULL,\n                            'A breastfeeding woman will be certified up to the last day of the sixth month ('\n                            || last_day_of_month((date_birth_or_pregnancy_end + interval '6 months')::date)\n                            || ') after the baby is born ('\n                            || date_birth_or_pregnancy_end\n                            || ') or until the woman ceases breastfeeding, whichever occurs first.'\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 283
+    "node": 437
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 872,
+  "pk": 1290,
   "fields": {
     "name": "infant",
     "code": "\n        select\n            CASE\n            WHEN birthdate IS NULL THEN\n                ROW(false, null, 'Birthdate was not supplied.')::finding\n            WHEN current_date BETWEEN birthdate AND last_day_of_month((birthdate + interval '6 months')::date)\n            THEN\n                ROW(true,\n                    ROW(last_day_of_month((birthdate + interval '6 months')::date),\n                        true,\n                        'Certification date is between child\u2019s birth date and the last day of the month in which the infant turns six months.',\n                        'A child will be certified as an infant up to the last day of the month in which the infant turns six months.'\n                        )::limitation,\n                'Certified as an infant until ' || last_day_of_month((birthdate + interval '6 months')::date)\n                || ', the last day of the month six months after the birthdate ('\n                || birthdate || ')'\n                )::finding\n            ELSE\n                ROW(false, NULL, 'Child is certified as infant only between birthdate ('\n                    || birthdate || ' and last day of the month six months after the birthdate ('\n                    || last_day_of_month((birthdate + interval '6 months')::date)\n                    || ').'\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 283
+    "node": 437
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 873,
+  "pk": 1291,
   "fields": {
     "name": "child",
     "code": "\n        select\n            CASE\n            WHEN birthdate IS NULL THEN\n                ROW(false, null, 'Birthdate was not provided.')::finding\n            WHEN current_date BETWEEN birthdate AND last_day_of_month((birthdate + interval '6 months')::date)\n            THEN\n                ROW(false, null,\n                    'Birthdate ' || birthdate || ' makes applicant infant rather than child'\n                    || ' as of ' || current_date)::finding\n            WHEN current_date BETWEEN last_day_of_month((birthdate + interval '6 months')::date)\n                                  AND last_day_of_month((birthdate + interval '5 years')::date)\n            THEN\n                ROW(true,\n                    ROW(LEAST(last_day_of_month((birthdate + interval '5 years')::date),\n                             (current_date + interval '6 months')::date),\n                        true,\n                        'A child will be certified as a child for six month periods from the first birthday ending with the last day of the month in which a child reaches his/her fifth birthday.',\n                        'Certified until the earlier of six months from certification date ('\n                        || (current_date + interval '6 months')::date\n                        || ') and the last day of the month in which a child reaches his/her fifth birthday ('\n                        || last_day_of_month((birthdate + interval '5 years')::date) || ').'\n                    )::limitation,\n                    'Certification date is before the last day of the month '\n                    || ' in which a child reaches his/her fifth birthday ('\n                    || last_day_of_month((birthdate + interval '5 years')::date)\n                    )::finding\n            ELSE\n                ROW(false, null,\n                    'Certification date is after the last day of the month '\n                    || ' in which a child reaches his/her fifth birthday ('\n                    || last_day_of_month((birthdate + interval '5 years')::date)\n                    )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 283
+    "node": 437
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 874,
+  "pk": 1292,
   "fields": {
     "name": "standard income",
     "code": "\n        , total_income as (\n            select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,\n                FEDERAL_POVERTY_LEVEL_185(\n                                a.number_in_economic_unit,\n                                a.referrer_state) AS poverty_level,\n                            a.number_in_economic_unit,\n                            a.referrer_state\n                    FROM income i\n                    CROSS JOIN applicant a  -- only one applicant row anyway\n                    GROUP BY 2, 3, 4)\n        select\n                CASE\n                  WHEN annual_income <= poverty_level\n                  THEN\n                      ROW(true, null,\n                          'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||\n                          poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                          )::finding\n                  ELSE\n                      ROW(false, null,\n                          'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||\n                          poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                          )::finding\n                END AS result\n        from total_income\n        ",
-    "node": 285
+    "node": 439
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 875,
+  "pk": 1293,
   "fields": {
     "name": "standard income verified",
     "code": "\n        , unverified as (\n            select array_agg(source) as sources\n            from   income\n            where  verified ='false'\n        )\n        select\n            CASE WHEN array_length(sources, 1) = 0\n            THEN\n              ROW(true, null, 'All income sources verified or exepted')::finding\n            ELSE\n              ROW(false, null, 'Verification needed for income sources ' || array_to_string(sources, ', '))::finding\n            END AS result\n        from   unverified\n        ",
-    "node": 285
+    "node": 439
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 876,
+  "pk": 1294,
   "fields": {
     "name": "adjunct income eligibility",
     "code": "\n        select\n            CASE count(program) WHEN 0 THEN\n                ROW(false, NULL, 'No adjunct program qualifications')::finding\n            ELSE\n                ROW(true, NULL, 'Qualifies for ' || ARRAY_TO_STRING(ARRAY_AGG(program), ', '))::finding\n            END AS result\n        from adjunct_income_eligibility\n        ",
-    "node": 284
+    "node": 438
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 877,
+  "pk": 1295,
   "fields": {
     "name": "proof of identity",
     "code": "\n        select\n            CASE proof_of_identity\n            WHEN 'true' THEN\n                ROW(true, NULL, 'Proof of identity supplied')::finding\n            WHEN 'Exception' THEN\n                ROW(true, NULL, 'Applicant must confirm his/her identity in writing')::finding\n            ELSE\n    \n                ROW(true,\n                    ROW((current_date + interval '30 days')::date,\n                    false,\n                        'Proof of identity needed before '\n                        || (current_date + interval '30 days')::date,\n                    'Applicant does not meet identity requirements'\n                    )::limitation,\n                    'Applicant does not meet identity requirements')::finding\n    \n            END AS result\n        from applicant\n        ",
-    "node": 286
+    "node": 440
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 878,
+  "pk": 1296,
   "fields": {
     "name": "all applicants physically present",
     "code": "\n        select\n            CASE all_applicants_present\n            WHEN 'true' THEN\n                ROW(true, NULL, 'All applicants physically present')::finding\n            WHEN 'Exception' THEN\n                ROW(true, NULL,\n                    'Not all applicants physically present.  Exception provided.'\n                    || 'Applicant must provide medical documentation taken within 60 days')::finding\n            ELSE\n    \n                ROW(true,\n                    ROW((current_date + interval '30 days')::date,\n                    false,\n                        'All applicants must appear in person needed before '\n                        || (current_date + interval '30 days')::date,\n                    'Not all applicants physically present'\n                    )::limitation,\n                    'Not all applicants physically present')::finding\n    \n            END AS result\n        from applicant\n        ",
-    "node": 286
+    "node": 440
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 879,
+  "pk": 1297,
   "fields": {
     "name": "proof of residency",
     "code": "\n        select\n            CASE proof_of_residence\n            WHEN 'true' THEN\n                ROW(true, null,\n                'Applicant provided proof of residency within state')::finding\n            WHEN 'Exception' THEN\n                ROW(true, null,\n                'Applicant must confirm his/her residency in writing')::finding\n            ELSE\n                ROW(true,\n                ROW((current_date + interval '30 days')::date, false,\n                    'Proof of residency needed before ' || (current_date + interval '30 days')::date,\n                    'Proof of residency needed before ' || (current_date + interval '30 days')::date\n                )::limitation,\n                'Proof of residency needed before ' || (current_date + interval '30 days')::date\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 287
+    "node": 441
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 880,
+  "pk": 1298,
   "fields": {
     "name": "homeless residence will not benefit",
     "code": "\n        select\n            CASE homeless_residence\n            WHEN 'false' THEN\n                ROW(true, null,\n                'Applicant does not live in a homeless institution')::finding\n            WHEN 'true' THEN\n                CASE homeless_residence_will_not_benefit\n                WHEN 'false' THEN\n                    ROW(false, null,\n                    'Homeless institution cannot accrue financial benefit')::finding\n                ELSE\n                    ROW(true, null,\n                    'Homeless institution will not accrue financial benefit')::finding\n                END\n            END AS result\n        from applicant\n        ",
-    "node": 287
+    "node": 441
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 881,
+  "pk": 1299,
   "fields": {
     "name": "homeless residence foods will not comingle",
     "code": "\n        select\n            CASE homeless_residence\n            WHEN 'false' THEN\n                ROW(true, null,\n                'Applicant does not live in a homeless institution')::finding\n            WHEN 'true' THEN\n                CASE homeless_residence_foods_will_not_comingle\n                WHEN 'false' THEN\n                    ROW(false, null,\n                    'Foods provided by WIC cannot be commingled with other food in homeless institution')::finding\n                ELSE\n                    ROW(true, null,\n                    'Foods provided by WIC will not be commingled with other food in homeless institution')::finding\n                END\n            END AS result\n        from applicant\n        ",
-    "node": 287
+    "node": 441
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 882,
+  "pk": 1300,
   "fields": {
     "name": "homeless residence does not constrain wic",
     "code": "\n        select\n            CASE homeless_residence\n            WHEN 'false' THEN\n                ROW(true, null,\n                'Applicant does not live in a homeless institution')::finding\n            WHEN 'true' THEN\n                CASE homeless_residence_does_not_constrain_wic\n                WHEN 'false' THEN\n                    ROW(false, null,\n                    'Homeless institution cannot place constraints on WIC involvement')::finding\n                ELSE\n                    ROW(true, null,\n                    'Homeless institution does place constraints on WIC involvement')::finding\n                END\n            END AS result\n        from applicant\n        ",
-    "node": 287
+    "node": 441
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 883,
+  "pk": 1301,
   "fields": {
     "name": "pregnant",
     "code": "\n        select\n            CASE currently_pregnant\n            WHEN 'true' THEN\n                ROW(true,\n                ROW(null, true, 'A pregnant woman will be certified for the duration of her pregnancy, up to six (6) weeks postpartum',\n                'A pregnant woman will be certified for the duration of her pregnancy, up to six (6) weeks postpartum'\n                )::limitation,\n                'Woman currently pregnant')::finding\n            ELSE\n                ROW(false, NULL, 'Not pregnant woman')::finding\n            END AS result\n        from applicant\n        ",
-    "node": 288
+    "node": 442
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 884,
+  "pk": 1302,
   "fields": {
     "name": "postpartum",
     "code": "\n        select\n            CASE WHEN\n            date_birth_or_pregnancy_end >= (current_date - interval '1 year')\n            AND\n            (NOT breastfeeding)\n            AND\n            (date_birth_or_pregnancy_end + interval '6 months')::date >= current_date\n            THEN\n            ROW(true, ROW((date_birth_or_pregnancy_end + interval '6 months')::date, true,\n                            'until the infant becomes six weeks old or the pregnancy ends',\n                            'A pregnant woman will be certified for the duration of her pregnancy, and until the infant becomes six months old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n                            )::limitation,\n                            'Woman is postpartum')::finding\n            ELSE\n                ROW(false, NULL,\n                    'A pregnant woman will be certified for the duration of her pregnancy, and up to the last day of the month in which the infant becomes six weeks old or the pregnancy ends. - 7 CFR 246.7 (g)(1)(i)'\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 288
+    "node": 442
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 885,
+  "pk": 1303,
   "fields": {
     "name": "breastfeeding",
     "code": "\n        select\n            CASE WHEN\n            ((NOT currently_pregnant) OR (currently_pregnant IS NULL))\n            AND\n            breastfeeding\n            AND\n            date_birth_or_pregnancy_end <= current_date\n            AND\n            current_date <= (date_birth_or_pregnancy_end + interval '1 year')::date\n            THEN\n            ROW(true, ROW((date_birth_or_pregnancy_end + interval '1 year')::date, true,\n                            'up to the infant\u2019s first birthday',\n                            'to '\n                            || (date_birth_or_pregnancy_end + interval '1 year')::date\n                            || ' as breastfeeding woman up to the infant\u2019s first birthday or until the woman ceases breastfeeding after six months postpartum, whichever occurs first.'\n                            )::limitation,\n                            'Woman is breastfeeding')::finding\n            ELSE\n                ROW(false, NULL,\n                    'A breastfeeding woman will be certified up to the infant\u2019s first birthday ('\n                    || (date_birth_or_pregnancy_end + interval '1 year')::date\n                    || ') or until the woman ceases breastfeeding after six months postpartum, whichever occurs first.'\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 288
+    "node": 442
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 886,
+  "pk": 1304,
   "fields": {
     "name": "infant",
     "code": "\n        select\n            CASE\n            WHEN current_date BETWEEN birthdate AND (birthdate + interval '6 months')::date\n            THEN\n                ROW(true,\n                ROW((birthdate + interval '1 year')::date,\n                    true,\n                    'A child less than six months at time of certification will be certified as an infant until the first birthday.',\n                    'A child less than six months at time of certification will be certified as an infant until the first birthday ('\n                    || (birthdate + interval '1 year')::date || ' ).'\n                    )::limitation,\n                'A child less than six months at time of certification will be certified as an infant until the first birthday.'\n                )::finding\n            WHEN current_date BETWEEN (birthdate + interval '6 months') AND (birthdate + interval '1 year')::date\n            THEN\n                ROW(true,\n                ROW((current_date + interval '6 months')::date,\n                    true,\n                    'A child child more than six months at time of certification is certified as an infant for six months after certification date.',\n                    'A child child more than six months at time of certification is certified as an infant for six months after certification date.'\n                    )::limitation,\n                    'A child child more than six months at time of certification is certified as an infant for six months after certification date.'\n                )::finding\n            ELSE\n                ROW(false, NULL, 'Child is beyond first birthday ('\n                    || (birthdate + interval '1 year')::date\n                    || ').'\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 288
+    "node": 442
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 887,
+  "pk": 1305,
   "fields": {
     "name": "child",
     "code": "\n        select\n            CASE\n            WHEN current_date BETWEEN (birthdate + interval '1 year')::date\n                                AND last_day_of_month((birthdate + interval '5 years')::date)\n            THEN\n            ROW(true,\n                ROW(LEAST(last_day_of_month((birthdate + interval '5 years')::date),\n                        (current_date + interval '1 year')::date),\n                    true,\n                    'A child will be certified for one year periods, ending with the end of the month in which the child reaches five years of age.',\n                    'A child will be certified for one year periods, '\n                    || 'ending with the end of the month in which the child reaches five years of age ('\n                    || last_day_of_month((birthdate + interval '5 years')::date)\n                    || ').'\n                )::limitation,\n            'Certification date is after child\u2019s first birthday and before its fifth birthday.'\n            )::finding\n            ELSE\n                ROW(false, NULL,\n                    'Current date is not between first birthday ('\n                    || (birthdate + interval '1 year')::date\n                    || ') and last day of month with fifth birthday ('\n                    || last_day_of_month((birthdate + interval '5 years')::date)\n                    || ').'\n                )::finding\n            END AS result\n        from applicant\n        ",
-    "node": 288
+    "node": 442
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 888,
+  "pk": 1306,
   "fields": {
     "name": "standard income",
     "code": "\n        , total_income as (\n            select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,\n                FEDERAL_POVERTY_LEVEL_185(\n                                a.number_in_economic_unit,\n                                a.referrer_state) AS poverty_level,\n                            a.number_in_economic_unit,\n                            a.referrer_state\n                    FROM income i\n                    CROSS JOIN applicant a  -- only one applicant row anyway\n                    GROUP BY 2, 3, 4)\n        select\n            CASE\n            WHEN annual_income <= poverty_level\n            THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||\n                                poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                                )::finding\n            ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||\n                        poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'\n                        )::finding\n            END AS result\n        from total_income\n        ",
-    "node": 290
+    "node": 444
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 889,
+  "pk": 1307,
   "fields": {
     "name": "standard income verified",
     "code": "\n        , unverified as (\n            select array_agg(source) as sources\n            from   income\n            where  verified ='false'\n        )\n        select\n            CASE WHEN array_length(sources, 1) = 0\n            THEN\n              ROW(true, null, 'All income sources verified or exepted')::finding\n            ELSE\n        \n                ROW(true,\n                    ROW((current_date + interval '30 days')::date,\n                    false,\n                        'Income verification for ' || ARRAY_TO_STRING(sources, ', ') || '  needed before '\n                        || (current_date + interval '30 days')::date,\n                    'Applicant does not meet income verification requirements'\n                    )::limitation,\n                    'Applicant does not meet income verification requirements')::finding\n    \n            END AS result\n        from   unverified\n        ",
-    "node": 290
+    "node": 444
   }
 },
 {
   "model": "rules_server.rule",
-  "pk": 890,
+  "pk": 1308,
   "fields": {
     "name": "adjunct income eligibility",
     "code": "\n        , aggregated_income_eligiblility as (\n            SELECT count(program) AS n_programs,\n                   count(program) FILTER (WHERE verified = 'false') AS n_unverified,\n                   ARRAY_AGG(program) AS programs,\n                   ARRAY_AGG(program) FILTER (WHERE verified = 'false') AS unverified\n            FROM   adjunct_income_eligibility\n        )\n        select\n            CASE n_programs\n            WHEN 0 THEN\n                ROW(false, NULL, 'No adjunct program qualifications')::finding\n            ELSE\n                ROW(true,\n                    CASE n_unverified\n                    WHEN 0 THEN NULL\n                    ELSE\n                        ROW((current_date + interval '30 days')::date,\n                            false,\n                            'Applicant has stated but not verified adjunct income eligibility',\n                            'Applicant must present verification for eligibility for '\n                            || ARRAY_TO_STRING(unverified, ', ') || ' by '\n                            || (current_date + interval '30 days')::date)::limitation\n                    END,\n                    'Qualifies for ' || ARRAY_TO_STRING(programs, ', '))::finding\n            END AS result\n        from aggregated_income_eligiblility\n        ",
-    "node": 289
+    "node": 443
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 1309,
+  "fields": {
+    "name": "adult",
+    "code": "\n        select\n            CASE\n              WHEN age >= 18\n              THEN\n                ROW(true, NULL, 'Applicant (age ' || age || ') is an adult')::finding\n              ELSE\n                ROW(false, NULL, 'Applicant (age ' || age || ') is not an adult')::finding\n            END AS result\n        from applicant\n        ",
+    "node": 445
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 1310,
+  "fields": {
+    "name": "2018 diagnoses",
+    "code": "\n        select\n            CASE\n            WHEN (max(diagnosed) FILTER (WHERE diagnosed >= ('2018-01-01'::date))) IS NULL THEN\n              ROW(false, NULL,\n                   'No diagnoses from 2018')::finding\n            ELSE\n              ROW(true,\n                  ROW((max(diagnosed) + interval '6 months')::date,\n                      true,\n                      'Eligibility limited to six months since last diagnosis',\n                      'Last diagnosis on ' || max(diagnosed)\n                  )::limitation,\n                  'Diagnoses exist from 2018')::finding\n            END AS result\n        from diagnoses\n        ",
+    "node": 445
+  }
+},
+{
+  "model": "rules_server.rule",
+  "pk": 1311,
+  "fields": {
+    "name": "employed",
+    "code": "1G\n        select\n            CASE\n              WHEN employed\n              THEN\n                ROW(true, NULL, 'Applicant is employed')::finding\n              ELSE\n                ROW(false, NULL, 'Applicant is not employed')::finding\n            END AS result\n        from applicant\n        ",
+    "node": 446
   }
 },
 {
   "model": "rules_server.syntaxschema",
-  "pk": 66,
+  "pk": 106,
   "fields": {
-    "ruleset": 66,
+    "ruleset": 106,
     "type": "jsonschema",
     "code": {
       "type": "array",
@@ -742,9 +826,9 @@
 },
 {
   "model": "rules_server.syntaxschema",
-  "pk": 67,
+  "pk": 107,
   "fields": {
-    "ruleset": 67,
+    "ruleset": 107,
     "type": "jsonschema",
     "code": {
       "type": "array",
@@ -898,6 +982,66 @@
           ]
         }
       },
+      "description": "A set of applications, one per household"
+    }
+  }
+},
+{
+  "model": "rules_server.syntaxschema",
+  "pk": 108,
+  "fields": {
+    "ruleset": 108,
+    "type": "jsonschema",
+    "code": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "applications",
+        "properties": {
+          "applicants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "title": "applicants",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "age": {
+                  "type": "integer"
+                },
+                "employed": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "diagnoses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "title": "diagnosis name"
+                      },
+                      "diagnosed": {
+                        "type": "string",
+                        "title": "diagnosis date",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "title": "diagnoses"
+                }
+              }
+            }
+          },
+          "applicant_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "title": "Application",
+      "$schema": "http://json-schema.org/draft-06/schema#",
       "description": "A set of applications, one per household"
     }
   }

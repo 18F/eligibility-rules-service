@@ -14,7 +14,10 @@ class Ruleset(models.Model):
     program = models.TextField(null=False, blank=False)
     entity = models.TextField(null=False, blank=False)
     sample_input = JSONField(null=True, blank=True)
-    null_sources = JSONField(null=True, blank=True)
+    null_sources = JSONField(null=True, blank=True, default={})
+
+    class Meta:
+        unique_together = (("program", "entity"), )
 
     def validate(self, applications):
         """
@@ -111,6 +114,9 @@ class Node(models.Model):
     ruleset = models.ForeignKey(Ruleset, null=True, on_delete=models.CASCADE)
     requires_all = models.BooleanField(null=False, blank=False, default=False)
 
+    class Meta:
+        unique_together = (("name", "parent", "ruleset"), )
+
     @property
     def get_ruleset(self):
         return self.ruleset or self.parent.get_ruleset
@@ -159,6 +165,9 @@ class Rule(models.Model):
     name = models.TextField(null=False, blank=False)
     code = models.TextField(null=True, blank=True)
     node = models.ForeignKey(Node, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (("name", "node"), )
 
     @property
     def ruleset(self):

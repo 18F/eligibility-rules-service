@@ -27,3 +27,9 @@ you can prettify the output with Python or [jq](https://stedolan.github.io/jq/):
 ## [Deployment Instructions](cloudgov.md)
 
 [Deployment instructions here](cloudgov.md)
+
+## Technical info
+
+- [Design notes](design.md)
+- [Rule authoring guide](rules.md)
+

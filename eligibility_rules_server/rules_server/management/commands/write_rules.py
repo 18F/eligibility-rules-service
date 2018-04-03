@@ -1,5 +1,6 @@
 import json
 import logging
+from os.path import join
 
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
@@ -18,8 +19,9 @@ class Command(BaseCommand):
         clear()
         wic_federal()
         wic_az()
+        sample_rules()
         call_command('dumpdata', '--indent', '2', '--output',
-                     'rules_server/fixtures/federal_wic.json')
+                     join('rules_server', 'fixtures', 'federal_wic.json'))
 
 
 def clear():
@@ -29,11 +31,173 @@ def clear():
     SyntaxSchema.objects.all().delete()
 
 
+def sample_rules():
+
+    sample_input = [{
+        'application_id':
+        1,
+        'applicants': [{
+            "id":
+            1,
+            "age":
+            30,
+            "diagnoses": [{
+                "name": "lean and mean",
+                "diagnosed": "2018-03-30"
+            }, {
+                "name": "shifty eyes",
+                "diagnosed": "2017-12-01"
+            }]
+        }, {
+            "id": 2,
+            "age": 10,
+            "employed": False
+        }]
+    }]
+
+    schema = {
+        "$schema": "http://json-schema.org/draft-06/schema#",
+        "title": "Application",
+        "description": "A set of applications, one per household",
+        "type": "array",
+        "items": {
+            "title": "applications",
+            "type": "object",
+            "properties": {
+                "applicant_id": {
+                    "type": "integer"
+                },
+                "applicants": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "title": "applicants",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "age": {
+                                "type": "integer"
+                            },
+                            "employed": {
+                                "type": "boolean",
+                                "default": True
+                            },
+                            "diagnoses": {
+                                "type": "array",
+                                "title": "diagnoses",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "title": "diagnosis name",
+                                            "type": "string"
+                                        },
+                                        "diagnosed": {
+                                            "title": "diagnosis date",
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    rs0 = Ruleset(
+        program='sample',
+        entity='sample',
+        sample_input=sample_input,
+        null_sources={
+            'diagnoses':
+            """unnest(array[null]::text[], array[null]::date[])
+               as t(name, diagnosed) """,
+        })
+    rs0.save()
+
+    ssch = SyntaxSchema(ruleset=rs0, code=schema)
+    ssch.save()
+
+    n1 = Node(
+        ruleset=rs0,
+        name='sample node',
+        parent=None,
+        requires_all=True,
+    )
+    n1.save()
+
+    r11 = Rule(
+        name='adult',
+        node=n1,
+        code="""
+        select
+            CASE
+              WHEN age >= 18
+              THEN
+                ROW(true, NULL, 'Applicant (age ' || age || ') is an adult')::finding
+              ELSE
+                ROW(false, NULL, 'Applicant (age ' || age || ') is not an adult')::finding
+            END AS result
+        from applicant
+        """)
+    r11.save()
+
+    r12 = Rule(
+        name='2018 diagnoses',
+        node=n1,
+        code="""
+        select
+            CASE
+            WHEN (max(diagnosed) FILTER (WHERE diagnosed >= ('2018-01-01'::date))) IS NULL THEN
+              ROW(false, NULL,
+                   'No diagnoses from 2018')::finding
+            ELSE
+              ROW(true,
+                  ROW((max(diagnosed) + interval '6 months')::date,
+                      true,
+                      'Eligibility limited to six months since last diagnosis',
+                      'Last diagnosis on ' || max(diagnosed)
+                  )::limitation,
+                  'Diagnoses exist from 2018')::finding
+            END AS result
+        from diagnoses
+        """)
+    r12.save()
+
+    n2 = Node(
+        ruleset=rs0,
+        name='categories',
+        parent=None,
+        requires_all=True,
+    )
+    n2.save()
+
+    r21 = Rule(
+        name='employed',
+        node=n2,
+        code="""1G
+        select
+            CASE
+              WHEN employed
+              THEN
+                ROW(true, NULL, 'Applicant is employed')::finding
+              ELSE
+                ROW(false, NULL, 'Applicant is not employed')::finding
+            END AS result
+        from applicant
+        """)
+    r21.save()
+
+
 def wic_federal():
 
-    with open('examples/wic-federal0.json') as infile:
+    with open(join('examples', 'wic-federal0.json')) as infile:
         sample_input = json.load(infile)
-    with open('rules_server/rules/wic-schema.json') as infile:
+    with open(join('rules_server', 'rules', 'wic-schema.json')) as infile:
         raw_jsonschema = json.load(infile)
 
     rs0 = Ruleset(
@@ -439,9 +603,9 @@ def wic_federal():
 
 def wic_az():
 
-    with open('examples/wic-federal0.json') as infile:
+    with open(join('examples', 'wic-federal0.json')) as infile:
         sample_input = json.load(infile)
-    with open('rules_server/rules/wic-schema.json') as infile:
+    with open(join('rules_server', 'rules', 'wic-schema.json')) as infile:
         raw_jsonschema = json.load(infile)
 
     rsaz = Ruleset(

@@ -33,54 +33,40 @@ class RulingsView(RulesetFinderMixin, APIView):
     included may vary by program and state, but the minimum
     required for every payload is:
 
-        {
-          "applicants": [
+        [
             {
-              "id": 1,
-              ... (other applicant data)
-            },
-            {
-              "id": 2
-              ... (other applicant data)
-            },
-            ...
-          ]
-        }
+                "application_id": 1,
+                "applicants": [
+                {
+                    "id": 1,
+                    ...
+                }
+                ]
+            }
+        ]
 
-    `id` need not be numeric, but must be unique per applicant.
-    It is only used to match findings to applicants.
 
     Response will be in the form
 
-        {
-          "findings": [
-            {
-              "id": 1,
-              "reasons": [],
-              "accepted": true
-            },
-            {
-              "reasons": [
-                {
-                  "description": "Too cool for school",
-                  "rule_id": 101
-                },
-                {
-                  "description": "Can't touch this",
-                  "rule_id": 103
-                }
-              ],
-              "accepted": false
-            }
-          ]
-        }
+        {'entity': 'az',
+        'program': 'sample',
+        'findings': {'1': {'1': {'categories': {'applicable': ['employed'],
+            'findings': {'employed': {'eligible': True,
+            'explanation': 'Applicant is employed',
+            'limitation': None}}},
+            'eligible': True,
+            'requirements': {'sample node': {'eligible': True,
+            'explanation': ['Diagnoses exist from 2018',
+            'Applicant (age 30) is an adult'],
+
+            ...
 
     """
 
     def post(self, request, program, entity, format=None):
 
         ruleset = self.get_ruleset(program=program, entity=entity)
-        applications = ruleset.validate(request.data)
+        applications = ruleset.validate(request.data or ruleset.sample_input)
 
         results = {}
         for application in applications:
@@ -132,7 +118,7 @@ class RulesetSqlView(RulesetFinderMixin, APIView):
     def post(self, request, program, entity, format=None):
         return self.sql(
             request=request,
-            payload=request.data,
+            payload=request.data or ruleset.sample_input,
             program=program,
             entity=entity,
             format=format)
