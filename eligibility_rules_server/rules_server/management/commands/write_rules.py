@@ -375,7 +375,7 @@ def wic_federal():
         code='''
         , total_income as (
             select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,
-                FEDERAL_POVERTY_LEVEL(
+                FEDERAL_POVERTY_LEVEL_185(
                                 a.number_in_economic_unit,
                                 a.referrer_state) AS poverty_level,
                             a.number_in_economic_unit,
@@ -384,12 +384,19 @@ def wic_federal():
                     CROSS JOIN applicant a  -- only one applicant row anyway
                     GROUP BY 2, 3, 4)
         select
-                CASE WHEN annual_income <= 1.85 * poverty_level THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||
-                                                                            poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
-                                                                            )::finding
-                                                                ELSE ROW(false, null, 'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||
-                                                                            poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
-                                                                            )::finding END AS result
+                CASE
+                  WHEN annual_income <= poverty_level
+                  THEN
+                      ROW(true, null,
+                          'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||
+                          poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
+                          )::finding
+                  ELSE
+                      ROW(false, null,
+                          'Household annual income ' || annual_income::money || ' exceeds 185%% of federal poverty level (' ||
+                          poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
+                          )::finding
+                END AS result
         from total_income
         ''',
     )
@@ -796,7 +803,7 @@ def wic_az():
         code='''
         , total_income as (
             select SUM(ANNUALIZE(i.frequency) * i.dollars) AS annual_income,
-                FEDERAL_POVERTY_LEVEL(
+                FEDERAL_POVERTY_LEVEL_185(
                                 a.number_in_economic_unit,
                                 a.referrer_state) AS poverty_level,
                             a.number_in_economic_unit,
@@ -806,7 +813,7 @@ def wic_az():
                     GROUP BY 2, 3, 4)
         select
             CASE
-            WHEN annual_income <= 1.85 * poverty_level
+            WHEN annual_income <= poverty_level
             THEN ROW(true, null, 'Household annual income ' || annual_income::money || ' within 185%% of federal poverty level (' ||
                                 poverty_level::money || ' for ' || number_in_economic_unit || ' residents in ' || referrer_state || ')'
                                 )::finding

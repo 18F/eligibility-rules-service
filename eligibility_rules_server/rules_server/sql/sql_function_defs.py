@@ -11,8 +11,9 @@ ANNUALIZE_FUNCTION_DEF = """
       END;
   $$ LANGUAGE SQL;"""
 
+# 185% of federal poverty level
 FEDERAL_POVERTY_LEVEL_FUNCTION_DEF = """
-  CREATE OR REPLACE FUNCTION federal_poverty_level(integer, text) RETURNS integer AS $$
+  CREATE OR REPLACE FUNCTION federal_poverty_level_185(integer, text) RETURNS integer AS $$
     SELECT
       CASE UPPER($2)
         WHEN 'AK' THEN

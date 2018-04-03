@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+import jsonschema
 from django.contrib.postgres.fields.jsonb import JSONField
 from django.core import exceptions
 from django.db import DataError, connection, models
@@ -82,14 +83,15 @@ class Ruleset(models.Model):
             result['eligible'] = eligibility
             overall_result[int(applicant['id'])] = result
 
-            categories = result['requirements'].pop('categories')
+            categories = result['requirements'].pop('categories', {})
             category_names = [
-                key for (key, val) in categories['subfindings'].items()
+                key
+                for (key, val) in categories.get('subfindings', {}).items()
                 if val['eligible']
             ]
             result['categories'] = {
                 'applicable': category_names,
-                'findings': categories['subfindings']
+                'findings': categories.get('subfindings', {})
             }
 
             overall_result[int(applicant['id'])] = result
@@ -149,9 +151,6 @@ class Node(models.Model):
                 node_result['limitation'].append(rule_result['limitation'])
             node_result['subfindings'][rule.name] = rule_result
 
-        # if self.rule_set.count() == 1:
-        #     node_result.pop('subfindings')
-
         node_result['eligible'] = eligibility
         return node_result
 
@@ -160,7 +159,6 @@ class Rule(models.Model):
     name = models.TextField(null=False, blank=False)
     code = models.TextField(null=True, blank=True)
     node = models.ForeignKey(Node, on_delete=models.CASCADE)
-    sufficient = models.BooleanField(null=False, blank=False, default=False)
 
     @property
     def ruleset(self):
