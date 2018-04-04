@@ -6,4 +6,4 @@ applications:
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   instances: 2
   routes:
-    - route: https://eligibility-rules-form.app.cloud.gov
+    - route: https://eligibility-rules-form.fr.cloud.gov
