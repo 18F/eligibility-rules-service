@@ -4,3 +4,5 @@ applications:
   command: python manage.py flush --noinput && python manage.py migrate && python manage.py loaddata rules_server/fixtures/federal_wic.json && python manage.py runserver 0.0.0.0:8080
   services:
     - eligibility-db
+  routes:
+    - route: eligibility-rules.fr.cloud.gov

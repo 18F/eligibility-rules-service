@@ -6,19 +6,19 @@ service postulated at
 
 ## Using the API
 
-A sample server is running at https://eligibility-rules.app.cloud.gov/rulings/wic/federal/.
+A sample server is running at https://eligibility-rules.fr.cloud.gov/rulings/wic/federal/.
 
 From the ["examples" directory](examples/README.md):
 
-    curl -X POST -H "Content-Type: application/json" -d @wic-federal0.json https://eligibility-rules.app.cloud.gov/rulings/wic/federal/
+    curl -X POST -H "Content-Type: application/json" -d @wic-federal0.json https://eligibility-rules.fr.cloud.gov/rulings/wic/federal/
 
 If pipes are available (UNIX-like systems, including the
 [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)),
 you can prettify the output with Python or [jq](https://stedolan.github.io/jq/):
 
-    curl -X POST -H "Content-Type: application/json" -d @wic-federal0.json https://eligibility-rules.app.cloud.gov/rulings/wic/federal/ | python -m json.tool
+    curl -X POST -H "Content-Type: application/json" -d @wic-federal0.json https://eligibility-rules.fr.cloud.gov/rulings/wic/federal/ | python -m json.tool
 
-    curl -X POST -H "Content-Type: application/json" -d @wic-federal0.json https://eligibility-rules.app.cloud.gov/rulings/wic/federal/ | jq
+    curl -X POST -H "Content-Type: application/json" -d @wic-federal0.json https://eligibility-rules.fr.cloud.gov/rulings/wic/federal/ | jq
 
 ## [Installation Instructions](installing.md)
 
