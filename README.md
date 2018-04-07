@@ -5,6 +5,17 @@
 [![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
 [![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
 
+## Summary
+
+The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could to help make eligibility determinations for human services programs. To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). 
+
+**The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
+
+- [**Try prototype using the API**](https://github.com/18F/eligibility-rules-service/tree/master/eligibility_rules_server#using-the-api)
+- [**Try prototype using a web form**](https://eligibility-rules-form.app.cloud.gov/)
+
+## Project description
+
 18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to help states make eligibility determinations for a human services program.
 
 > Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
@@ -55,17 +66,17 @@ We hypothesize that the highest-value area for TTS to explore further is investi
 #### :white_check_mark: _Validated:_ Partners will want to collaborate with us to make this happen
 Through a series of conversations with potential partners at CMS and FNS, we’ve validated that there are indeed interested partners at the federal level. Through all of these conversations, the general concept resonated and potential use cases were identifiable.
 
-#### :white_circle: States will want to collaborate with us to make this happen
-_Not yet validated - Phase 2_
+#### :white_check_mark: _Validated:_ States will want to collaborate with us to make this happen
+We have identified one state program interested in working with us going forward. While we still intend to identify one or two others, through conversations with states and FNS regional program specialists, we feel confident that problem we are working to address is broadly applicable and that we'll be able to find those partners.  
 
-#### :white_circle: Building or repurposing a rules service is technologically advisable
-_Not yet validated - Phase 2_
+#### :white_check_mark: _Validated:_ Building or repurposing a rules service is technologically advisable
+The level of effort in building out a rules service turned out to be less than anticipated. Our prototype functionality approximated the what we'd anticipate an MVP needing. As such, the effort associated with building a rules service from scratch is low enough to make repurposing an existing system unneccessary. 
+
+#### :white_check_mark: _Validated:_ A rules service can be built that allows multiple states with varying eligibility rules to use it
+Building off of lessons learned from [MAGI in the Cloud](https://www.medicaideligibilityapi.org/#/application), we wanted to validate we could build a rules service that would accommodate a program where state policies vary considerably. WIC varies both in the income standard which follows the USDA's reduced price school lunch guidelines as well as the policy options implemented at the state level. Our prototype solves for both scenario.
 
 #### :white_circle: TTS's current strategy and direction is aligned with pursuing an effort like this
 _Not yet validated - Phase 2_
-
-#### :white_circle: A rules service can be built that allows multiple states with varying eligibility rules to use it
-_Not yet validated - Phase 3_ - [MAGI in the Cloud](https://www.medicaideligibilityapi.org/#/application) has proven out aspects of this. MAGI Medicaid eligibility is relatively consistent state-to-state. More investigation is necessary.
 
 #### :white_circle: Interested states have technical pathways to adopting a web service-based approach to rules
 _Not yet validated - Phase 3_
