@@ -19,7 +19,7 @@
   ],
   "license": "CC0-1.0",
   "scripts": {
-    "build": "GATSBY_API_URL=https://eligibility-rules.app.cloud.gov/rulings/wic/federal/ gatsby build",
+    "build": "GATSBY_API_URL=https://eligibility-rules.fr.cloud.gov/rulings/wic/federal/ gatsby build",
     "develop": "gatsby develop -H 0.0.0.0 -p 9000",
     "format": "prettier --write 'src/**/*.js'",
     "lint": "eslint ./src/**/*.js",
