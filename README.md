@@ -7,9 +7,11 @@
 
 ## Project description
 
-The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could use to help make eligibility determinations for human services programs. 
+The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could use to help make eligibility determinations for human services programs.
 
-> Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
+[![View project introduction presentation](assets/what-is-the-eligibility-rules-service-project.jpg)](assets/what-is-the-eligibility-rules-service-project.pdf)
+
+> View presentation [What is the Eligibility Rules Service project?](assets/what-is-the-eligibility-rules-service-project.pdf)
 
 To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
 
@@ -57,7 +59,7 @@ Through a series of conversations with potential partners at CMS and FNS, we’v
 We have identified one state program interested in working with us going forward. While we still intend to identify one or two others, through conversations with states and FNS regional program specialists, we feel confident that problem we are working to address is broadly applicable and that we'll be able to find those partners.  
 
 #### :white_check_mark: _Validated:_ Building or repurposing a rules service is technologically advisable
-The level of effort in building out a rules service turned out to be less than anticipated. Our prototype functionality approximated the what we'd anticipate an MVP needing. As such, the effort associated with building a rules service from scratch is low enough to make repurposing an existing system unneccessary. 
+The level of effort in building out a rules service turned out to be less than anticipated. Our prototype functionality approximated the what we'd anticipate an MVP needing. As such, the effort associated with building a rules service from scratch is low enough to make repurposing an existing system unneccessary.
 
 #### :white_check_mark: _Validated:_ A rules service can be built that allows multiple states with varying eligibility rules to use it
 Building off of lessons learned from [MAGI in the Cloud](https://www.medicaideligibilityapi.org/#/application), we wanted to validate we could build a rules service that would accommodate a program where state policies vary considerably. WIC varies both in the income standard which follows the USDA's reduced price school lunch guidelines as well as the policy options implemented at the state level. Our prototype solves for both scenario.
