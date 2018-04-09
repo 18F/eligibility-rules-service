@@ -5,20 +5,16 @@
 [![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
 [![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
 
-## Summary
+## Project description
 
-The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could to help make eligibility determinations for human services programs. To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). 
+The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could use to help make eligibility determinations for human services programs. 
 
-**The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
+> Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
+
+To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
 
 - [**Try prototype using the API**](https://github.com/18F/eligibility-rules-service/tree/master/eligibility_rules_server#using-the-api)
 - [**Try prototype using a web form**](https://eligibility-rules-form.app.cloud.gov/)
-
-## Project description
-
-18F is conducting research to identify opportunities for developing a web-based eligibility rules service that could be used to help states make eligibility determinations for a human services program.
-
-> Presentation: **[Exploring an Eligibility Rules Service](https://github.com/18F/eligibility-rules-service/files/1643282/eligibility-rules-service-explanation.pdf)**
 
 #### The problem
 
@@ -32,24 +28,15 @@ We hypothesize that creating a new rules service could help shift the space towa
 
 #### Where we are now
 
-The following table describes our loose plan for exploring and building this concept. We are currently in our second phase,  focused on research. These phases align with the funding structure we are using to pursue this work.
+The following table describes our loose plan for exploring and building this concept. **We have just completed our second phase and are applying for continued funding for a third phase.** These phases align with the funding structure we are using to pursue this work.
 
 | Phase | Goals |
 | ------------- | ------------- |
 | 1. Focus  | Identify project for further exploration; work out TTS's role in eligibility |
-| **2. Research**  | **Develop a product strategy for an eligibility rules service** |
+| 2. Research  | Develop a product strategy for an eligibility rules service |
 | 3. Build  | Build and pilot a web-based rules service for a single program |
 | 4. Operate  | Operationalize the rules service |
 | 5. Extend  | Extend lessons learned beyond this first rules service; move the eligibility ecosystems towards more loosely coupled, distributed and shared systems |
-
-There are a number of questions that we need to answer during this phase before we are in a position to request funding from TTS for the next phase, which would focus on building out functional prototype.
-
-- **[Federal partners](https://github.com/18F/eligibility-rules-service/issues/13)** - Who are our key federal partners/champions?
-- **[Program](https://github.com/18F/eligibility-rules-service/issues/14)** - Which human services program is the best candidate?
-- **[Users](https://github.com/18F/eligibility-rules-service/issues/15)** - Who are potential first users?
-- **[Reuse vs. build](https://github.com/18F/eligibility-rules-service/issues/16)** - Has a _reclaimable_ system already been built for a state that could repurposed as a general service?
-- **[Standards](https://github.com/18F/eligibility-rules-service/issues/17)** - What are the most important areas to align around, standards to adhere to, and patterns to develop to make adoption the easy choice, without being too prescriptive?
-- **[Team](https://github.com/18F/eligibility-rules-service/issues/18)** - What team would we need for the following build/borrow phase?
 
 #### Where we've been
 
@@ -101,4 +88,4 @@ If you work with an organization outside of government and you have a use case f
 
 ## Weekly progress updates
 
-We're posting [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps) of our work for folks interested in following along with our progress.
+During active phases, we post [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps) of our work for folks interested in following along with our progress.
