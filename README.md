@@ -9,10 +9,6 @@
 
 The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could use to help make eligibility determinations for human services programs.
 
-[![View project introduction presentation](assets/what-is-the-eligibility-rules-service-project.jpg)](assets/what-is-the-eligibility-rules-service-project.pdf)
-
-> View presentation [What is the Eligibility Rules Service project?](assets/what-is-the-eligibility-rules-service-project.pdf)
-
 To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
 
 - [**Try prototype using the API**](https://github.com/18F/eligibility-rules-service/tree/master/eligibility_rules_server#using-the-api)
@@ -21,6 +17,10 @@ To [validate this idea](#to-be-validated), we have built a prototype eligibility
 #### The problem
 
 Many states struggle to modernize their human services eligibility and enrollment systems due to the variation and complexity of the policy rules that determine eligibility for federally funded programs, as well as outdated, monolithic procurement and development practices, limited reusable components, and scarce resources. These efforts lead to duplicative work and expense across states without delivering better service.
+
+[![View project introduction presentation](assets/what-is-the-eligibility-rules-service-project.jpg)](assets/what-is-the-eligibility-rules-service-project.pdf)
+
+> View presentation [What is the Eligibility Rules Service project?](assets/what-is-the-eligibility-rules-service-project.pdf)
 
 #### Our hypothesis
 
