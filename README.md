@@ -30,7 +30,7 @@ We hypothesize that creating a new rules service could help shift the space towa
 
 #### Where we are now
 
-The following table describes our loose plan for exploring and building this concept. **We have just completed our second phase and are applying for continued funding for a third phase.** These phases align with the funding structure we are using to pursue this work.
+The following table describes our loose plan for exploring and building this concept. **We recently completed Phase 2 and have been approved to proceed to Phase 3.** These phases align with the funding structure we are using to pursue this work.
 
 | Phase | Goals |
 | ------------- | ------------- |
@@ -64,8 +64,8 @@ The level of effort in building out a rules service turned out to be less than a
 #### :white_check_mark: _Validated:_ A rules service can be built that allows multiple states with varying eligibility rules to use it
 Building off of lessons learned from [MAGI in the Cloud](https://www.medicaideligibilityapi.org/#/application), we wanted to validate we could build a rules service that would accommodate a program where state policies vary considerably. WIC varies both in the income standard which follows the USDA's reduced price school lunch guidelines as well as the policy options implemented at the state level. Our prototype solves for both scenario.
 
-#### :white_circle: TTS's current strategy and direction is aligned with pursuing an effort like this
-_Not yet validated - Phase 2_
+#### :white_check_mark: _Validated:_ TTS's current strategy and direction is aligned with pursuing an effort like this
+After presenting our Phase 2 conclusions to the TTS 10x review board, the group that evaluates whether our work is meeting it's objectives and whether it should continue, we were approved to proceed to Phase 3, validating that TTS finds this work valuable and is the kind of work we should be doing.
 
 #### :white_circle: Interested states have technical pathways to adopting a web service-based approach to rules
 _Not yet validated - Phase 3_
