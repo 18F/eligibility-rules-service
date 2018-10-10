@@ -5,6 +5,8 @@
 [![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
 [![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
 
+> After a brief hiatus, we are ramping up work on Phase 3 of this project. We'll be working with a new program to explore the challenges around integrating with state systems.
+
 ## Project description
 
 The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could use to help make eligibility determinations for human services programs.
