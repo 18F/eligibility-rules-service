@@ -1,11 +1,17 @@
-# Eligibility rules service
 
 [![CircleCI](https://circleci.com/gh/18F/eligibility-rules-service.svg?style=svg)](https://circleci.com/gh/18F/eligibility-rules-service)
 [![Code Climate](https://codeclimate.com/github/18F/eligibility-rules-service/badges/gpa.svg)](https://codeclimate.com/github/18F/eligibility-rules-service)
 [![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
 [![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
 
-> After a brief hiatus, we are ramping up work on Phase 3 of this project. We'll be working with a new program to explore the challenges around integrating with state systems.
+# Eligibility rules service
+
+> **Follow this work** 
+> - Phase 3 is in progress. We're working with a new program exploring state system integration.
+> - Read our [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps#phase-3---october-1-2018-to-present)
+> - "Watch" or "star" the repo above
+> - Email us at eligibility.rules.service@gsa.gov
+> - Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
 
 ## Project description
 
@@ -32,7 +38,7 @@ We hypothesize that creating a new rules service could help shift the space towa
 
 #### Where we are now
 
-The following table describes our loose plan for exploring and building this concept. **We recently completed Phase 2 and have been approved to proceed to Phase 3.** These phases align with the funding structure we are using to pursue this work.
+The following table describes our loose plan for exploring and building this concept. **We are currently in Phase 3.** These phases align with the funding structure we are using to pursue this work.
 
 | Phase | Goals |
 | ------------- | ------------- |
