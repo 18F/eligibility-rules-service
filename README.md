@@ -88,13 +88,13 @@ _Not yet validated - Phase 4_
 
 If you are part of a state human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
 
-[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or contact Ed Mullen at edward.mullen@gsa.gov
+[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility.rules.service@gsa.gov
 
 **Non-gov organization**
 
 If you work with an organization outside of government and you have a use case for such a service, we're interested in talking with you.
 
-[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or contact Ed Mullen at edward.mullen@gsa.gov
+[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility.rules.service@gsa.gov
 
 ## Weekly progress updates
 
