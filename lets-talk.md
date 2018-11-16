@@ -8,10 +8,10 @@ We are working to prove this hypothesis by working with federal and state agenci
 
 **Federal program agencies:** 
 
-We're specifically looking for federal programs for which the federal agency sets baseline eligibility criteria that states implement in their own eligibility systems. State options that create varied implementations across states are okay; our approach can handle this. If your agency establishes eligibility criteria and then delivers guidance to states, each of which then needs to build out those rules in their eligibility systems, we want to talk to you.
+We're specifically looking for federal programs for which the federal agency sets baseline eligibility criteria that states implement in their own eligibility systems. Programs where states can optionally customize the eligibility criteria to suit their individual needs are okay; our approach can handle this. If your agency establishes eligibility criteria and then delivers guidance to states, each of which then needs to build out those rules in their eligibility systems, we want to talk to you.
 
 **State and local agencies:** 
 
 If you are from a state agency responsible for implementing eligibility rules for a federal program, there are a couple ways this work could apply to you:
-1. If you think the federal program you are responsible for implementing is a good candidate for a centralized rules service, let us know. We've had some very fruitful conversations with folks from states who have helped us identify opportunities. We'd love to learn from you.
-2. Our technical approach of building out rules without the use of potentially expensive and proprietary _Business Rules Engine_ products could be useful to you, especially if you are currently thinking about "buying a rules engine". You can get started with our blog post, [_Implementing rules without a rules engine_](Implementing rules without a rules engine). We'd be happy to discuss this work with you as well.
+1. If your federal program is a good candidate for a centralized rules service, let us know. We've had some very fruitful conversations with folks from states who have helped us identify opportunities. We'd love to learn from you.
+2. If you are currently thinking about buying a "rules engine" product, our simpler approach of building rules could be useful to you. You can get started with our blog post, [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/). We'd be happy to discuss this work with you.
