@@ -10,8 +10,9 @@
 > - Phase 3 is in progress. We're working with a new program exploring state system integration.
 > - Read our [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps#phase-3---october-1-2018-to-present)
 > - "Watch" or "star" the repo above
-> - Email us at eligibility.rules.service@gsa.gov
 > - Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
+> - We're seeking additional partners. [Here's what we're looking for.](lets-talk.md)
+> - Email us at eligibility.rules.service@gsa.gov
 
 ## Project description
 
