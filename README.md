@@ -1,9 +1,3 @@
-
-[![CircleCI](https://circleci.com/gh/18F/eligibility-rules-service.svg?style=svg)](https://circleci.com/gh/18F/eligibility-rules-service)
-[![Code Climate](https://codeclimate.com/github/18F/eligibility-rules-service/badges/gpa.svg)](https://codeclimate.com/github/18F/eligibility-rules-service)
-[![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
-[![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
-
 # Eligibility rules service
 
 > **Follow this work** 
