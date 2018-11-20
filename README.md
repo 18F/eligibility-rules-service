@@ -20,7 +20,7 @@ The [eligibility rules service project](#project-description) is exploring the i
 
 To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
 
-- [**Try prototype using the API**](https://github.com/18F/eligibility-rules-service/tree/master/eligibility_rules_server#using-the-api)
+- [**Try prototype using the API**](https://github.com/18F/wic_rules#using-the-api)
 - [**Try prototype using a web form**](https://eligibility-rules-form.fr.cloud.gov/)
 
 #### The problem
