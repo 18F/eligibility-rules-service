@@ -1,9 +1,3 @@
-
-[![CircleCI](https://circleci.com/gh/18F/eligibility-rules-service.svg?style=svg)](https://circleci.com/gh/18F/eligibility-rules-service)
-[![Code Climate](https://codeclimate.com/github/18F/eligibility-rules-service/badges/gpa.svg)](https://codeclimate.com/github/18F/eligibility-rules-service)
-[![Test Coverage](https://codeclimate.com/github/18F/eligibility-rules-service/badges/coverage.svg)](https://codeclimate.com/github/18F/eligibility-rules-service/coverage)
-[![Dependency Status](https://gemnasium.com/badges/github.com/18F/eligibility-rules-service.svg)](https://gemnasium.com/github.com/18F/eligibility-rules-service)
-
 # Eligibility rules service
 
 > **Follow this work** 
@@ -35,7 +29,7 @@ Many states struggle to modernize their human services eligibility and enrollmen
 
 Both federal and state agencies could achieve greater program efficiencies if the administering federal agency offered a configurable, API-based service that allowed state partners to make eligibility determinations, rather than building and maintaining their own separate rules engines.
 
-We hypothesize that creating a new rules service could help shift the space towards increased modularity, reuse of shared services, and adoption of modern, open source technologies, by providing an easier, faster, and less expensive way to integrate eligibility & enrollment across programs. It could also compliment [a similar service](https://www.medicaideligibilityapi.org/#/application) that already exists for Medicaid. In addition to having immediate benefit for a number of state human services agencies and millions of people, we also hypothesize that this rules service could function as an example to any federal agency looking to deliver policy through working, reusable code, rather than PDFs that require duplicative development for each implementation.
+We hypothesize that creating a new rules service could help shift the space towards increased modularity, reuse of shared services, and adoption of modern, open source technologies, by providing an easier, faster, and less expensive way to integrate eligibility & enrollment across programs. It could also complement [a similar service](https://www.medicaideligibilityapi.org/#/application) that already exists for Medicaid. In addition to having immediate benefit for a number of state human services agencies and millions of people, we also hypothesize that this rules service could function as an example to any federal agency looking to deliver policy through working, reusable code, rather than PDFs that require duplicative development for each implementation.
 
 #### Where we are now
 
