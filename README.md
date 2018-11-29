@@ -12,10 +12,12 @@
 
 The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could use to help make eligibility determinations for human services programs.
 
-To [validate this idea](#to-be-validated), we have built a prototype eligibility rules service for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** It serves to help us learn about the challenges for such a service.   
+To [validate this idea](#to-be-validated), we are building prototypes and working with partners to more deeply understand program needs and learn about the challenges for such a service.
 
-- [**Try prototype using the API**](https://github.com/18F/wic_rules#using-the-api)
-- [**Try prototype using a web form**](https://eligibility-rules-form.fr.cloud.gov/)
+| Phase | Description | Repo | API | Form |
+| :---: | :---- | :---: | :---: | :---: |
+| **3** | [Current] Prototype for Disaster Supplemental Nutrition Assistance Program (D-SNAP). **This is a work-in-progress.** | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Form](https://dsnap_rules.app.cloud.gov/) |
+| **2** | Prototype for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Form](https://eligibility-rules-form.fr.cloud.gov/) |
 
 #### The problem
 
