@@ -1,18 +1,33 @@
-# Eligibility rules service
+![Eligibility APIs Initiative logo](assets/Eligibility-APIs-Initiative-logo.png)
 
-> **Follow this work** 
-> - Phase 3 is in progress. We're working with a new program exploring state system integration.
-> - Read our [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps#phase-3---october-1-2018-to-present)
-> - "Watch" or "star" the repo above
-> - Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
-> - We're seeking additional partners. [Here's what we're looking for.](lets-talk.md)
-> - Email us at eligibility.rules.service@gsa.gov
+# The Eligibility APIs Initiative: Helping states turn federal eligibility policy into action
 
 ## Project description
 
-The [eligibility rules service project](#project-description) is exploring the idea of providing shared web services that states could use to help make eligibility determinations for human services programs.
+The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal agencies could use a centralized web service, or **eligibility API**, to deliver their policy directly to states in a format states' systems can ingest and utilize, rather than in a non-machine-readable format like PDF or print.
 
-To [validate this idea](#to-be-validated), we are building prototypes and working with partners to more deeply understand program needs and learn about the challenges for such a service.
+We seek to pilot a new model where policy changes at the federal level will be made once, centrally, and will propagate outward to states (rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually).
+
+To validate this idea, we're partnering with programs at the federal and state levels to understand their unique challenges and to learn how to make this model viable across the wide variety of eligibility-based scenarios.
+
+### What we believe this model can achieve
+
+- **Cost-efficiency:** A federally-built API that can deliver eligibility rules to all state systems at once dramatically reduces the complexity and cost of building and maintaining state systems, because those systems no longer need their own rules engines.
+
+- **Integrity:** In this model, eligibility rules are maintained in one place - at the federal level. If rules or policy ever change, those changes can be made in the federal system, and will propagate out to all connected states automatically. This greatly reduces the risk of state systems being out of sync with federal rules.
+
+- **Transparency:** Because the eligibility rules are written in publicly-available code, anybody - federal employees, state employees, advocate groups, the Hill, members of the public - can see them and confirm that systems are behaving as expected. There's no "black box" where eligibility decisions are made behind-the-scenes by algorithms or private vendors who are unaccountable to public review.
+
+- **Modularity:** Centralizing rules at the federal level provides more flexibility and reduces risk for states who need to modernize their benefits systems. Instead of moving an entire massive system in one high-wire project, states can strategically disconnect and reconnect pieces of the system gradually, significantly reducing their risk.
+
+- **Innovation:** An API is a secure, but flexible, technique that is widely used within modern digital service design. Using an API to deliver eligibility rules would unlock a currently closed data ecosystem and provoide an open platform where creative technologists and civil servants could come up with exciting and powerful ideas that we haven't even thought of yet.
+
+
+### What we've done so far
+
+## We're seeking new partners
+
+
 
 | Phase | Description | Repo | API | Form |
 | :---: | :---- | :---: | :---: | :---: |
@@ -32,6 +47,14 @@ Many states struggle to modernize their human services eligibility and enrollmen
 Both federal and state agencies could achieve greater program efficiencies if the administering federal agency offered a configurable, API-based service that allowed state partners to make eligibility determinations, rather than building and maintaining their own separate rules engines.
 
 We hypothesize that creating a new rules service could help shift the space towards increased modularity, reuse of shared services, and adoption of modern, open source technologies, by providing an easier, faster, and less expensive way to integrate eligibility & enrollment across programs. It could also complement [a similar service](https://www.medicaideligibilityapi.org/#/application) that already exists for Medicaid. In addition to having immediate benefit for a number of state human services agencies and millions of people, we also hypothesize that this rules service could function as an example to any federal agency looking to deliver policy through working, reusable code, rather than PDFs that require duplicative development for each implementation.
+
+> **Project Updates** 
+> - Phase 3 is in progress. We're working with a new program exploring state system integration.
+> - Read our [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps#phase-3---october-1-2018-to-present)
+> - "Watch" or "star" the repo above
+> - Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
+> - We're seeking additional partners. [Here's what we're looking for.](lets-talk.md)
+> - Email us at eligibility.rules.service@gsa.gov
 
 #### Where we are now
 
