@@ -8,7 +8,7 @@ The [Eligibility APIs Initiative](#project-description) (formerly the Eligibilit
 
 We seek to pilot a new model where policy changes at the federal level will be made once, centrally, and will propagate outward to states (rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually).
 
-To validate this idea, we're partnering with programs at the federal and state levels to understand their unique challenges and to learn how to make this model viable across the wide variety of eligibility-based scenarios.
+To [validate this idea](#were-seeking-new-partners), we're partnering with programs at the federal and state levels to understand their unique challenges and to learn how to make this model viable across the wide variety of eligibility-based scenarios.
 
 ### What we believe this model can achieve
 
@@ -25,7 +25,12 @@ To validate this idea, we're partnering with programs at the federal and state l
 
 ### What we've done so far
 
-## We're seeking new partners
+## We\'re seeking new partners
+
+
+
+
+
 
 
 
