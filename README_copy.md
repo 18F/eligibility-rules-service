@@ -24,24 +24,26 @@ After having shown the feasibility of this approach in [two prior phases](#What-
 
 ### What we've done so far
 
-Partnered with WIC and DSNAP
-Proved that an eligibility API 
+Through two projects, we have collaborated with federal and state staff to build two proofs-of-concept for the WIC and D-SNAP programs. This work has validated the technical concerns around building Eligibility APIs, with most of our focus now on program applicability and state integrations.
 
-| Phase | Description | Repo | API | Form |
+| Stage | Description | Repo | API | Form |
 | :---: | :---- | :---: | :---: | :---: |
-| **3** | [Current] Prototype for Disaster Supplemental Nutrition Assistance Program (D-SNAP). **This is a work-in-progress.** | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Form](https://dsnap-rules.app.cloud.gov/) |
-| **2** | Prototype for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Form](https://eligibility-rules-form.fr.cloud.gov/) |
+| **Alpha, pending Beta** | For our second project, we developed an Eligibility API for Disaster Supplemental Nutrition Assistance Program (D-SNAP) as well as an online Regististration App that uses the API. This is ongoing pending approval to proceed to the Beta stage | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Registration App](https://dsnap-rules.app.cloud.gov/) |
+| **Discovery** | For our first project, we developed a prototype Eligibility API for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). This work allowed us to show that we could accommodate varied state policy options into a single Eligibility API ruleset. (Note: The prototype is for demonstration purposes only and is not an official interpretation of policy.) | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Demo form](https://eligibility-rules-form.fr.cloud.gov/) |
 
 ## We\'re seeking new partners
 
+**I THINK THIS NEEDS WORK - No mention of federal programs, which would be the primary partner we're seeking. The state is really secondary.**
 If you're part of a state human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
 
-Our partnerships with WIC and D-SNAP have been critical to our current understanding of how eligibility policy works, and we want to partner with other agencies to learn about their unique situations and make sure our solution works for them, too.
+Our partnerships have been critical to our current understanding of how eligibility policy works, and we want to partner with other agencies to learn about their unique situations and make sure our solution works for them, too.
 
 ### What does partnership entail?
 
-We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's no financial component to partnering with us - all we need is your time and commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this has amounted to approximately **X number of hours** for **X number of people** for **x duration**.
+**DISCOVERY/ - I think we could indicate we're looking for Discovery stage partners, briefly describe the stage work in a sentence or so, mention it would involve allocating time to collaboration, and aside from that, not cost to the partner.**
+We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's no financial component to partnering with us - all we need is your time and commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this has amounted to approximately 40-60 hours for a policy point of contact and a handfull of hours from other subject matter experts over 8-10 weeks.
 
+**THIS FEELS LIKE IT"S GOING A BIT FAR - I'd be less specific. I think this will scare folks. It's a little too "Let's go on a date. If it all works out we can get married and have 3 kids and live near my parents."**
 If our partnership suggests that an eligibility API could make an impact for your program, we can then work together to outline and plan subsequent phases of work (which *would* require funding from your agency) to build a tool, like those we built in partnership with WIC and D-SNAP, for your agency. We would then seek to test the tool in a real-world scenario, and eventually, go live - with your team in close partnership throughout, and eventually taking full ownership of the new solution.
 
 ## Want to know more?
