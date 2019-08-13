@@ -4,23 +4,23 @@
 
 ## Project description
 
-#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal agencies could use a centralized web service - an eligibility API - to deliver their policy directly to states in a format states' systems can ingest and utilize, rather than in a non-machine-readable format like PDF or print.
+#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal eligibility-based programs could use a centralized web service——an eligibility API——to deliver machine-readable policy that state systems can ingest, utilize, and act on rather than a static format like PDF or print.
 
-We seek to pilot a new model where policy changes at the federal level will be made once, centrally, and will propagate outward to states (rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually).
+In this new model, policy changes made at the federal level would propagate out to states, including state implementation variations, rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually.
 
-To [validate this idea](#were-seeking-new-partners), we're partnering with programs at the federal and state levels to understand their unique challenges and to learn how to make this model viable across the wide variety of eligibility-based scenarios.
+After having shown the feasibility of this approach in [two prior phases](#What-weve-done-so-far), **we are now [seeking three new partner programs](#were-seeking-new-partners)(or program sub-types)**. We want to partner at the federal and state levels to understand the unique challenges of the program and to learn how to make this model viable across the wide variety of eligibility-based scenarios.
 
 ### What we believe this model can achieve
 
-- **Cost-efficiency:** A federally-built API that can deliver eligibility rules to all state systems at once dramatically reduces the complexity and cost of building and maintaining state systems, because those systems no longer need their own rules engines.
+- **Cost-efficiency:** A federally-built API that can deliver eligibility rules to many state systems at once dramatically reduces the complexity and cost of building and maintaining state systems, because those systems no longer need to build or maintain eligibility rules in a rules engine product.
 
-- **Integrity:** In this model, eligibility rules are maintained in one place - at the federal level. If rules or policy ever change, those changes can be made in the federal system, and will propagate out to all connected states automatically. This greatly reduces the risk of state systems being out of sync with federal rules.
+- **Transparency:** Because the eligibility rules are written in publicly-available code, anybody can view them and confirm that systems are behaving as expected. There's no "black box" where eligibility criteria are hidden away; instead the programatic rules are open to public review.
 
-- **Transparency:** Because the eligibility rules are written in publicly-available code, anybody - federal employees, state employees, advocate groups, the Hill, members of the public - can see them and confirm that systems are behaving as expected. There's no "black box" where eligibility decisions are made behind-the-scenes by algorithms or private vendors who are unaccountable to public review.
+- **Modularity:** Centralizing eligibility business logic at the federal level provides more flexibility and reduces risk for states who need to modernize their benefits systems. Instead of modernizing an entire massive system in a large risky project, states can strategically disconnect and reconnect pieces of the system gradually, significantly reducing their risk.
 
-- **Modularity:** Centralizing rules at the federal level provides more flexibility and reduces risk for states who need to modernize their benefits systems. Instead of moving an entire massive system in one high-wire project, states can strategically disconnect and reconnect pieces of the system gradually, significantly reducing their risk.
+- **Innovation:** An API is a technique that is widely used within modern digital service design to provide controlled, secure, flexible access to a system's data. Using an API to deliver eligibility rules would create an open canvas for creative technologists and civil servants to come up with exciting and powerful ideas to serve the public that we haven't even thought of yet.
 
-- **Innovation:** An API is a technique, widely used within modern digital service design, to provide controlled, secure, flexible access to a system's data. Using an API to deliver eligibility rules would create an open canvas for creative technologists and civil servants to come up with exciting and powerful ideas to serve the public that we haven't even thought of yet.
+- **Integrity:** In this model, program eligibility rules are centrally maintained the Eligibility API at the federal level. If rules or policy change, those changes can be made at the API level and will propagate out to all connected states automatically. This greatly reduces the risk of state systems being out of sync with federal rules.
 
 ### What we've done so far
 
