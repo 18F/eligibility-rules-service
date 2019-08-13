@@ -4,7 +4,7 @@
 
 ## Project description
 
-The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal agencies could use a centralized web service, or **eligibility API**, to deliver their policy directly to states in a format states' systems can ingest and utilize, rather than in a non-machine-readable format like PDF or print.
+#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal agencies could use a centralized web service - an eligibility API - to deliver their policy directly to states in a format states' systems can ingest and utilize, rather than in a non-machine-readable format like PDF or print.
 
 We seek to pilot a new model where policy changes at the federal level will be made once, centrally, and will propagate outward to states (rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually).
 
@@ -20,24 +20,41 @@ To [validate this idea](#were-seeking-new-partners), we're partnering with progr
 
 - **Modularity:** Centralizing rules at the federal level provides more flexibility and reduces risk for states who need to modernize their benefits systems. Instead of moving an entire massive system in one high-wire project, states can strategically disconnect and reconnect pieces of the system gradually, significantly reducing their risk.
 
-- **Innovation:** An API is a secure, but flexible, technique that is widely used within modern digital service design. Using an API to deliver eligibility rules would unlock a currently closed data ecosystem and provoide an open platform where creative technologists and civil servants could come up with exciting and powerful ideas that we haven't even thought of yet.
-
+- **Innovation:** An API is a technique, widely used within modern digital service design, to provide controlled, secure, flexible access to a system's data. Using an API to deliver eligibility rules would create an open canvas for creative technologists and civil servants to come up with exciting and powerful ideas to serve the public that we haven't even thought of yet.
 
 ### What we've done so far
 
-## We\'re seeking new partners
-
-
-
-
-
-
-
+Partnered with WIC and DSNAP
+Proved that an eligibility API 
 
 | Phase | Description | Repo | API | Form |
 | :---: | :---- | :---: | :---: | :---: |
 | **3** | [Current] Prototype for Disaster Supplemental Nutrition Assistance Program (D-SNAP). **This is a work-in-progress.** | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Form](https://dsnap-rules.app.cloud.gov/) |
 | **2** | Prototype for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). **The prototype is for demonstration purposes only and is not an official interpretation of policy.** | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Form](https://eligibility-rules-form.fr.cloud.gov/) |
+
+## We\'re seeking new partners
+
+If you're part of a state human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
+
+Our partnerships with WIC and D-SNAP have been critical to our current understanding of how eligibility policy works, and we want to partner with other agencies to learn about their unique situations and make sure our solution works for them, too.
+
+### What does partnership entail?
+
+We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's no financial component to partnering with us - all we need is your time and commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this has amounted to approximately **X number of hours** for **X number of people** for **x duration**. If it seems like the Eligibility APIs Initiative could be a good fit for your program, we can work together to outline and plan subsequent phases of work (which *would* require funding from your agency) to build a tool for your agency like those we built in partnership with WIC and D-SNAP, and to move into a beta phase where we test the tool in a real-world scenario with the aim of eventually going live.
+
+## Want to know more?
+
+- Read our [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps#phase-3---october-1-2018-to-present)
+- "Watch" or "star" the repo above
+- Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
+- Email us at eligibility.rules.service@gsa.gov - we're always happy to speak with similarly-interested people!
+
+
+<hr>
+<hr>
+<hr>
+
+
 
 #### The problem
 
