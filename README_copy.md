@@ -1,6 +1,6 @@
 ![Eligibility APIs Initiative logo](assets/Eligibility-APIs-Initiative-logo.png)
 
-# The Eligibility APIs Initiative: Helping states turn federal eligibility policy into action
+# Helping states turn federal eligibility policy into action
 
 ## Project description
 
@@ -40,7 +40,9 @@ Our partnerships with WIC and D-SNAP have been critical to our current understan
 
 ### What does partnership entail?
 
-We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's no financial component to partnering with us - all we need is your time and commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this has amounted to approximately **X number of hours** for **X number of people** for **x duration**. If it seems like the Eligibility APIs Initiative could be a good fit for your program, we can work together to outline and plan subsequent phases of work (which *would* require funding from your agency) to build a tool for your agency like those we built in partnership with WIC and D-SNAP, and to move into a beta phase where we test the tool in a real-world scenario with the aim of eventually going live.
+We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's no financial component to partnering with us - all we need is your time and commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this has amounted to approximately **X number of hours** for **X number of people** for **x duration**.
+
+If our partnership suggests that an eligibility API could make an impact for your program, we can then work together to outline and plan subsequent phases of work (which *would* require funding from your agency) to build a tool, like those we built in partnership with WIC and D-SNAP, for your agency. We would then seek to test the tool in a real-world scenario, and eventually, go live - with your team in close partnership throughout, and eventually taking full ownership of the new solution.
 
 ## Want to know more?
 
