@@ -4,7 +4,7 @@
 
 ## Project description
 
-#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal eligibility-based programs could use a centralized web service——an eligibility API——to deliver machine-readable policy that state systems can ingest, utilize, and act on rather than a static format like PDF or print.
+#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal eligibility-based programs could use a centralized web service——an eligibility API——to deliver machine-readable policy that state systems can ingest, utilize, and act on.
 
 In this new model, policy changes made at the federal level would propagate out to states, including state implementation variations, rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually.
 
@@ -14,7 +14,7 @@ After having shown the feasibility of this approach in [two prior phases](#What-
 
 - **Cost-efficiency:** A federally-built API that can deliver eligibility rules to many state systems at once dramatically reduces the complexity and cost of building and maintaining state systems, because those systems no longer need to build or maintain eligibility rules in a rules engine product.
 
-- **Transparency:** Because the eligibility rules are written in publicly-available code, anybody can view them and confirm that systems are behaving as expected. There's no "black box" where eligibility criteria are hidden away; instead the programatic rules are open to public review.
+- **Transparency:** Because the eligibility rules are written in publicly-available code, anybody can view them and confirm that systems are behaving as expected. There's no "black box" where eligibility criteria are hidden away; instead, the programatic rules are open to public review.
 
 - **Modularity:** Centralizing eligibility business logic at the federal level provides more flexibility and reduces risk for states who need to modernize their benefits systems. Instead of modernizing an entire massive system in a large risky project, states can strategically disconnect and reconnect pieces of the system gradually, significantly reducing their risk.
 
@@ -33,15 +33,14 @@ Through two projects, we have collaborated with federal and state staff to build
 
 ## We\'re seeking new partners
 
-**I THINK THIS NEEDS WORK - No mention of federal programs, which would be the primary partner we're seeking. The state is really secondary.**
-If you're part of a state human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
+If you're part of a Federal human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
 
 Our partnerships have been critical to our current understanding of how eligibility policy works, and we want to partner with other agencies to learn about their unique situations and make sure our solution works for them, too.
 
 ### What does partnership entail?
 
 **DISCOVERY/ - I think we could indicate we're looking for Discovery stage partners, briefly describe the stage work in a sentence or so, mention it would involve allocating time to collaboration, and aside from that, not cost to the partner.**
-We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's no financial component to partnering with us - all we need is your time and commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this has amounted to approximately 40-60 hours for a policy point of contact and a handfull of hours from other subject matter experts over 8-10 weeks.
+We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's no financial component to partnering with us - all we need is your time and commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this has amounted to approximately **40-60 total hours from a policy point of contact, and a handful of hours from other subject matter experts, over 8-10 weeks of calendar time**.
 
 **THIS FEELS LIKE IT"S GOING A BIT FAR - I'd be less specific. I think this will scare folks. It's a little too "Let's go on a date. If it all works out we can get married and have 3 kids and live near my parents."**
 If our partnership suggests that an eligibility API could make an impact for your program, we can then work together to outline and plan subsequent phases of work (which *would* require funding from your agency) to build a tool, like those we built in partnership with WIC and D-SNAP, for your agency. We would then seek to test the tool in a real-world scenario, and eventually, go live - with your team in close partnership throughout, and eventually taking full ownership of the new solution.
