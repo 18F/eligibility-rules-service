@@ -45,8 +45,8 @@ A successful Discovery stage partnership looks like this:
 
 - **We learn about the program.** We build an understanding of the general way the program currently works, and what operational challenges it faces.
 - **We learn the eligibility policy.** We ramp up on the program's eligibility criteria and develop a hypothesis as to whether it could be turned into a centralized eligibility API that also accounts for state-by-state variations.
-- **We learn about the financial context.** We research and gather and compare status quo costs with potential future cost benefits.
-- **We build a prototype API.** We create a proof of concept to see if the program's eligibility criteria 
+- **We learn about the financial context.** We research, gather, and compare status quo costs with potential future cost benefits.
+- **We build a prototype API.** We create a proof of concept to test our hypothesis about how well an API would work for the program's needs.
 - **We make recommendations on how to proceed.** Based on what we've learned, we determine whether moving forward into an Alpha phase would be effective, and start outlining what an Alpha phase would look like.
 
 We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's **no cost to your program when you partner with us** - all we need is some of your time and a commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this commitment has amounted to approximately 40-60 total hours from a policy subject matter expert, and a handful of hours from other subject matter experts, over ~8-10 weeks of calendar time.
