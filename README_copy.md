@@ -54,7 +54,6 @@ We're funded to do this exploration through [10x](https://10x.gsa.gov), so there
 
 ## Want to know more?
 
-- Read our [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps#phase-3---october-1-2018-to-present)
-- "Watch" or "star" the repo above
+- "Watch" or "star" the above repos
 - Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
 - Email us at eligibility.rules.service@gsa.gov - we're always happy to speak with similarly-interested people!
