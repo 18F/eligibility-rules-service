@@ -56,4 +56,4 @@ We're funded to do this exploration through [10x](https://10x.gsa.gov), so there
 
 - "Watch" or "star" the above repos
 - Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
-- Email us at eligibility.rules.service@gsa.gov - we're always happy to speak with similarly-interested people!
+- Email us at eligibility-apis-initiative@gsa.gov - we're always happy to speak with similarly-interested people!
