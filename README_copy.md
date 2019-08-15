@@ -1,4 +1,4 @@
-![Eligibility APIs Initiative logo](assets/Eligibility-APIs-Initiative-logo.png)
+![Eligibility APIs Initiative logo](assets/Eligibility-APIs-Initiative-logo-long.png)
 
 # Helping states turn federal eligibility policy into action
 
