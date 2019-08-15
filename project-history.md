@@ -31,3 +31,57 @@ _Not yet validated - Phase 3_
 
 #### :white_circle: An eligibility rules service offers a faster and cheaper way for states implement rules in their systems
 _Not yet validated - Phase 4_
+
+#### The problem
+
+Many states struggle to modernize their human services eligibility and enrollment systems due to the variation and complexity of the policy rules that determine eligibility for federally funded programs, as well as outdated, monolithic procurement and development practices, limited reusable components, and scarce resources. These efforts lead to duplicative work and expense across states without delivering better service.
+
+[![View project introduction presentation](assets/what-is-the-eligibility-rules-service-project.jpg)](assets/what-is-the-eligibility-rules-service-project.pdf)
+
+> View presentation [What is the Eligibility Rules Service project?](assets/what-is-the-eligibility-rules-service-project.pdf)
+
+#### Our hypothesis
+
+Both federal and state agencies could achieve greater program efficiencies if the administering federal agency offered a configurable, API-based service that allowed state partners to make eligibility determinations, rather than building and maintaining their own separate rules engines.
+
+We hypothesize that creating a new rules service could help shift the space towards increased modularity, reuse of shared services, and adoption of modern, open source technologies, by providing an easier, faster, and less expensive way to integrate eligibility & enrollment across programs. It could also complement [a similar service](https://www.medicaideligibilityapi.org/#/application) that already exists for Medicaid. In addition to having immediate benefit for a number of state human services agencies and millions of people, we also hypothesize that this rules service could function as an example to any federal agency looking to deliver policy through working, reusable code, rather than PDFs that require duplicative development for each implementation.
+
+> **Project Updates** 
+> - Phase 3 is in progress. We're working with a new program exploring state system integration.
+> - Read our [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps#phase-3---october-1-2018-to-present)
+> - "Watch" or "star" the repo above
+> - Read our blog posts [Implementing rules without a rules engine](https://18f.gsa.gov/2018/10/09/implementing-rules-without-rules-engines/) and [Exploring a new way to make eligibility rules easier to implement](https://18f.gsa.gov/2018/10/16/exploring-a-new-way-to-make-eligibility-rules-easier-to-implement/)
+> - We're seeking additional partners. [Here's what we're looking for.](lets-talk.md)
+> - Email us at eligibility.rules.service@gsa.gov
+
+#### Where we are now
+
+The following table describes our loose plan for exploring and building this concept. **We are currently in Phase 3.** These phases align with the funding structure we are using to pursue this work.
+
+| Phase | Goals |
+| ------------- | ------------- |
+| 1. Focus  | Identify project for further exploration; work out TTS's role in eligibility |
+| 2. Research  | Develop a product strategy for an eligibility rules service |
+| 3. Build  | Build and pilot a web-based rules service for a single program |
+| 4. Operate  | Operationalize the rules service |
+| 5. Extend  | Extend lessons learned beyond this first rules service; move the eligibility ecosystems towards more loosely coupled, distributed and shared systems |
+
+
+
+## How can you help?
+
+**State human/social services agencies**
+
+If you are part of a state human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
+
+[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility.rules.service@gsa.gov
+
+**Non-gov organization**
+
+If you work with an organization outside of government and you have a use case for such a service, we're interested in talking with you.
+
+[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility.rules.service@gsa.gov
+
+## Weekly progress updates
+
+During active phases, we post [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps) of our work for folks interested in following along with our progress.
