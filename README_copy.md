@@ -4,7 +4,7 @@
 
 ## Project description
 
-#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal eligibility-based programs could use a centralized web service——an eligibility API——to deliver machine-readable policy that state systems can ingest, utilize, and act on.
+#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal eligibility-based programs could use a centralized web service—an eligibility API—to deliver machine-readable policy that state systems can ingest, utilize, and act on.
 
 In this new model, policy changes made at the federal level would propagate out to states, including state implementation variations, rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually.
 
@@ -20,16 +20,16 @@ After having shown the feasibility of this approach in [two prior phases](#What-
 
 - **Innovation:** An API is a technique that is widely used within modern digital service design to provide controlled, secure, flexible access to a system's data. Using an API to deliver eligibility rules would create an open canvas for creative technologists and civil servants to come up with exciting and powerful ideas to serve the public that we haven't even thought of yet.
 
-- **Integrity:** In this model, program eligibility rules are centrally maintained the Eligibility API at the federal level. If rules or policy change, those changes can be made at the API level and will propagate out to all connected states automatically. This greatly reduces the risk of state systems being out of sync with federal rules.
+- **Integrity:** In this model, program eligibility rules are centrally maintained by the Eligibility API at the federal level. If rules or policy change, those changes can be made at the API level and will propagate out to all connected states automatically. This greatly reduces the risk of state systems being out of sync with federal rules.
 
 ### What we've done so far
 
 Through two projects, we have collaborated with federal and state staff to build two proofs-of-concept for the WIC and D-SNAP programs. This work has validated our technical concerns around building Eligibility APIs; most of our focus is now on program applicability and state integrations.
 
-| Stage | Description | Repo | API | Form |
-| :---: | :---- | :---: | :---: | :---: |
-| **Discovery** | For our first project, we developed a prototype Eligibility API for The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC). This work allowed us to show that we could accommodate varied state policy options into a single Eligibility API ruleset. (Note: The prototype is for demonstration purposes only and is not an official interpretation of policy.) | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Demo form](https://eligibility-rules-form.fr.cloud.gov/) |
-| **Alpha, pending Beta** | For our second project, we developed an Eligibility API for Disaster Supplemental Nutrition Assistance Program (D-SNAP) as well as an online Regististration App that uses the API. This is ongoing pending approval to proceed to the Beta stage | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Registration App](https://dsnap-rules.app.cloud.gov/) |
+| Description | Repo | API | Form |
+| :---- | :---: | :---: | :---: |
+| For our first project, we developed a prototype Eligibility API for *The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC)*. This work allowed us to show that we could accommodate varied state policy options into a single Eligibility API ruleset. (Note: The prototype is for demonstration purposes only and is not an official interpretation of policy.) | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Demo form](https://eligibility-rules-form.fr.cloud.gov/) |
+| For our second project, we developed an Eligibility API for *Disaster Supplemental Nutrition Assistance Program (D-SNAP)* as well as an online Regististration App that uses the API. This is ongoing pending approval to proceed to the Beta stage | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Registration App](https://dsnap-rules.app.cloud.gov/) |
 
 
 For more details, see [this project's history](/project-history.md).
@@ -50,7 +50,7 @@ A successful Discovery stage partnership looks like this:
 - **We build a prototype API.** We create a proof of concept to test our hypothesis about how well an API would work for the program's needs.
 - **We make recommendations on how to proceed.** Based on what we've learned, we determine whether moving forward into an Alpha phase would be effective, and start outlining what an Alpha phase would look like.
 
-We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's **no cost to your program when you partner with us** - all we need is some of your time and a commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this commitment has amounted to approximately 40-60 total hours from a policy subject matter expert, and a handful of hours from other subject matter experts, over ~8-10 weeks of calendar time.
+We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's **no cost to your program when you partner with us**. All we need is some of your time and a commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this commitment has amounted to approximately 40-60 total hours from a policy subject matter expert, and a handful of hours from other subject matter experts, over ~8-10 weeks of calendar time.
 
 ## Want to know more?
 
