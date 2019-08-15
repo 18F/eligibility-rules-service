@@ -4,7 +4,7 @@
 
 ## Project description
 
-#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal eligibility-based programs could use a centralized web service—an eligibility API—to deliver machine-readable policy that state systems can ingest, utilize, and act on.
+#### The [Eligibility APIs Initiative](#project-description) (formerly the Eligibility Rules Service) is exploring how federal eligibility-based programs could use a centralized web service—an eligibility API—to deliver machine-readable policy that state systems can integrate with their eligibility & enrollment systems and act on.
 
 In this new model, policy changes made at the federal level would propagate out to states, including state implementation variations, rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually.
 
