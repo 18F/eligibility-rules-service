@@ -56,32 +56,34 @@ We hypothesize that creating a new rules service could help shift the space towa
 
 #### Where we are now
 
-The following table describes our loose plan for exploring and building this concept. **We are currently in Phase 3.** These phases align with the funding structure we are using to pursue this work.
+The following table describes our loose plan for exploring and building this concept. **We are currently in Phase 4.** These phases align with the funding structure we are using to pursue this work.
 
 | Phase | Goals |
 | ------------- | ------------- |
 | 1. Focus  | Identify project for further exploration; work out TTS's role in eligibility |
 | 2. Research  | Develop a product strategy for an eligibility rules service |
 | 3. Build  | Build and pilot a web-based rules service for a single program |
-| 4. Operate  | Operationalize the rules service |
+| 4. Operate  | Operationalize the rules service; find additional partners to validate the concept against different eligibility scenarios |
 | 5. Extend  | Extend lessons learned beyond this first rules service; move the eligibility ecosystems towards more loosely coupled, distributed and shared systems |
 
 
 
 ## How can you help?
 
+**Federal human/social services program**
+
+If you are part of a human/social services program at a federal agency, we're interested in speaking with you and better understanding your eligibility policy and the challenges you face around its communication and implementation.
+
+[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility-apis-initiative@gsa.gov
+
 **State human/social services agencies**
 
 If you are part of a state human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
 
-[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility.rules.service@gsa.gov
+[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility-apis-initiative@gsa.gov
 
 **Non-gov organization**
 
 If you work with an organization outside of government and you have a use case for such a service, we're interested in talking with you.
 
-[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility.rules.service@gsa.gov
-
-## Weekly progress updates
-
-During active phases, we post [weekly recaps](https://github.com/18F/eligibility-rules-service/wiki/Weekly-recaps) of our work for folks interested in following along with our progress.
+[File an issue](https://github.com/18F/eligibility-rules-service-exemplar-research/issues) or email us at eligibility-apis-initiative@gsa.gov
