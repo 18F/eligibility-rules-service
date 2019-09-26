@@ -32,7 +32,7 @@ Through two projects, we have collaborated with federal and state staff to build
 | For our second project, we developed an Eligibility API for *Disaster Supplemental Nutrition Assistance Program (D-SNAP)* as well as an online Regististration App that uses the API. This is ongoing pending approval to proceed to the Beta stage | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Registration App](https://dsnap-rules.app.cloud.gov/) |
 
 
-For more details, see [this project's history](/project-history.md).
+For more details, see [this project's wiki](https://github.com/18F/eligibility-rules-service/wiki).
 
 ## We\'re seeking new partners
 
