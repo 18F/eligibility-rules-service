@@ -10,6 +10,8 @@ In this new model, policy changes made at the federal level would propagate out 
 
 After having shown the feasibility of this approach in [two prior phases](#What-weve-done-so-far), **[we are now seeking three new partner programs](#were-seeking-new-partners) (or program sub-types)**. We want to partner at the federal and state levels to understand the unique challenges of each program and to learn how to make this model viable across the wide variety of eligibility-based scenarios.
 
+***To see our progress, visit [this project's wiki](https://github.com/18F/eligibility-rules-service/wiki).***
+
 ### What we believe this model can achieve
 
 - **Cost-efficiency:** A federally-built API that can deliver eligibility rules to many state systems at once dramatically reduces the complexity and cost of building and maintaining state systems, because those systems no longer need to build or maintain eligibility rules in their own rules engine product.
@@ -31,8 +33,6 @@ Through two projects, we have collaborated with federal and state staff to build
 | For our first project, we developed a prototype Eligibility API for *The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC)*. This work allowed us to show that we could accommodate varied state policy options into a single Eligibility API ruleset. (Note: The prototype is for demonstration purposes only and is not an official interpretation of policy.) | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Demo form](https://eligibility-rules-form.fr.cloud.gov/) |
 | For our second project, we developed an Eligibility API for *Disaster Supplemental Nutrition Assistance Program (D-SNAP)* as well as an online Regististration App that uses the API. This is ongoing pending approval to proceed to the Beta stage | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Registration App](https://dsnap-rules.app.cloud.gov/) |
 
-
-For more details, see [this project's wiki](https://github.com/18F/eligibility-rules-service/wiki).
 
 ## We\'re seeking new partners
 
