@@ -18,4 +18,4 @@ https://github.com/18F/wic_rules
 
 # DSNAP
 
-For our second project, we developed an Eligibility API for Disaster Supplemental Nutrition Assistance Program (D-SNAP) as well as an online Regististration App that uses the API. This is ongoing pending approval to proceed to the Beta stage
+For our second project, we developed an Eligibility API for Disaster Supplemental Nutrition Assistance Program (D-SNAP) as well as an online Regististration App that uses the API.
