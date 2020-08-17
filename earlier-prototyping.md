@@ -30,7 +30,7 @@ https://github.com/18F/dsnap_rules
 
 ### Unstyled DSNAP rules server screenshot
 
-![Unstyled DSNAP rules server screenshot](/assets/screenshot-dsnap-rules.png)
+![Unstyled DSNAP rules server screenshot](/assets/screenshot-dsnap-rules-2.png)
 
 ### DSNAP registration app screenshot
 
