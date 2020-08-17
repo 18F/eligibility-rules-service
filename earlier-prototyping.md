@@ -10,7 +10,7 @@ https://github.com/18F/wic_rules
 
 ### WIC eligibility form screenshot
 
-![WIC eligibility rules server screenshot](/assets/eligibility-rules-service-form.png)
+![WIC eligibility rules server screenshot](/assets/screenshot-wic-form.png)
 
 ### WIC eligibility rules server screenshot
 
