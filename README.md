@@ -24,34 +24,6 @@ After having shown the feasibility of this approach in [two prior phases](#What-
 
 - **Innovation:** An API is a technique that is widely used within modern digital service design to provide controlled, secure, flexible access to a system's data. Using an API to deliver eligibility rules would create an open canvas for creative technologists and civil servants to come up with exciting and powerful ideas to serve the public that we haven't even thought of yet.
 
-### What we've done so far
-
-Through two projects, we have collaborated with federal and state staff to build two proofs-of-concept for the WIC and D-SNAP programs. This work has validated our technical concerns around building Eligibility APIs; most of our focus is now on program applicability and state integrations.
-
-| Description | Repo | API | Form |
-| :---- | :---: | :---: | :---: |
-| For our first project, we developed a prototype Eligibility API for *The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC)*. This work allowed us to show that we could accommodate varied state policy options into a single Eligibility API ruleset. (Note: The prototype is for demonstration purposes only and is not an official interpretation of policy.) | [Repo](https://github.com/18F/wic_rules) | [API](https://github.com/18F/wic_rules#using-the-api) | [Demo form](https://eligibility-rules-form.fr.cloud.gov/) |
-| For our second project, we developed an Eligibility API for *Disaster Supplemental Nutrition Assistance Program (D-SNAP)* as well as an online Regististration App that uses the API. This is ongoing pending approval to proceed to the Beta stage | [Repo](https://github.com/18F/dsnap_rules) | [API](https://github.com/18F/dsnap_rules#development) | [Registration App](https://dsnap-rules.app.cloud.gov/) |
-
-
-## We\'re seeking new partners
-
-If you're part of a Federal human/social services agency, we're interested in talking with you about your Eligibility & Enrollment system(s), IT modernization plans, and general program eligibility determination methods.
-
-Our partnerships have been critical to our current understanding of how eligibility policy works, and we want to partner with other agencies to learn about their unique situations and make sure our solution works for them, too.
-
-### What does partnering with us entail?
-
-A successful Discovery stage partnership looks like this:
-
-- **We learn about the program.** We build an understanding of the general way the program currently works, and what operational challenges it faces.
-- **We learn the eligibility policy.** We ramp up on the program's eligibility criteria and develop a hypothesis as to whether it could be turned into a centralized eligibility API that also accounts for state-by-state variations.
-- **We learn about the financial context.** We research, gather, and compare status quo costs with potential future cost benefits.
-- **We build a prototype API.** We create a proof of concept to test our hypothesis about how well an API would work for the program's needs.
-- **We make recommendations on how to proceed.** Based on what we've learned, we determine whether moving forward into an Alpha phase would be effective, and start outlining what an Alpha phase would look like.
-
-We're funded to do this exploration through [10x](https://10x.gsa.gov), so there's **no cost to your program when you partner with us**. All we need is some of your time and a commitment to helping us better understand how eligibility policy works in your program. Based on our past partnerships this commitment has amounted to approximately 40-60 total hours from a policy subject matter expert, and a handful of hours from other subject matter experts, over ~8-10 weeks of calendar time.
-
 ## Want to know more?
 
 - "Watch" or "star" the above repos
