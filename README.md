@@ -24,7 +24,7 @@ In this new model, policy changes made at the federal level would propagate out 
 
 ## Phases 2 and 3
 
-See [earlier-prototyping.md](/earlier-prototyping.md)
+See [earlier-prototyping.md](/earlier-prototyping.md).
 
 ## Phase 4
 
