@@ -8,8 +8,6 @@
 
 In this new model, policy changes made at the federal level would propagate out to states, including state implementation variations, rather than states each having to undertake a costly, redundant, time-consuming, error-prone process to update their systems individually.
 
-After having shown the feasibility of this approach in [two prior phases](#What-weve-done-so-far), **[we are now seeking three new partner programs](#were-seeking-new-partners) (or program sub-types)**. We want to partner at the federal and state levels to understand the unique challenges of each program and to learn how to make this model viable across the wide variety of eligibility-based scenarios.
-
 ***To see our progress, visit [this project's wiki](https://github.com/18F/eligibility-rules-service/wiki).***
 
 ### What we believe this model can achieve
@@ -23,6 +21,14 @@ After having shown the feasibility of this approach in [two prior phases](#What-
 - **Transparency:** Because the eligibility rules are written in publicly-available code, people can view them and confirm that systems are behaving as expected. There's no "black box" where eligibility criteria are hidden away; instead, the programatic rules are open to public review.
 
 - **Innovation:** An API is a technique that is widely used within modern digital service design to provide controlled, secure, flexible access to a system's data. Using an API to deliver eligibility rules would create an open canvas for creative technologists and civil servants to come up with exciting and powerful ideas to serve the public that we haven't even thought of yet.
+
+## Phases 2 and 3
+
+See [earlier-prototyping.md](/earlier-prototyping.md)
+
+## Phase 4
+
+More information to come, in the form of a final project site!
 
 ## Want to know more?
 
