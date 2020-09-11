@@ -23,8 +23,11 @@ If you’re a programmer, take a look at our documentation on [how to create a b
 If you’re not a programmer, but know one who might be interested in working with you to create a calculator for your state, here’s sample language you could send:
 
 > Hi ____,
+>
 > I found a project that could add a public-facing SNAP benefits calculator to our website that can be easily modified for our state.
+>
 > The project description says that it requires only HTML, CSS, and Javascript, so we could add the calculator directly to our website. Here is the documentation they have for how to add a new benefit calculator:
+>
 > [https://github.com/18F/snap-js-prescreener-prototypes/wiki/How-to-create-a-new-state-or-territory-calculator](
 https://github.com/18F/snap-js-prescreener-prototypes/wiki/How-to-create-a-new-state-or-territory-calculator)
 
