@@ -28,7 +28,7 @@ See [earlier-prototyping.md](/earlier-prototyping.md).
 
 ## Phase 4
 
-More information to come, in the form of a final project site!
+See [Phase 4 project resources](/phase-four/background.md).
 
 ## Want to know more?
 
