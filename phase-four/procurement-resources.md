@@ -1,8 +1,12 @@
+***
+
 #### Table of contents
 
 1. [Background](/phase-four/background.md/)
 2. **Procurement resources for agencies**
 3. [Reusable SNAP API prototype and calculator](/phase-four/reusable-snap-api.md/)
+
+***
 
 ## Build flexibility and reuse into your procurement language
 

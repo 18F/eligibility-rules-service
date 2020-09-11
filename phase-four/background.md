@@ -1,8 +1,12 @@
+***
+
 #### Table of contents
 
 1. **Background**
 2. [Procurement resources for agencies](/phase-four/procurement-resources.md/)
 3. [Reusable SNAP API prototype and calculator](/phase-four/reusable-snap-api.md/)
+
+***
 
 ## Human services software that’s faster, cheaper, and more secure to update
 

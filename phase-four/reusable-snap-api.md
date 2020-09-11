@@ -1,8 +1,12 @@
+***
+
 #### Table of contents
 
 1. [Background](/phase-four/background.md/)
 2. [Procurement resources for agencies](/phase-four/procurement-resources.md/)
 3. **Reusable SNAP API prototype and calculator**
+
+***
 
 ## Reuse or extend the SNAP benefit calculator
 
