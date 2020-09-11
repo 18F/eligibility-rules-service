@@ -1,8 +1,8 @@
 #### Table of contents
 
 1. **Background**
-2. [Procurement resources for agencies](/procurement-resources.md/)
-3. [Reusable SNAP API prototype and calculator](/reusable-snap-api.md/)
+2. [Procurement resources for agencies](/phase-four/procurement-resources.md/)
+3. [Reusable SNAP API prototype and calculator](/phase-four/reusable-snap-api.md/)
 
 ## Human services software that’s faster, cheaper, and more secure to update
 
@@ -48,7 +48,7 @@ agencies can update individual pieces of their system without having to modify t
 
 We conducted research with government agencies, created sample procurement language, and built prototype software to help agencies explore these opportunities. See below for resources that will help your agency put these techniques into practice:
 
-+ [Procurement resources for agencies](/procurement-resources.md/)
-+ [Reusable SNAP API prototype and calculator](/reusable-snap-api.md/)
++ [Procurement resources for agencies](/phase-four/procurement-resources.md/)
++ [Reusable SNAP API prototype and calculator](/phase-four/reusable-snap-api.md/)
 
 Have feedback, suggestions, or questions about how to implement these ideas? Get in touch at [eligibility-apis-initiative@gsa.gov](mailto:eligibility-apis-initiative@gsa.gov).
