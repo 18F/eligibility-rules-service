@@ -8,6 +8,8 @@
 
 ***
 
+![Eligibility APIs Initiative logo](assets/Eligibility-APIs-Initiative-logo-long.png)
+
 ## Human services software that’s faster, cheaper, and more secure to update
 
 > “When federal policy changes, we say, “oh my god, we’ve got to reprogram.” We go back to the vendors and have to put in a change order. It’s a terribly inefficient process.”
