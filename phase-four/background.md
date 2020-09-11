@@ -8,7 +8,7 @@
 
 ***
 
-![Eligibility APIs Initiative logo](assets/Eligibility-APIs-Initiative-logo-long.png)
+![Eligibility APIs Initiative logo](/assets/Eligibility-APIs-Initiative-logo-long.png)
 
 ## Human services software that’s faster, cheaper, and more secure to update
 
