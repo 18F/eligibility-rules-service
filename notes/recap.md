@@ -16,7 +16,7 @@ Project recap links and notes on lessons learned.
   * https://federalist-1c734efa-8e7a-40ed-9b1e-432001a347e9.app.cloud.gov/site/18f/snap-js-prescreener-prototypes/prescreeners/va.html
   * https://vplc.org/snap-calculator/
 * Lessons: 
-  * Implementing rules in JS makes them reusable via browser-based calculators.
+  * Implementing rules in JS makes them reusable via browser-based calculators ...
   * ... and is a good way to visualize the rules and make them interactive! 
     * A step towards building confidence to integrate them in more mission-critical places.
 
