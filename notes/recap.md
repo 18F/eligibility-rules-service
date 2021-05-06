@@ -5,7 +5,7 @@ Project recap links and notes on lessons learned.
 * Links:
   * https://github.com/18F/snap-api-prototype
   * https://github.com/18F/snap-api-prototype/blob/master/snap_financial_factors/program_data/state_options.yaml
-* Lessons learned: 
+* Lessons: 
   * Creating a backend eligibility API that would integrate with mission-critical state systems is a very, very tough sell ...
   * ... and raises important questions related to federalism
 
@@ -15,7 +15,7 @@ Project recap links and notes on lessons learned.
   * https://github.com/18F/snap-js-api-prototype
   * https://federalist-1c734efa-8e7a-40ed-9b1e-432001a347e9.app.cloud.gov/site/18f/snap-js-prescreener-prototypes/prescreeners/va.html
   * https://vplc.org/snap-calculator/
-* Lessons learned: 
+* Lessons: 
   * Implementing rules in JS makes them reusable via browser-based calculators.
   * ... and is a good way to visualize the rules and make them interactive! 
     * A step towards building confidence to integrate them in more mission-critical places.
@@ -25,7 +25,6 @@ Project recap links and notes on lessons learned.
 
 * Links: 
   * https://www.snapscreener.com/
-  * https://www.snapscreener.com/?p=table
+  * https://www.snapscreener.com/?p=table (an example of what gathering and validating state eligibility options/parameters could look like)
 * Lessons:
   * If you build it ... sometimes they will come (and fork your repo and contribute!)
-  * We have an example of what gathering and validating state eligibility options/parameters could look like
